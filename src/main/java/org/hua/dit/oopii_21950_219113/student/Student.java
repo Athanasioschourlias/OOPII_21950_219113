@@ -22,10 +22,6 @@ public class Student {
     @Transient
     private Integer age;
 
-    public Student(){
-
-    }
-
     public Student(Long id,String name, String email, LocalDate dob){
         this.id=id;
         this.name=name;
@@ -37,6 +33,10 @@ public class Student {
         this.name=name;
         this.email=email;
         this.dob=dob;
+    }
+
+    public Student() {
+
     }
 
     public Long getId() {
