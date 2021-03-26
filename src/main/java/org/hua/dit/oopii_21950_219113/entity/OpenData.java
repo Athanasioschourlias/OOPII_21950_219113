@@ -12,6 +12,7 @@ import org.hua.dit.oopii_21950_219113.entity.wikipedia.MediaWiki;
 * @author John Violos */
 public class OpenData {
 
+
 /**Retrieves weather information, geotag (lan, lon) and a Wikipedia article for a given city.
 * @param city The Wikipedia article and OpenWeatherMap city. 
 * @param country The country initials (i.e. gr, it, de).
