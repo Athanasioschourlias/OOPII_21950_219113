@@ -11,9 +11,9 @@ public class City {
 
     private String cityName;
     private String country;
-    //termVector [cafe = 0,sea = 1,museums = 2, restaurants = 3, stadiums, mountains, hotel, metro, bars, sun]
+    //termVector [cafe = 0,sea = 1,museums = 2, restaurants = 3, stadiums = 4, mountains = 5, hotel = 6, metro = 7, bars = 8, sun = 9]
     private int[] termVector = new int[10];
-    //geodesicVector [lat, lon]
+    //geodesicVector [lat = 0 , lon = 0]
     private double[] geodesicVector = new double[2];
 
     public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException {
