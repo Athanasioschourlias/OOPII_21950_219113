@@ -1,10 +1,10 @@
-package org.hua.dit.oopii_21950_219113.entity;
+package org.hua.dit.oopii_21950_219113.entitys;
 
 import java.io.IOException;
 import java.net.URL;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hua.dit.oopii_21950_219113.entity.weather.OpenWeatherMap;
-import org.hua.dit.oopii_21950_219113.entity.wikipedia.MediaWiki;
+import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
+import org.hua.dit.oopii_21950_219113.entitys.wikipedia.MediaWiki;
 
 /**City description and weather information using OpenData with Jackson JSON processor.
 * @since 29-2-2020

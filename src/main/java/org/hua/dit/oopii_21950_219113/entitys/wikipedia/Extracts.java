@@ -1,5 +1,5 @@
 
-package org.hua.dit.oopii_21950_219113.entity.weather;
+package org.hua.dit.oopii_21950_219113.entitys.wikipedia;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,18 +9,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "speed",
-    "deg"
+    "warnings"
 })
-public class Wind {
+public class Extracts {
 
-    @JsonProperty("speed")
-    private Double speed;
-    @JsonProperty("deg")
-    private Integer deg;
+    @JsonProperty("warnings")
+    private String warnings;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -28,38 +26,26 @@ public class Wind {
      * No args constructor for use in serialization
      * 
      */
-    public Wind() {
+    public Extracts() {
     }
 
     /**
      * 
-     * @param deg
-     * @param speed
+     * @param warnings
      */
-    public Wind(Double speed, Integer deg) {
+    public Extracts(String warnings) {
         super();
-        this.speed = speed;
-        this.deg = deg;
+        this.warnings = warnings;
     }
 
-    @JsonProperty("speed")
-    public Double getSpeed() {
-        return speed;
+    @JsonProperty("warnings")
+    public String getWarnings() {
+        return warnings;
     }
 
-    @JsonProperty("speed")
-    public void setSpeed(Double speed) {
-        this.speed = speed;
-    }
-
-    @JsonProperty("deg")
-    public Integer getDeg() {
-        return deg;
-    }
-
-    @JsonProperty("deg")
-    public void setDeg(Integer deg) {
-        this.deg = deg;
+    @JsonProperty("warnings")
+    public void setWarnings(String warnings) {
+        this.warnings = warnings;
     }
 
     @JsonAnyGetter
@@ -70,6 +56,11 @@ public class Wind {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("warnings", warnings).append("additionalProperties", additionalProperties).toString();
     }
 
 }

@@ -1,12 +1,12 @@
-package org.hua.dit.oopii_21950_219113.entity;
+package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hua.dit.oopii_21950_219113.entity.weather.OpenWeatherMap;
-import org.hua.dit.oopii_21950_219113.entity.weather.Sys;
+import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
 
 import java.io.IOException;
 import java.net.URL;
 
+//TODO: Add documentation
 public class City {
 
     private String cityName;
@@ -15,6 +15,8 @@ public class City {
     private int[] termVector = new int[10];
     //geodesicVector [lat = 0 , lon = 0]
     private double[] geodesicVector = new double[2];
+
+    /* CONSTRUCTORS START */
 
     public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException {
         this.cityName = cityName;
@@ -35,6 +37,7 @@ public class City {
         geodesicVector[1] = weather_obj.getCoord().getLon();
     }
 
+    /* CONSTRUCTORS END */
 
     /*START GETTERS AND SETTERS FOR termVector*/
 
