@@ -8,12 +8,37 @@ public class ElderTraveller extends Traveller{
 
     /* CONSTRUCTORS START */
 
+    /**
+     *
+     * @param age
+     * @param name
+     * @param cityName
+     * @param county
+     * @param cafe
+     * @param sea
+     * @param museums
+     * @param restaurants
+     * @param stadiums
+     * @param mountains
+     * @param hotel
+     * @param metro
+     * @param bars
+     * @param sun
+     * @throws IOException
+     */
     public ElderTraveller(int age, String name, String cityName, String county, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException {
         super(age, name, cityName, county, cafe, sea, museums, restaurants, stadiums, mountains, hotel, metro, bars, sun);
     }
 
     /* CONSTRUCTORS END */
 
+    /**
+     * Implemeting the logic for calculating how suitable is a city for a client based on how we calculate it for an
+     * elder client.
+     *
+     * @param city
+     * @return Value between 0(min) and 1(max).
+     */
     @Override
     public double similarityTermVector(City city)
     {
@@ -35,6 +60,12 @@ public class ElderTraveller extends Traveller{
         return finalResult;
     }
 
+    /**
+     * Implementing the logic how we calculate the final suitability value for the client and the city.
+     *
+     * @param city
+     * @return Value between 0(min) and 1(max).
+     */
     @Override
     public double calculate_similarity(City city) {
         //similarity (user,city) = p*similarity_terms_vector () + (1-p)  similarity_geodesic_vector ()

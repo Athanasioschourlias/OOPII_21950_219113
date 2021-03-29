@@ -1,4 +1,4 @@
-package org.hua.dit.oopii_21950_219113.Service;
+package org.hua.dit.oopii_21950_219113.Dao;
 
 import org.hua.dit.oopii_21950_219113.entitys.Traveller;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -7,9 +7,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 
-//TODO: Add documentation & SPRING TAGS
 public abstract class Traveller
 {
+
+    //auto generated Id
+    private Long Id;
+
     private int age;
     private String name;
     private String cityName;
@@ -22,6 +25,25 @@ public abstract class Traveller
 
     /* CONSTRUCTORS START */
 
+    /**
+     * The basic custom constructor the children classes can use to be created
+     *
+     * @param age
+     * @param name
+     * @param cityName
+     * @param country
+     * @param cafe
+     * @param sea
+     * @param museums
+     * @param restaurants
+     * @param stadiums
+     * @param mountains
+     * @param hotel
+     * @param metro
+     * @param bars
+     * @param sun
+     * @throws IOException
+     */
     public Traveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException {
         this.age = age;
         this.name = name;
@@ -48,92 +70,181 @@ public abstract class Traveller
     /*START GETTERS AND SETTERS FOR termVector*/
 
     //TODO: ERROR CHECKING/EXCEPTIONS
+
+    /**
+     *
+     * @return cafe
+     */
     public int getCafe() {
         return termVector[0];
     }
 
+    /**
+     *
+     * @param cafe
+     */
     public void setCafe(int cafe) {
         termVector[0] = cafe;
     }
 
+    /**
+     *
+     * @return sea
+     */
     public int getSea() {
         return termVector[1];
     }
 
+    /**
+     *
+     * @param sea
+     */
     public void setSea(int sea) {
         termVector[1] = sea;
     }
 
+    /**
+     *
+     * @return museums
+     */
     public int getMuseums() {
         return termVector[2];
     }
 
+    /**
+     *
+     * @param museums
+     */
     public void setMuseums(int museums) {
         termVector[2] = museums;
     }
 
-
+    /**
+     *
+     * @return restaurant
+     */
     public int getRestaurants() {
         return termVector[3];
     }
 
+    /**
+     *
+     * @param restaurants
+     */
     public void setRestaurants(int restaurants) {
         termVector[3] = restaurants;
     }
 
+    /**
+     *
+     * @return stadiums
+     */
     public int getStadiums() {
         return termVector[4];
     }
 
+    /**
+     *
+     * @param stadiums
+     */
     public void setStadiums(int stadiums) {
         termVector[4] = stadiums;
     }
 
+    /**
+     *
+     * @return mountains
+     */
     public int getMountains() {
         return termVector[5];
     }
 
+    /**
+     *
+     * @param mountains
+     */
     public void setMountains(int mountains) {
         termVector[5] = mountains;
     }
 
+    /**
+     *
+     * @return hotel
+     */
     public int getHotel() {
         return termVector[6];
     }
 
+    /**
+     *
+     * @param hotel
+     */
     public void setHotel(int hotel) {
         termVector[6] = hotel;
     }
 
+    /**
+     *
+     * @return metro
+     */
     public int getMetro() {
         return termVector[7];
     }
 
+    /**
+     *
+     * @param metro
+     */
     public void setMetro(int metro) {
         termVector[7] = metro;
     }
 
+    /**
+     *
+     * @return bars
+     */
     public int getBars() {
         return termVector[8];
     }
 
+    /**
+     *
+     * @param bars
+     */
     public void setBars(int bars) {
         termVector[8] = bars;
     }
 
+    /**
+     *
+     * @return sun
+     */
     public int getSun() {
         return termVector[9];
     }
 
+    /**
+     *
+     * @param sun
+     */
     public void setSun(int sun) {
         termVector[9] = sun;
     }
 
+    /**
+     *
+     * @return Vector with all of the users preferences
+     */
     public int[] getTermVector()
     {
         return termVector;
     }
 
+    /**
+     * Setting the user preferences table.
+     *
+     * @param termVector
+     */
     public void setTermVector(int[] termVector) {
         this.termVector = termVector;
     }
@@ -142,27 +253,52 @@ public abstract class Traveller
 
     /*START GETTERS AND SETTERS FOR geodesicVector*/
 
+    /**
+     *
+     * @return lat
+     */
     public double getLat() {
         return geodesicVector[0];
     }
 
+    /**
+     *
+     * @param lat
+     */
     public void setLat(double lat) {
         geodesicVector[0] = lat;
     }
 
+    /**
+     *
+     * @return lon
+     */
     public double getLon() {
         return geodesicVector[1];
     }
 
+    /**
+     *
+     * @param lon
+     */
     public void setLon(double lon) {
         geodesicVector[1] = lon;
     }
 
+    /**
+     *
+     * @return Vector with the coordinates of the calculated suitable city for the user
+     */
     public double[] getGeodesicVector()
     {
         return geodesicVector;
     }
 
+    /**
+     * Setting the vector with the users best fitted city
+     *
+     * @param geodesicVector
+     */
     public void setGeodesicVector(double[] geodesicVector) {
         this.geodesicVector = geodesicVector;
     }
@@ -170,8 +306,29 @@ public abstract class Traveller
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/
 
     //TODO: Check for visibility issues, if some method does not need to be public.
+
+    /**
+     *
+     * @param city
+     * @return A value from 0(min) to 1(max) which is how suitable is for the client the city based on the tremsVector(his preferences).
+     */
     public abstract double similarityTermVector (City city);
 
+    /**
+     * Every Type of traveler is implementing the method with it's respective way.
+     *
+     * @param city
+     * @return A value between 0(min) and 1(max) that shows how suitable is the city for the user by taking to account
+     * both termsVector & geodesicVector
+     */
+    public abstract double calculate_similarity(City city);
+    //similarity (user,city) = p*similarity_terms_vector () + (1-p)  similarity_geodesic_vector ()
+
+    /**
+     *
+     * @param city
+     * @return A value from 0(min) to 1(max) of how suitable if the city for the client based on geodesicVector(The distance to the city).
+     */
     public double similarityGeodesicVector(City city)
     {
         double intoLog=0;
@@ -184,9 +341,12 @@ public abstract class Traveller
         return finalResult;
     }
 
-    public abstract double calculate_similarity(City city);
-    //similarity (user,city) = p*similarity_terms_vector () + (1-p)  similarity_geodesic_vector ()
-
+    /**
+     * Iterates through the Array list to find the most suitasble for the client city.
+     *
+     * @param cities
+     * @return
+     */
     public City compareCities(ArrayList<City> cities)
     {
         double maxSimilarity= calculate_similarity(cities.get(0));
@@ -200,6 +360,24 @@ public abstract class Traveller
             }
         }
         return bestCity;
+    }
+
+    /**
+     * If the client does not want the first option we will give him, he can enter an intiger between [2,5] in order to
+     * give him back a list with the number of the next <int>choice</int> best fitted cities for him.
+     *
+     * @param choice
+     * @return
+     * @throws NoSuchMethodException
+     */
+    //TODO: Implement a logic to cache the top 5 cities for the user.?!?
+    public ArrayList<City> compaterCities(int choice) throws NoSuchMethodException {
+
+//        ArrayList<City> bestcities = new ArrayList<>();
+        //TODO: Make the implimewtation
+        throw new NoSuchMethodException();
+
+//        return bestcities;
     }
 
 }
