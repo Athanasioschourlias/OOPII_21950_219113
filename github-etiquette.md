@@ -1,7 +1,6 @@
 A few GitHub rules:
 =
 
-
 - ### Always pull before you push in case someone has done any work since the last time you pulled - you wouldn’t want anyone’s work to get lost or to have to resolve many coding conflicts**
   
 - ### Check the Repo on github once a day before you begin writing code!!!
@@ -20,5 +19,4 @@ A few GitHub rules:
   
 
 - When you are working on a feature or just testing, creating a branch with a sensible name and work on there.
-
 
