@@ -6,6 +6,10 @@ import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 public abstract class Traveller
 {
@@ -363,16 +367,19 @@ public abstract class Traveller
      * give him back a list with the number of the next <int>choice</int> best fitted cities for him.
      *
      * @param choice
-     * @return
-     * @throws NoSuchMethodException
+     * @return bestCities
+     * @throws
      */
-    public ArrayList<City> compaterCities(int choice) throws NoSuchMethodException {
+    public ArrayList<City> compareCities(int choice,ArrayList<City> cities){
 
-//        ArrayList<City> bestcities = new ArrayList<>();
-        //TODO: Make the implimentation
-        throw new NoSuchMethodException();
-
-//        return bestcities;
+        HashMap<City, Double> hashMapCities = new HashMap<>();
+        for (City city : cities)
+        {
+            hashMapCities.put(city,calculate_similarity(city));
+        }
+        List<City> bestCities = hashMapCities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(choice+1).map(Map.Entry::getKey).collect(Collectors.toList());
+        bestCities.remove(0);
+        return (ArrayList<City>) bestCities;
     }
 
 }
