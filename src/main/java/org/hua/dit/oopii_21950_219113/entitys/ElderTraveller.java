@@ -3,7 +3,6 @@ package org.hua.dit.oopii_21950_219113.entitys;
 
 import java.io.IOException;
 
-//TODO: Add documentation
 public class ElderTraveller extends Traveller{
 
     /* CONSTRUCTORS START */

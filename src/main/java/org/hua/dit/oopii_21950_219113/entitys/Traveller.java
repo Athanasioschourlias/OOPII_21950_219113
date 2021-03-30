@@ -69,8 +69,6 @@ public abstract class Traveller
 
     /*START GETTERS AND SETTERS FOR termVector*/
 
-    //TODO: ERROR CHECKING/EXCEPTIONS
-
     /**
      *
      * @return cafe
@@ -305,8 +303,6 @@ public abstract class Traveller
 
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/
 
-    //TODO: Check for visibility issues, if some method does not need to be public.
-
     /**
      *
      * @param city
@@ -370,11 +366,10 @@ public abstract class Traveller
      * @return
      * @throws NoSuchMethodException
      */
-    //TODO: Implement a logic to cache the top 5 cities for the user.?!?
     public ArrayList<City> compaterCities(int choice) throws NoSuchMethodException {
 
 //        ArrayList<City> bestcities = new ArrayList<>();
-        //TODO: Make the implimewtation
+        //TODO: Make the implimentation
         throw new NoSuchMethodException();
 
 //        return bestcities;

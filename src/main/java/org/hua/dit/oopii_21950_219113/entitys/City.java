@@ -8,7 +8,6 @@ import javax.persistence.*;
 import java.io.IOException;
 import java.net.URL;
 
-//TODO: Add documentation
 @Entity
 @Table
 public class City {
@@ -92,9 +91,6 @@ public class City {
     /* CONSTRUCTORS END */
 
     /*START GETTERS AND SETTERS FOR termVector*/
-
-    //TODO: ERROR CHECKING/EXCEPTIONS
-    //TODO: Value checking for the setters?!?
 
     /**
      *
