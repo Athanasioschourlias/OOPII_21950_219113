@@ -48,19 +48,19 @@ public class City {
      * Creating a custom constructor to initialize all the values/criteria the user gave(not for the 1st-3rd deliverables).
      * We also extracting the latitude and longitude of the city from wiki API.
      *
-     * @param cityName
-     * @param country
-     * @param cafe
-     * @param sea
-     * @param museums
-     * @param restaurants
-     * @param stadiums
-     * @param mountains
-     * @param hotel
-     * @param metro
-     * @param bars
-     * @param sun
-     * @throws IOException
+     * @param cityName Name of the city
+     * @param country Country code
+     * @param cafe How many times the word cafe is referenced in the wiki text for the country
+     * @param sea How many times the word sea is referenced in the wiki text for the country
+     * @param museums How many times the word museums is referenced in the wiki text for the country
+     * @param restaurants How many times the word restaurants is referenced in the wiki text for the country
+     * @param stadiums How many times the word stadiums is referenced in the wiki text for the country
+     * @param mountains How many times the word mountains is referenced in the wiki text for the country
+     * @param hotel How many times the word hotel is referenced in the wiki text for the country
+     * @param metro How many times the word metro is referenced in the wiki text for the country
+     * @param bars How many times the word bars is referenced in the wiki text for the country
+     * @param sun How many times the word sun is referenced in the wiki text for the country
+     * @throws IOException Failed or interrupted I/O operation.
      */
     public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException {
         this.cityName = cityName;
@@ -102,7 +102,7 @@ public class City {
 
     /**
      *
-     * @param cafe
+     * @param cafe setting the number of times the word appeared in the wiki text
      */
     public void setCafe(int cafe) {
         this.cafe = cafe;
@@ -118,7 +118,7 @@ public class City {
 
     /**
      *
-     * @param sea
+     * @param sea setting the number of times the word appeared in the wiki text
      */
     public void setSea(int sea) {
         this.sea = sea;
@@ -134,7 +134,7 @@ public class City {
 
     /**
      *
-     * @param museums
+     * @param museums setting the number of times the word appeared in the wiki text
      */
     public void setMuseums(int museums) {
         this.museums = museums;
@@ -150,7 +150,7 @@ public class City {
 
     /**
      *
-     * @param restaurants
+     * @param restaurants setting the number of times the word appeared in the wiki text
      */
     public void setRestaurants(int restaurants) {
         this.restaurants = restaurants;
@@ -166,7 +166,7 @@ public class City {
 
     /**
      *
-     * @param stadiums
+     * @param stadiums setting the number of times the word appeared in the wiki text
      */
     public void setStadiums(int stadiums) {
         this.stadiums = stadiums;
@@ -182,7 +182,7 @@ public class City {
 
     /**
      *
-     * @param mountains
+     * @param mountains setting the number of times the word appeared in the wiki text
      */
     public void setMountains(int mountains) {
         this.mountains = mountains;
@@ -198,7 +198,7 @@ public class City {
 
     /**
      *
-     * @param hotel
+     * @param hotel setting the number of times the word appeared in the wiki text
      */
     public void setHotel(int hotel) {
         this.hotel = hotel;
@@ -214,7 +214,7 @@ public class City {
 
     /**
      *
-     * @param metro
+     * @param metro setting the number of times the word appeared in the wiki text
      */
     public void setMetro(int metro) {
         this.metro = metro;
@@ -230,7 +230,7 @@ public class City {
 
     /**
      *
-     * @param bars
+     * @param bars setting the number of times the word appeared in the wiki text
      */
     public void setBars(int bars) {
         this.bars = bars;
@@ -246,7 +246,7 @@ public class City {
 
     /**
      *
-     * @param sun
+     * @param sun setting the number of times the word appeared in the wiki text
      */
     public void setSun(int sun) {
         this.sun = sun;
@@ -272,9 +272,8 @@ public class City {
     }
 
     /**
-     * setting the vector to the values of the given parameter vector.
      *
-     * @param termVector
+     * @param termVector a vector that has all the parametric values of a City object.
      */
     public void setTermVector(int[] termVector) {
         this.termVector = termVector;
@@ -294,7 +293,7 @@ public class City {
 
     /**
      *
-     * @param lat
+     * @param lat latitude of the city
      */
     public void setLat(double lat) {
         this.lat = lat;
@@ -310,7 +309,7 @@ public class City {
 
     /**
      *
-     * @param lon
+     * @param lon longitude of the city
      */
     public void setLon(double lon) {
         this.lon = lon;
@@ -328,8 +327,8 @@ public class City {
     }
 
     /**
-     * Setting the users city latitude and longitude(At their respective positions). Of the calculated result.
-     * @param geodesicVector
+     *
+     * @param geodesicVector Setting the users city latitude and longitude(At their respective positions). Of the calculated result.
      */
     public void setGeodesicVector(double[] geodesicVector) {
         this.geodesicVector = geodesicVector;
