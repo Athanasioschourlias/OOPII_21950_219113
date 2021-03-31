@@ -1,5 +1,5 @@
 
-package org.hua.dit.oopii_21950_219113.entity.wikipedia;
+package org.hua.dit.oopii_21950_219113.entitys.wikipedia;
 
 import java.util.HashMap;
 import java.util.Map;

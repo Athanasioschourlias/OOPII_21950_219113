@@ -1,5 +1,5 @@
 
-package org.hua.dit.oopii_21950_219113.entity.wikipedia;
+package org.hua.dit.oopii_21950_219113.entitys.weather;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -9,16 +9,18 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
-import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "extracts"
+    "speed",
+    "deg"
 })
-public class Warnings {
+public class Wind {
 
-    @JsonProperty("extracts")
-    private Extracts extracts;
+    @JsonProperty("speed")
+    private Double speed;
+    @JsonProperty("deg")
+    private Integer deg;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -26,26 +28,38 @@ public class Warnings {
      * No args constructor for use in serialization
      * 
      */
-    public Warnings() {
+    public Wind() {
     }
 
     /**
      * 
-     * @param extracts
+     * @param deg
+     * @param speed
      */
-    public Warnings(Extracts extracts) {
+    public Wind(Double speed, Integer deg) {
         super();
-        this.extracts = extracts;
+        this.speed = speed;
+        this.deg = deg;
     }
 
-    @JsonProperty("extracts")
-    public Extracts getExtracts() {
-        return extracts;
+    @JsonProperty("speed")
+    public Double getSpeed() {
+        return speed;
     }
 
-    @JsonProperty("extracts")
-    public void setExtracts(Extracts extracts) {
-        this.extracts = extracts;
+    @JsonProperty("speed")
+    public void setSpeed(Double speed) {
+        this.speed = speed;
+    }
+
+    @JsonProperty("deg")
+    public Integer getDeg() {
+        return deg;
+    }
+
+    @JsonProperty("deg")
+    public void setDeg(Integer deg) {
+        this.deg = deg;
     }
 
     @JsonAnyGetter
@@ -56,11 +70,6 @@ public class Warnings {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
-    }
-
-    @Override
-    public String toString() {
-        return new ToStringBuilder(this).append("extracts", extracts).append("additionalProperties", additionalProperties).toString();
     }
 
 }

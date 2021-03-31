@@ -1,5 +1,5 @@
 
-package org.hua.dit.oopii_21950_219113.entity.weather;
+package org.hua.dit.oopii_21950_219113.entitys.weather;
 
 import java.util.HashMap;
 import java.util.List;

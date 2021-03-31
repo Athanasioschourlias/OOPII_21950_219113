@@ -1,7 +1,8 @@
 
-package org.hua.dit.oopii_21950_219113.entity.weather;
+package org.hua.dit.oopii_21950_219113.entitys.wikipedia;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import com.fasterxml.jackson.annotation.JsonAnyGetter;
 import com.fasterxml.jackson.annotation.JsonAnySetter;
@@ -9,18 +10,16 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
+import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "lon",
-    "lat"
+    "pages"
 })
-public class Coord {
+public class Query {
 
-    @JsonProperty("lon")
-    private Double lon;
-    @JsonProperty("lat")
-    private Double lat;
+    @JsonProperty("pages")
+    private List<Page> pages = null;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -28,38 +27,26 @@ public class Coord {
      * No args constructor for use in serialization
      * 
      */
-    public Coord() {
+    public Query() {
     }
 
     /**
      * 
-     * @param lon
-     * @param lat
+     * @param pages
      */
-    public Coord(Double lon, Double lat) {
+    public Query(List<Page> pages) {
         super();
-        this.lon = lon;
-        this.lat = lat;
+        this.pages = pages;
     }
 
-    @JsonProperty("lon")
-    public Double getLon() {
-        return lon;
+    @JsonProperty("pages")
+    public List<Page> getPages() {
+        return pages;
     }
 
-    @JsonProperty("lon")
-    public void setLon(Double lon) {
-        this.lon = lon;
-    }
-
-    @JsonProperty("lat")
-    public Double getLat() {
-        return lat;
-    }
-
-    @JsonProperty("lat")
-    public void setLat(Double lat) {
-        this.lat = lat;
+    @JsonProperty("pages")
+    public void setPages(List<Page> pages) {
+        this.pages = pages;
     }
 
     @JsonAnyGetter
@@ -70,6 +57,11 @@ public class Coord {
     @JsonAnySetter
     public void setAdditionalProperty(String name, Object value) {
         this.additionalProperties.put(name, value);
+    }
+
+    @Override
+    public String toString() {
+        return new ToStringBuilder(this).append("pages", pages).append("additionalProperties", additionalProperties).toString();
     }
 
 }

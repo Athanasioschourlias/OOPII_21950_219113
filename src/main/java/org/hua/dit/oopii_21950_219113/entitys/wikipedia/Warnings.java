@@ -1,5 +1,5 @@
 
-package org.hua.dit.oopii_21950_219113.entity.wikipedia;
+package org.hua.dit.oopii_21950_219113.entitys.wikipedia;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -13,12 +13,12 @@ import org.apache.commons.lang.builder.ToStringBuilder;
 
 @JsonInclude(JsonInclude.Include.NON_NULL)
 @JsonPropertyOrder({
-    "warnings"
+    "extracts"
 })
-public class Extracts {
+public class Warnings {
 
-    @JsonProperty("warnings")
-    private String warnings;
+    @JsonProperty("extracts")
+    private Extracts extracts;
     @JsonIgnore
     private Map<String, Object> additionalProperties = new HashMap<String, Object>();
 
@@ -26,26 +26,26 @@ public class Extracts {
      * No args constructor for use in serialization
      * 
      */
-    public Extracts() {
+    public Warnings() {
     }
 
     /**
      * 
-     * @param warnings
+     * @param extracts
      */
-    public Extracts(String warnings) {
+    public Warnings(Extracts extracts) {
         super();
-        this.warnings = warnings;
+        this.extracts = extracts;
     }
 
-    @JsonProperty("warnings")
-    public String getWarnings() {
-        return warnings;
+    @JsonProperty("extracts")
+    public Extracts getExtracts() {
+        return extracts;
     }
 
-    @JsonProperty("warnings")
-    public void setWarnings(String warnings) {
-        this.warnings = warnings;
+    @JsonProperty("extracts")
+    public void setExtracts(Extracts extracts) {
+        this.extracts = extracts;
     }
 
     @JsonAnyGetter
@@ -60,7 +60,7 @@ public class Extracts {
 
     @Override
     public String toString() {
-        return new ToStringBuilder(this).append("warnings", warnings).append("additionalProperties", additionalProperties).toString();
+        return new ToStringBuilder(this).append("extracts", extracts).append("additionalProperties", additionalProperties).toString();
     }
 
 }
