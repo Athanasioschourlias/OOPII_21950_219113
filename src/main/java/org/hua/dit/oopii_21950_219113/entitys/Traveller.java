@@ -347,20 +347,35 @@ public abstract class Traveller
      * @param cities
      * @return
      */
-    public City compareCities(ArrayList<City> cities)
+    public List<City> compareCities(ArrayList<City> cities)
     {
-        double maxSimilarity= calculate_similarity(cities.get(0));
-        City bestCity=cities.get(0);
+//        double maxSimilarity= calculate_similarity(cities.get(0));
+//        City bestCity=cities.get(0);
+//        for (City city : cities)
+//        {
+//            if(calculate_similarity(city)>maxSimilarity)
+//            {
+//                maxSimilarity= calculate_similarity(city);
+//                bestCity=city;
+//            }
+//        }
+        /**
+         * this implementation returns only the best city
+         */
+//        return bestCity;
+
+        HashMap<City, Double> hashMapCities = new HashMap<>();
         for (City city : cities)
         {
-            if(calculate_similarity(city)>maxSimilarity)
-            {
-                maxSimilarity= calculate_similarity(city);
-                bestCity=city;
-            }
+            hashMapCities.put(city,calculate_similarity(city));
         }
-        return bestCity;
+        List<City> bestCities = hashMapCities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(cities.size()).map(Map.Entry::getKey).collect(Collectors.toList());
+        /**
+         * this implementation returns  a sorted list
+         */
+        return bestCities;
     }
+
 
     /**
      * If the client does not want the first option we will give him, he can enter an intiger between [2,5] in order to
@@ -370,16 +385,14 @@ public abstract class Traveller
      * @return bestCities
      * @throws
      */
-    public ArrayList<City> compareCities(int choice,ArrayList<City> cities){
+    public List<City> compareCities(int choice,List<City> sortedCities){
 
-        HashMap<City, Double> hashMapCities = new HashMap<>();
-        for (City city : cities)
+        sortedCities.remove(0); //it removes the best choice that we dont want
+        while (sortedCities.size()!=choice)
         {
-            hashMapCities.put(city,calculate_similarity(city));
+            sortedCities.remove(sortedCities.size()-1);
         }
-        List<City> bestCities = hashMapCities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(choice+1).map(Map.Entry::getKey).collect(Collectors.toList());
-        bestCities.remove(0);
-        return (ArrayList<City>) bestCities;
+        return sortedCities;
     }
 
 }
