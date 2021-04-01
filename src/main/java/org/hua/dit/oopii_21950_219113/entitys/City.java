@@ -2,22 +2,29 @@ package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hibernate.annotations.Columns;
+import org.hua.dit.oopii_21950_219113.Dao.CityId;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
+import org.springframework.data.jpa.repository.Modifying;
 
 import javax.persistence.*;
 import java.io.IOException;
 import java.net.URL;
 
 @Entity
-@Table
+@Table(name = "CITY")
+@IdClass(CityId.class)
 public class City {
 
-    //ID
+    /**
+     * With the help of the CityId class and the annotations of @IdClass & @Id's we create unique composite primary key's
+     * for our database.
+     */
     @Id
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String cityName;
 
-    @Column(nullable = false, length = 50)
+    @Id
+    @Column(nullable = false)
     private String country;
 
     private int cafe;
