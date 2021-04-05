@@ -1,12 +1,14 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
+import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Locale;
 
 //FIXME: ADD EXCEPTION BLOCKS WHERE IS NEEDED
 @Service //Same as @Component
@@ -35,31 +37,32 @@ public class CityService {
     }
 
     /**
+     * We are taking the city name and the code of the country is in and If we do not have it duplicate in our database
+     * then we collect the necessary info about the city(Cafes, stadiums.... etc) with the respective error corrections
+     * and checks then we create a new city object and storing it with springs save() method.
      *
-     * @param CITY_NAME
-     * @param country
+     * @param CITY_NAME Name of the City we want to add
+     * @param country The country code the city is in.
+     *
+     * @throws IOException OpenData may experience some issues due to external factors, so i will not make a successful
+     * API call and it will produce most Likely a FileNotFoundException
+     * @throws CityAlreadyExistsException The city already exists in our database.
      */
-    public void addNewCity(String CITY_NAME, String country) throws IOException {
+    public void addNewCity(String CITY_NAME, String country) throws IOException, CityAlreadyExistsException {
 
-        Vectors vectors= new Vectors();
-        int tmpCafe;
-        int tmpStadiums;
-        int tmpMuseums;
-        int tmpSeas;
-        int tmpRestaurants;
-        int tmpMountains;
-        int tmpHotel;
-        int tmpMetro;
-        int tmpBars;
-        int tmpSun;
-        //TODO:we will put 10 cities into the data base and by the program starting we'll take them
-        //TODO: if value is grater than 10 make it 10!
+        if( cityRepository.findCityById(CITY_NAME.toUpperCase(),country).isPresent() ){
+            throw new CityAlreadyExistsException(CITY_NAME.toUpperCase());
+        }
+
+//        Vectors vectors= new Vectors();
+        int tmpCafe,tmpStadiums,tmpMuseums,tmpSeas,tmpRestaurants,tmpMountains,tmpHotel,tmpMetro,tmpBars,tmpSun;
         OpenData openData = new OpenData();
         String article;
-        String appid = "4abb3288d8abfd8b3b72670196c0175f";
-        article=openData.RetrieveData(CITY_NAME,country,appid);
-        CountWords countWords= new CountWords();
         Check check = new Check();
+        CountWords countWords= new CountWords();
+        City c;
+
+        article=openData.RetrieveData(CITY_NAME);
         tmpCafe= check.checkVectorValue(countWords.countCriterionfCity(article,"cafe"));
         tmpStadiums= check.checkVectorValue(countWords.countCriterionfCity(article,"stadium"));
         tmpMuseums= check.checkVectorValue(countWords.countCriterionfCity(article,"museum"));
@@ -71,13 +74,11 @@ public class CityService {
         tmpBars=check.checkVectorValue(countWords.countCriterionfCity(article,"bar"));
         tmpSun=check.checkVectorValue(countWords.countCriterionfCity(article,"sun"));
 
-        City c = new City(CITY_NAME,country,tmpCafe,tmpSeas,tmpMuseums,tmpRestaurants,tmpStadiums,tmpMountains,tmpHotel,tmpMetro,tmpBars,tmpSun);
+        //The constructor handles the API call to the OpenWeatherMap in order to get the latitude & longitude.
+        //TODO: USE GETTERS AND SETTERS
+        c = new City(CITY_NAME,country,tmpCafe,tmpSeas,tmpMuseums,tmpRestaurants,tmpStadiums,tmpMountains,tmpHotel,tmpMetro,tmpBars,tmpSun);
 
-        //DEV CODE
         cityRepository.save(c);
-
-        //PRODUCTION CODE
-        //throw new NoSuchMethodException();
     }
 
     //TODO: VALIDATE THE EXCEPTION.

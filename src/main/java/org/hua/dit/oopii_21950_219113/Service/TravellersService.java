@@ -1,11 +1,14 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
+import org.hua.dit.oopii_21950_219113.entitys.City;
+import org.hua.dit.oopii_21950_219113.entitys.Traveller;
 import org.hua.dit.oopii_21950_219113.entitys.YoungTraveller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 @Component
 public class TravellersService {
@@ -25,10 +28,26 @@ public class TravellersService {
 
     public String getTestTraveller() throws Exception {
 
-        YoungTraveller youngTraveller = new YoungTraveller(19,"Nick","Athens","gr",1,2,3,4,5,6,7,8,9,0);
+        ArrayList<Traveller> travellers = new ArrayList<>();
+
         CityService cityService = new CityService(cityRepository);
 
-        double similarityNumber=youngTraveller.calculate_similarity(cityService.getCityByName("ATHENS","gr"));
+
+        String City = "Athens";
+        //TODO: ADD MORE TRAVELLERS
+
+        YoungTraveller youngTraveller = new YoungTraveller(19,"Nick",City,"gr",1,2,3,4,5,6,7,8,9,0);
+
+        travellers.add(youngTraveller);
+
+        double similarityNumber=youngTraveller.calculate_similarity(cityService.getCityByName(City.toUpperCase(),"gr"));
+
+        if(youngTraveller.calculate_free_ticket(cityService.getCityByName(City.toUpperCase(),"gr"), travellers).equals(youngTraveller))
+            System.out.println("You WON!!!!");
+        else
+            System.out.println("Well, sometimes you win sometimes you dont!");
+
+
 
         String s = "The similarity for Nikos: " + similarityNumber;
 
@@ -36,6 +55,5 @@ public class TravellersService {
 //        System.out.println(similarityNumber);
     }
 
-    //TODO: IMPLEMENT the business logic.
 
 }

@@ -37,8 +37,8 @@ public class City {
     private int metro;
     private int bars;
     private int sun;
-    private double lat;
-    private double lon;
+    private Double lat;
+    private Double lon;
 
 
     //termVector [cafe = 0,sea = 1,museums = 2, restaurants = 3, stadiums = 4, mountains = 5, hotel = 6, metro = 7, bars = 8, sun = 9]
@@ -70,7 +70,7 @@ public class City {
      * @throws IOException Failed or interrupted I/O operation.
      */
     public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException {
-        this.cityName = cityName;
+        this.cityName = cityName.toUpperCase();
         this.country=country;
         this.cafe = cafe;
         this.sea = sea;
@@ -83,13 +83,13 @@ public class City {
         this.bars=bars;
         this.sun=sun;
         ObjectMapper mapper = new ObjectMapper();
-        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
         this.lat = weather_obj.getCoord().getLat();
         this.lon = weather_obj.getCoord().getLon();
     }
 
     /**
-     * One no argument constructor is needed by spring.
+     * One Zero argument constructor is needed by spring.
      */
     public City() {
 

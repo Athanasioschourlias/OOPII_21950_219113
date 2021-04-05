@@ -1,5 +1,6 @@
 package org.hua.dit.oopii_21950_219113.Controller;
 
+import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.entitys.City;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,24 +71,25 @@ public class CityController {
 
 
     /**
-     * Printing to a client that we do not support this operation publicly, because we do not want any outsider
-     * interfering with our database nad our data. We always catch an exception because the addNewCity() method all
-     * it does is to throw a respective exception.
-     * Cities?CITY_NAME={CITY_NAME}?country={country}
+     * IRL Querry to add a new city with a name and it's country code ../Cities?CITY_NAME={CITY_NAME}&country={country}
+     *
+     * @param CITY_NAME The name of the city we want to enter
+     * @param country country={country code}
      */
     @PostMapping
     public void addNewCity(@RequestParam String CITY_NAME,
-                           @RequestParam String country) throws IOException {
-        //TODO: DEVELOPMENT CODE!!!
-        cityService.addNewCity(CITY_NAME,country);
+                           @RequestParam String country) {
+        try {
+            cityService.addNewCity(CITY_NAME,country);
+        } catch (IOException e) {
+            System.out.println("Something went worng, try again!");
+        } catch (CityAlreadyExistsException e) {
+            System.out.println("A city with the name of" + CITY_NAME.toLowerCase()
+                    + " and country code of "+country
+                    +" Already exists in our database"
+            );
+        }
 
-
-        //TODO: PRODUCTION CODE
-//        try {
-//            cityService.addNewCity();
-//        } catch (NoSuchMethodException e) {
-//            System.out.println(" We are sorry this is Not a valid Action :( ");
-//        }
     }
 
 }

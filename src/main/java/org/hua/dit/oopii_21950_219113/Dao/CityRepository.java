@@ -5,6 +5,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
+import java.util.Optional;
+
+//TODO: Exceptions
 @Repository
 public interface CityRepository extends JpaRepository<City, String> {
 
@@ -18,6 +21,17 @@ public interface CityRepository extends JpaRepository<City, String> {
      */
     @Query("SELECT c FROM City c WHERE c.cityName=?1 AND c.country=?2")
     City findByName(String cityName, String country) throws Exception;
+
+    /**
+     *
+     * @param cityName The name of the city the client wants to "see"
+     * @param country the country code, due to our database structure it is required to be in our query, also in order
+     *                not to return the wrong city object(a city with the same name in an other country).
+     *
+     * @return Optional object with the usefull ispressent() method.
+     */
+    @Query("SELECT c FROM City c WHERE c.cityName=?1 AND c.country=?2")
+    Optional<City> findCityById(String cityName, String country);
 
     //Here you add querys for extra methods the repo does not implimnets already, for example findCityByName().
 }
