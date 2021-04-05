@@ -8,25 +8,26 @@ public class ElderTraveller extends Traveller{
     /* CONSTRUCTORS START */
 
     /**
+     * The basic custom constructor the children classes can use to be created
      *
-     * @param age
-     * @param name
-     * @param cityName
-     * @param county
-     * @param cafe
-     * @param sea
-     * @param museums
-     * @param restaurants
-     * @param stadiums
-     * @param mountains
-     * @param hotel
-     * @param metro
-     * @param bars
-     * @param sun
+     * @param age  Value [0-10] of how desired the specific feature is.
+     * @param name Value [0-10] of how desired the specific feature is.
+     * @param cityName Value [0-10] of how desired the specific feature is.
+     * @param country Value [0-10] of how desired the specific feature is.
+     * @param cafe Value [0-10] of how desired the specific feature is.
+     * @param sea Value [0-10] of how desired the specific feature is.
+     * @param museums Value [0-10] of how desired the specific feature is.
+     * @param restaurants Value [0-10] of how desired the specific feature is.
+     * @param stadiums Value [0-10] of how desired the specific feature is.
+     * @param mountains Value [0-10] of how desired the specific feature is.
+     * @param hotel Value [0-10] of how desired the specific feature is.
+     * @param metro Value [0-10] of how desired the specific feature is.
+     * @param bars Value [0-10] of how desired the specific feature is.
+     * @param sun Value [0-10] of how desired the specific feature is.
      * @throws IOException
      */
-    public ElderTraveller(int age, String name, String cityName, String county, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException {
-        super(age, name, cityName, county, cafe, sea, museums, restaurants, stadiums, mountains, hotel, metro, bars, sun);
+    public ElderTraveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException {
+        super(age, name, cityName, country, cafe, sea, museums, restaurants, stadiums, mountains, hotel, metro, bars, sun);
     }
 
     /* CONSTRUCTORS END */
