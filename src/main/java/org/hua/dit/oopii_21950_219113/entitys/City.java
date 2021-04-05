@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.Modifying;
 
 import javax.persistence.*;
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 @Entity
@@ -41,13 +42,19 @@ public class City {
     private Double lon;
 
 
+    @Transient
     //termVector [cafe = 0,sea = 1,museums = 2, restaurants = 3, stadiums = 4, mountains = 5, hotel = 6, metro = 7, bars = 8, sun = 9]
-    @Transient
     private int[] termVector = new int[10];
-    //geodesicVector [lat = 0 , lon = 0]
-
     @Transient
+    //geodesicVector [lat = 0 , lon = 0]
     private double[] geodesicVector = new double[2];
+    @Transient
+    private OpenData openData = new OpenData();
+    @Transient
+    private String article;
+    @Transient
+    private Check check = new Check();
+
 
     /* CONSTRUCTORS START */
 
@@ -89,7 +96,36 @@ public class City {
     }
 
     /**
-     * One Zero argument constructor is needed by spring.
+     *
+     * @param city_name The name of the city we want to search and find it's features.
+     * @param country The country, the city is located at.
+     * @throws IOException
+     */
+    public City(String city_name, String country) throws IOException {
+        this.cityName=city_name.toUpperCase();
+        this.country=country;
+
+        ObjectMapper mapper = new ObjectMapper();
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + city_name + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
+        this.lat = weather_obj.getCoord().getLat();
+        this.lon = weather_obj.getCoord().getLon();
+
+        article= OpenData.RetrieveData(city_name);
+        this.cafe= check.checkVectorValue(CountWords.countCriterionfCity(article,"cafe"));
+        this.stadiums= check.checkVectorValue(CountWords.countCriterionfCity(article,"stadium"));
+        this.museums= check.checkVectorValue(CountWords.countCriterionfCity(article,"museum"));
+        this.sea= check.checkVectorValue(CountWords.countCriterionfCity(article,"sea"));
+        this.restaurants= check.checkVectorValue(CountWords.countCriterionfCity(article,"restaurant"));
+        this.mountains= check.checkVectorValue(CountWords.countCriterionfCity(article,"mountain"));
+        this.hotel=check.checkVectorValue(CountWords.countCriterionfCity(article,"hotel"));
+        this.metro=check.checkVectorValue(CountWords.countCriterionfCity(article,"metro"));
+        this.bars=check.checkVectorValue(CountWords.countCriterionfCity(article,"bar"));
+        this.sun=check.checkVectorValue(CountWords.countCriterionfCity(article,"sun"));
+
+    }
+
+    /**
+     * The required no arg constructor.
      */
     public City() {
 

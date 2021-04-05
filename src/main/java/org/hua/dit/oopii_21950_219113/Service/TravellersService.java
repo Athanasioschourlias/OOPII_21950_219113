@@ -7,7 +7,6 @@ import org.hua.dit.oopii_21950_219113.entitys.YoungTraveller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
 import java.util.ArrayList;
 
 @Component
@@ -48,10 +47,7 @@ public class TravellersService {
             System.out.println("Well, sometimes you win sometimes you dont!");
 
 
-
-        String s = "The similarity for Nikos: " + similarityNumber;
-
-        return s;
+        return "The similarity for Nikos: " + similarityNumber;
 //        System.out.println(similarityNumber);
     }
 
