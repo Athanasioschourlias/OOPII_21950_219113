@@ -334,6 +334,12 @@ public abstract class Traveller
     public abstract double calculate_similarity(City city);
     //similarity (user,city) = p*similarity_terms_vector () + (1-p)  similarity_geodesic_vector ()
 
+    /**
+     *
+     * @param city The city we are giving a free ticket to.
+     * @param travellers A list with all the travellers, for comparison of matching with the provided city.
+     * @return A traveller with the highest matching value for the city we want to give a free ticket to.
+     */
     public Traveller calculate_free_ticket(City city, ArrayList<Traveller> travellers){
 
         double max = -1;

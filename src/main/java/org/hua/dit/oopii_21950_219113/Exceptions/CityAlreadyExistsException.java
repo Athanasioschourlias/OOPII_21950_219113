@@ -1,7 +1,13 @@
 package org.hua.dit.oopii_21950_219113.Exceptions;
 
 public class CityAlreadyExistsException extends Exception{
-    private static final long serialVersionUID = 1L;
+
+    /**
+     * The serialization runtime associates with each serializable class a version number,
+     * called a serialVersionUID, which is used during deserialization to verify that the sender and receiver
+     * of a serialized object have loaded classes for that object that are compatible with respect to serialization
+     */
+    private static final long serialVersionUID = 10000000016L;
 
     private String CityName;
 

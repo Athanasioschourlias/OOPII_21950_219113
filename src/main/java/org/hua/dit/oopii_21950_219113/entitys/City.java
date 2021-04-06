@@ -96,21 +96,22 @@ public class City {
     }
 
     /**
+     * This is a custom contractor that also handles the task to search and set the features values.
      *
-     * @param city_name The name of the city we want to search and find it's features.
+     * @param cityName The name of the city we want to search and find it's features.
      * @param country The country, the city is located at.
      * @throws IOException
      */
-    public City(String city_name, String country) throws IOException {
-        this.cityName=city_name.toUpperCase();
+    public City(String cityName, String country) throws IOException {
+        this.cityName=cityName.toUpperCase();
         this.country=country;
 
         ObjectMapper mapper = new ObjectMapper();
-        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + city_name + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
         this.lat = weather_obj.getCoord().getLat();
         this.lon = weather_obj.getCoord().getLon();
 
-        article= OpenData.RetrieveData(city_name);
+        this.article= OpenData.RetrieveData(cityName);
         this.cafe= check.checkVectorValue(CountWords.countCriterionfCity(article,"cafe"));
         this.stadiums= check.checkVectorValue(CountWords.countCriterionfCity(article,"stadium"));
         this.museums= check.checkVectorValue(CountWords.countCriterionfCity(article,"museum"));
