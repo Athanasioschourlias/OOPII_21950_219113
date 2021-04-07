@@ -64,11 +64,10 @@ public class CityController {
             System.out.println("Something went wrong, please check your input and try again");
             System.out.println(e.toString());
             //TODO: LOG THE FAILURES, dont print it to the client/user.
-            e.printStackTrace();
+//            e.printStackTrace();
         }
         return null;
     }
-
 
     /**
      * IRL Querry to add a new city with a name and it's country code ../Cities?CITY_NAME={CITY_NAME}&country={country}

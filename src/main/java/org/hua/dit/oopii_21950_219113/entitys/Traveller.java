@@ -1,15 +1,19 @@
 package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
+//TODO: See if it works in our favour to store travellers in our database.
 public abstract class Traveller
 {
+
 
     private int age;
     private String name;
@@ -42,7 +46,19 @@ public abstract class Traveller
      * @param sun Value [0-10] of how desired the specific feature is.
      * @throws IOException
      */
-    public Traveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException {
+    public Traveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException, NoSuchOpenWeatherCityException {
+
+        //This is our first action, so if an error occurs we do not proceed wih unnecessary variable initializations.
+        ObjectMapper mapper = new ObjectMapper();
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
+        geodesicVector[0] = weather_obj.getCoord().getLat();
+        geodesicVector[1] = weather_obj.getCoord().getLon();
+
         this.age = age;
         this.name = name;
         this.cityName = cityName;
@@ -57,14 +73,30 @@ public abstract class Traveller
         termVector[7] =metro;
         termVector[8] =bars;
         termVector[9] =sun;
+
+    }
+
+    public Traveller(String cityName, String country) throws NoSuchOpenWeatherCityException, IOException {
+        //This is our first action, so if an error occurs we do not proceed wih unnecessary variable initializations.
         ObjectMapper mapper = new ObjectMapper();
         OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
         geodesicVector[0] = weather_obj.getCoord().getLat();
         geodesicVector[1] = weather_obj.getCoord().getLon();
+
+    }
+
+    public Traveller() {
+
     }
 
     /* CONSTRUCTORS END */
 
+    //TODO: ADD CHECKS AT EVERY SETTER FOR THE INPUT VALUE.
     /*START GETTERS AND SETTERS FOR termVector*/
 
     /**
@@ -342,6 +374,7 @@ public abstract class Traveller
      */
     public Traveller calculate_free_ticket(City city, ArrayList<Traveller> travellers){
 
+        //Impossible The minimum value that can be taken is 0.
         double max = -1;
         Traveller winner = null;
         for(Traveller traveller:travellers){
@@ -411,7 +444,7 @@ public abstract class Traveller
      * give him back a list with the number of the next <int>choice</int> best fitted cities for him.
      *
      * @param choice Int [2,5], that indicates how many cities to return
-     * @return bestCities
+     * @return bestCities list from the 2nd till the selected index.
      * @throws
      */
     public List<City> compareCities(int choice,List<City> sortedCities){

@@ -1,6 +1,8 @@
 package org.hua.dit.oopii_21950_219113.entitys;
 
 
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
+
 import java.io.IOException;
 
 public class ElderTraveller extends Traveller{
@@ -26,8 +28,16 @@ public class ElderTraveller extends Traveller{
      * @param sun Value [0-10] of how desired the specific feature is.
      * @throws IOException
      */
-    public ElderTraveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException {
+    public ElderTraveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException, NoSuchOpenWeatherCityException {
         super(age, name, cityName, country, cafe, sea, museums, restaurants, stadiums, mountains, hotel, metro, bars, sun);
+    }
+
+    public ElderTraveller() {
+
+    }
+
+    public ElderTraveller(String name, String country) throws IOException, NoSuchOpenWeatherCityException {
+        super(name, country);
     }
 
     /* CONSTRUCTORS END */

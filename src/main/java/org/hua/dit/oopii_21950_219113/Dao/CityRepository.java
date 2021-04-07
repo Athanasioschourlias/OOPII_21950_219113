@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-//TODO: Exceptions
 @Repository
 public interface CityRepository extends JpaRepository<City, String> {
 

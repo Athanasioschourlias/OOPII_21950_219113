@@ -2,13 +2,14 @@ package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchWikipediaArticleException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 //FIXME: ADD EXCEPTION BLOCKS WHERE IS NEEDED
 @Service //Same as @Component
@@ -20,9 +21,10 @@ public class CityService {
 
     /**
      * Since we have injected the CityRepository dependency in our class we want now to create a constructor that we
-     * can pass a CityRepository Repository(not exactly an interface). Needed for testing.
+     * can pass a CityRepository Repository. Needed for testing.
      *
-     * @param cityRepository
+     * @param cityRepository Interface which extends JpaRepository necessary for our database communications and custom
+     *                       Query's for fetching data with a special way.
      */
     public CityService(CityRepository cityRepository) {
         this.cityRepository = cityRepository;
@@ -54,9 +56,20 @@ public class CityService {
             throw new CityAlreadyExistsException(CITY_NAME.toUpperCase());
         }
         //The constructor handles the API call to the OpenWeatherMap in order to get the latitude & longitude.
-        City c = new City(CITY_NAME,country);
+        City c = null;
+        try {
+            c = new City(CITY_NAME,country);
+        } catch (NoSuchOpenWeatherCityException | NoSuchWikipediaArticleException e) {
+            //TODO:LOG THE STACKTRACE
+            //            e.printStackTrace();
+            System.out.println(e.getMessage());
+        }
 
-        cityRepository.save(c);
+        if(c != null)
+            cityRepository.save(c);
+        else
+            //TODO:When we add UI remove the sout.
+            System.out.println("There was a problem saving this city to our database");
     }
 
     //TODO: VALIDATE THE EXCEPTION.

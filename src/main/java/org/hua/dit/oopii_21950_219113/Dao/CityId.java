@@ -3,6 +3,9 @@ package org.hua.dit.oopii_21950_219113.Dao;
 import java.io.Serializable;
 import java.util.Objects;
 
+/**
+ * Spring way's to create composite keys, attributes combined together to create truly unique primary database keys.
+ */
 public class CityId implements Serializable {
 
     private String cityName;

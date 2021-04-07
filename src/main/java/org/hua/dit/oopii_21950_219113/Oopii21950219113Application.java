@@ -3,12 +3,14 @@ package org.hua.dit.oopii_21950_219113;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.io.FileNotFoundException;
+
+
 
 @SpringBootApplication
 public class Oopii21950219113Application {
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         /**
          * With this line the spring container is being created. You can thing of it as the spring's JVM container.
          * Inside this container we can create spring Beans. Also in this container spring will create as many object
@@ -25,6 +27,7 @@ public class Oopii21950219113Application {
          *
          */
         SpringApplication.run(Oopii21950219113Application.class, args);
+
 
     }
 

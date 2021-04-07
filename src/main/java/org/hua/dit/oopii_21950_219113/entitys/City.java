@@ -1,14 +1,13 @@
 package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.annotations.Columns;
 import org.hua.dit.oopii_21950_219113.Dao.CityId;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchWikipediaArticleException;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
-import org.springframework.data.jpa.repository.Modifying;
 
 import javax.persistence.*;
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 
 @Entity
@@ -76,7 +75,19 @@ public class City {
      * @param sun How many times the word sun is referenced in the wiki text for the country
      * @throws IOException Failed or interrupted I/O operation.
      */
-    public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException {
+    public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException, NoSuchOpenWeatherCityException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
+
+        this.lat = weather_obj.getCoord().getLat();
+        this.lon = weather_obj.getCoord().getLon();
+
         this.cityName = cityName.toUpperCase();
         this.country=country;
         this.cafe = cafe;
@@ -89,10 +100,6 @@ public class City {
         this.metro=metro;
         this.bars=bars;
         this.sun=sun;
-        ObjectMapper mapper = new ObjectMapper();
-        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
-        this.lat = weather_obj.getCoord().getLat();
-        this.lon = weather_obj.getCoord().getLon();
     }
 
     /**
@@ -101,15 +108,24 @@ public class City {
      * @param cityName The name of the city we want to search and find it's features.
      * @param country The country, the city is located at.
      * @throws IOException
+     * @throws NoSuchOpenWeatherCityException
+     * @throws NoSuchWikipediaArticleException
      */
-    public City(String cityName, String country) throws IOException {
-        this.cityName=cityName.toUpperCase();
-        this.country=country;
+    public City(String cityName, String country) throws IOException, NoSuchOpenWeatherCityException, NoSuchWikipediaArticleException {
 
         ObjectMapper mapper = new ObjectMapper();
         OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
+
         this.lat = weather_obj.getCoord().getLat();
         this.lon = weather_obj.getCoord().getLon();
+
+        this.cityName=cityName.toUpperCase();
+        this.country=country;
 
         this.article= OpenData.RetrieveData(cityName);
         this.cafe= check.checkVectorValue(CountWords.countCriterionfCity(article,"cafe"));
