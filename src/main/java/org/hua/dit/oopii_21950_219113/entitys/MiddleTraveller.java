@@ -55,7 +55,7 @@ public class MiddleTraveller extends Traveller
             paranomastisA+=(cityTermVectorVector[i]*cityTermVectorVector[i]);
             paranomastisB+=(travellerTermVector[i]*travellerTermVector[i]);
         }
-        finalResult=(arithmitis/(paranomastisA*paranomastisB));
+        finalResult=(arithmitis/(Math.sqrt(paranomastisA)*Math.sqrt(paranomastisB)));
         return finalResult;
     }
 
