@@ -61,18 +61,7 @@ public class TravellersService {
             }
         }
 
-//        try {
-//            if(Objects.requireNonNull(youngTraveller).calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry), travellers).equals(youngTraveller))
-//                System.out.println("You WON!!!!");
-//            else
-//                System.out.println("Well, sometimes you win sometimes you dont!");
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-
         try {
-//            return "The similarity for Nikos: " + Objects.requireNonNull(youngTraveller).calculate_similarity(cityService.getCityByName(FreeCity.toUpperCase(),"gr"));
             return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
         } catch (Exception e) {
             e.printStackTrace();
