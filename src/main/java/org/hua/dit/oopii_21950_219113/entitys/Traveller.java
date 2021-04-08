@@ -2,6 +2,7 @@ package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
+import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
 
 import java.io.IOException;
@@ -432,8 +433,14 @@ public abstract class Traveller
         {
             hashMapCities.put(city,calculate_similarity(city));
         }
+        for (City city : cities) {
+            if(city.getCityName().toUpperCase().equals(cityName.toUpperCase()))
+            {
+                hashMapCities.remove(city);
+                //we remove the city that the traveller lives
+            }
+        }
         List<City> bestCities = hashMapCities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(cities.size()).map(Map.Entry::getKey).collect(Collectors.toList());
-
         /*DEV BACK-UP CODE */
 //        double maxSimilarity= calculate_similarity(cities.get(0));
 //        City bestCity=cities.get(0);
