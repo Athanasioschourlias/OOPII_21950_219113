@@ -1,16 +1,16 @@
 package org.hua.dit.oopii_21950_219113.Controller;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
-import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.Service.TravellersService;
-import org.hua.dit.oopii_21950_219113.entitys.YoungTraveller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.io.IOException;
-
+/**
+ * Here in the future we will have the main functionality of the web app, for now we hard coded most of it for the 1st
+ * deliverable's sake.
+ */
 @RestController
 @RequestMapping(path = "/") //Because we are hard coding data every time we will be showing stats for the same traveller.
 public class TravellersController {
@@ -33,8 +33,8 @@ public class TravellersController {
 
     //We do throws because everything is hardcoded, so most likely we will not have any exceptions
     @GetMapping
-    public String testTraveller() throws Exception {
+    public String getTraveller() throws Exception {
 
-        return travellersService.getTestTraveller();
+        return travellersService.getTraveller();
     }
 }

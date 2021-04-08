@@ -1,16 +1,17 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
-import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
-import org.hua.dit.oopii_21950_219113.entitys.weather.Sys;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
 
+/**
+ * For the time being We use it as our "MAIN".
+ */
 @Component
 public class TravellersService {
 
@@ -27,7 +28,7 @@ public class TravellersService {
         this.cityRepository = cityRepository;
     }
 
-    public String getTestTraveller() throws IOException, NoSuchOpenWeatherCityException {
+    public String getTraveller() throws IOException, NoSuchOpenWeatherCityException {
 
         CityService cityService = new CityService(cityRepository);
 
@@ -48,7 +49,6 @@ public class TravellersService {
 //            e.printStackTrace();
 //        }
 
-        //TODO: ADD MORE TRAVELLERS, USE GETTERS AND SETTERS
         String FreeCity = "Amsterdam";
         String FreeCountry = "nl";
 
