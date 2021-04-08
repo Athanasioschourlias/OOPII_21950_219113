@@ -1,7 +1,9 @@
 package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.hibernate.annotations.Columns;
+import org.hua.dit.oopii_21950_219113.Dao.CityId;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchWikipediaArticleException;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
 
 import javax.persistence.*;
@@ -9,15 +11,20 @@ import java.io.IOException;
 import java.net.URL;
 
 @Entity
-@Table
+@Table(name = "CITY")
+@IdClass(CityId.class)
 public class City {
 
-    //ID
+    /**
+     * With the help of the CityId class and the annotations of @IdClass & @Id's we create unique composite primary key's
+     * for our database.
+     */
     @Id
-    @Column(nullable = false, length = 100)
+    @Column(nullable = false)
     private String cityName;
 
-    @Column(nullable = false, length = 50)
+    @Id
+    @Column(nullable = false)
     private String country;
 
     private int cafe;
@@ -30,17 +37,23 @@ public class City {
     private int metro;
     private int bars;
     private int sun;
-    private double lat;
-    private double lon;
+    private Double lat;
+    private Double lon;
 
 
+    @Transient
     //termVector [cafe = 0,sea = 1,museums = 2, restaurants = 3, stadiums = 4, mountains = 5, hotel = 6, metro = 7, bars = 8, sun = 9]
-    @Transient
     private int[] termVector = new int[10];
-    //geodesicVector [lat = 0 , lon = 0]
-
     @Transient
+    //geodesicVector [lat = 0 , lon = 0]
     private double[] geodesicVector = new double[2];
+    @Transient
+    private OpenData openData = new OpenData();
+    @Transient
+    private String article;
+    @Transient
+    private Check check = new Check();
+
 
     /* CONSTRUCTORS START */
 
@@ -62,8 +75,20 @@ public class City {
      * @param sun How many times the word sun is referenced in the wiki text for the country
      * @throws IOException Failed or interrupted I/O operation.
      */
-    public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException {
-        this.cityName = cityName;
+    public City(String cityName,String country, int cafe, int sea, int museums, int restaurants, int stadiums,int mountains,int hotel,int metro,int bars,int sun) throws IOException, NoSuchOpenWeatherCityException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
+
+        this.lat = weather_obj.getCoord().getLat();
+        this.lon = weather_obj.getCoord().getLon();
+
+        this.cityName = cityName.toUpperCase();
         this.country=country;
         this.cafe = cafe;
         this.sea = sea;
@@ -75,14 +100,49 @@ public class City {
         this.metro=metro;
         this.bars=bars;
         this.sun=sun;
-        ObjectMapper mapper = new ObjectMapper();
-        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
-        this.lat = weather_obj.getCoord().getLat();
-        this.lon = weather_obj.getCoord().getLon();
     }
 
     /**
-     * One no argument constructor is needed by spring.
+     * This is a custom contractor that also handles the task to search and set the features values.
+     *
+     * @param cityName The name of the city we want to search and find it's features.
+     * @param country The country, the city is located at.
+     * @throws IOException
+     * @throws NoSuchOpenWeatherCityException
+     * @throws NoSuchWikipediaArticleException
+     */
+    public City(String cityName, String country) throws IOException, NoSuchOpenWeatherCityException, NoSuchWikipediaArticleException {
+
+        ObjectMapper mapper = new ObjectMapper();
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=50ff955e0fc989bf2584a87d8a5f266d"), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
+
+        this.lat = weather_obj.getCoord().getLat();
+        this.lon = weather_obj.getCoord().getLon();
+
+        this.cityName=cityName.toUpperCase();
+        this.country=country;
+
+        this.article= OpenData.RetrieveData(cityName);
+        this.cafe= check.checkVectorValue(CountWords.countCriterionfCity(article,"cafe"));
+        this.stadiums= check.checkVectorValue(CountWords.countCriterionfCity(article,"stadium"));
+        this.museums= check.checkVectorValue(CountWords.countCriterionfCity(article,"museum"));
+        this.sea= check.checkVectorValue(CountWords.countCriterionfCity(article,"sea"));
+        this.restaurants= check.checkVectorValue(CountWords.countCriterionfCity(article,"restaurant"));
+        this.mountains= check.checkVectorValue(CountWords.countCriterionfCity(article,"mountain"));
+        this.hotel=check.checkVectorValue(CountWords.countCriterionfCity(article,"hotel"));
+        this.metro=check.checkVectorValue(CountWords.countCriterionfCity(article,"metro"));
+        this.bars=check.checkVectorValue(CountWords.countCriterionfCity(article,"bar"));
+        this.sun=check.checkVectorValue(CountWords.countCriterionfCity(article,"sun"));
+
+    }
+
+    /**
+     * The required no arg constructor.
      */
     public City() {
 
@@ -105,7 +165,7 @@ public class City {
      * @param cafe setting the number of times the word appeared in the wiki text
      */
     public void setCafe(int cafe) {
-        this.cafe = cafe;
+        this.cafe = check.checkVectorValue(cafe);
     }
 
     /**
@@ -121,7 +181,7 @@ public class City {
      * @param sea setting the number of times the word appeared in the wiki text
      */
     public void setSea(int sea) {
-        this.sea = sea;
+        this.sea = check.checkVectorValue(sea);
     }
 
     /**
@@ -137,7 +197,7 @@ public class City {
      * @param museums setting the number of times the word appeared in the wiki text
      */
     public void setMuseums(int museums) {
-        this.museums = museums;
+        this.museums = check.checkVectorValue(museums);
     }
 
     /**
@@ -153,7 +213,7 @@ public class City {
      * @param restaurants setting the number of times the word appeared in the wiki text
      */
     public void setRestaurants(int restaurants) {
-        this.restaurants = restaurants;
+        this.restaurants = check.checkVectorValue(restaurants);
     }
 
     /**
@@ -169,7 +229,7 @@ public class City {
      * @param stadiums setting the number of times the word appeared in the wiki text
      */
     public void setStadiums(int stadiums) {
-        this.stadiums = stadiums;
+        this.stadiums = check.checkVectorValue(stadiums);
     }
 
     /**
@@ -185,7 +245,7 @@ public class City {
      * @param mountains setting the number of times the word appeared in the wiki text
      */
     public void setMountains(int mountains) {
-        this.mountains = mountains;
+        this.mountains = check.checkVectorValue(mountains);
     }
 
     /**
@@ -201,7 +261,7 @@ public class City {
      * @param hotel setting the number of times the word appeared in the wiki text
      */
     public void setHotel(int hotel) {
-        this.hotel = hotel;
+        this.hotel = check.checkVectorValue(hotel);
     }
 
     /**
@@ -217,7 +277,7 @@ public class City {
      * @param metro setting the number of times the word appeared in the wiki text
      */
     public void setMetro(int metro) {
-        this.metro = metro;
+        this.metro = check.checkVectorValue(metro);
     }
 
     /**
@@ -233,7 +293,7 @@ public class City {
      * @param bars setting the number of times the word appeared in the wiki text
      */
     public void setBars(int bars) {
-        this.bars = bars;
+        this.bars = check.checkVectorValue(bars);
     }
 
     /**
@@ -249,7 +309,7 @@ public class City {
      * @param sun setting the number of times the word appeared in the wiki text
      */
     public void setSun(int sun) {
-        this.sun = sun;
+        this.sun = check.checkVectorValue(sun);
     }
 
     /**
@@ -276,7 +336,12 @@ public class City {
      * @param termVector a vector that has all the parametric values of a City object.
      */
     public void setTermVector(int[] termVector) {
-        this.termVector = termVector;
+        for( int i=0; i < 10; i++){
+            if(termVector[i] > 10)
+                this.termVector[i] = 10;
+            else
+                this.termVector[i] = termVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR termVector*/
@@ -331,7 +396,12 @@ public class City {
      * @param geodesicVector Setting the users city latitude and longitude(At their respective positions). Of the calculated result.
      */
     public void setGeodesicVector(double[] geodesicVector) {
-        this.geodesicVector = geodesicVector;
+        for( int i=0; i < 10; i++){
+            if(geodesicVector[i] > 10)
+                this.geodesicVector[i] = 10;
+            else
+                this.geodesicVector[i] = geodesicVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/

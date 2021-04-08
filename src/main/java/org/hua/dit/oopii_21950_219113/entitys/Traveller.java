@@ -1,21 +1,20 @@
 package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
+import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 
+//TODO: See if it works in our favour to store travellers in our database.
 public abstract class Traveller
 {
 
-    //auto generated Id
-    private Long Id;
 
     private int age;
     private String name;
@@ -27,51 +26,97 @@ public abstract class Traveller
     //geodesicVector [lat = 0 , lon = 0]
     private double[] geodesicVector = new double[2];
 
+    private Check check = new Check();
+
     /* CONSTRUCTORS START */
 
     /**
      * The basic custom constructor the children classes can use to be created
      *
-     * @param age
-     * @param name
-     * @param cityName
-     * @param country
-     * @param cafe
-     * @param sea
-     * @param museums
-     * @param restaurants
-     * @param stadiums
-     * @param mountains
-     * @param hotel
-     * @param metro
-     * @param bars
-     * @param sun
+     * @param age  Value [0-10] of how desired the specific feature is.
+     * @param name Value [0-10] of how desired the specific feature is.
+     * @param cityName Value [0-10] of how desired the specific feature is.
+     * @param country Value [0-10] of how desired the specific feature is.
+     * @param cafe Value [0-10] of how desired the specific feature is.
+     * @param sea Value [0-10] of how desired the specific feature is.
+     * @param museums Value [0-10] of how desired the specific feature is.
+     * @param restaurants Value [0-10] of how desired the specific feature is.
+     * @param stadiums Value [0-10] of how desired the specific feature is.
+     * @param mountains Value [0-10] of how desired the specific feature is.
+     * @param hotel Value [0-10] of how desired the specific feature is.
+     * @param metro Value [0-10] of how desired the specific feature is.
+     * @param bars Value [0-10] of how desired the specific feature is.
+     * @param sun Value [0-10] of how desired the specific feature is.
      * @throws IOException
      */
-    public Traveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException {
+    public Traveller(int age, String name, String cityName, String country, int cafe, int sea, int museums, int restaurants, int stadiums, int mountains, int hotel, int metro, int bars, int sun) throws IOException, NoSuchOpenWeatherCityException {
+
+        //This is our first action, so if an error occurs we do not proceed wih unnecessary variable initializations.
+        ObjectMapper mapper = new ObjectMapper();
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
+        geodesicVector[0] = weather_obj.getCoord().getLat();
+        geodesicVector[1] = weather_obj.getCoord().getLon();
+
         this.age = age;
         this.name = name;
         this.cityName = cityName;
         this.country = country;
-        termVector[0] = cafe;
-        termVector[1] = sea;
-        termVector[2] = museums;
-        termVector[3] = restaurants;
-        termVector[4] = stadiums;
-        termVector[5] =mountains;
-        termVector[6] =hotel;
-        termVector[7] =metro;
-        termVector[8] =bars;
-        termVector[9] =sun;
+        termVector[0] = check.checkVectorValue(cafe);
+        termVector[1] = check.checkVectorValue(sea);
+        termVector[2] = check.checkVectorValue(museums);
+        termVector[3] = check.checkVectorValue(restaurants);
+        termVector[4] = check.checkVectorValue(stadiums);
+        termVector[5] = check.checkVectorValue(mountains);
+        termVector[6] = check.checkVectorValue(hotel);
+        termVector[7] = check.checkVectorValue(metro);
+        termVector[8] = check.checkVectorValue(bars);
+        termVector[9] = check.checkVectorValue(sun);
+
+    }
+
+    public Traveller(String cityName, String country) throws NoSuchOpenWeatherCityException, IOException {
+        //This is our first action, so if an error occurs we do not proceed wih unnecessary variable initializations.
         ObjectMapper mapper = new ObjectMapper();
         OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
+
+        //Checking if the API returned us useful iformation or not.
+        if ( weather_obj.getCod() != 200){
+            throw new NoSuchOpenWeatherCityException(cityName);
+        }
         geodesicVector[0] = weather_obj.getCoord().getLat();
         geodesicVector[1] = weather_obj.getCoord().getLon();
+
+    }
+
+    public Traveller() {
+
     }
 
     /* CONSTRUCTORS END */
 
+    //TODO: ADD CHECKS AT EVERY SETTER FOR THE INPUT VALUE.
     /*START GETTERS AND SETTERS FOR termVector*/
+
+    /**
+     *
+     * @return travellers age
+     */
+    public int getAge() {
+        return age;
+    }
+
+    /**
+     *
+     * @return travellers name
+     */
+    public String getName() {
+        return name;
+    }
 
     /**
      *
@@ -83,10 +128,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param cafe
+     * @param cafe Value [0-10] of how desired the specific feature is.
      */
     public void setCafe(int cafe) {
-        termVector[0] = cafe;
+        termVector[0] = check.checkVectorValue(cafe);
     }
 
     /**
@@ -99,10 +144,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param sea
+     * @param sea Value [0-10] of how desired the specific feature is.
      */
     public void setSea(int sea) {
-        termVector[1] = sea;
+        termVector[1] = check.checkVectorValue(sea);
     }
 
     /**
@@ -115,10 +160,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param museums
+     * @param museums Value [0-10] of how desired the specific feature is.
      */
     public void setMuseums(int museums) {
-        termVector[2] = museums;
+        termVector[2] = check.checkVectorValue(museums);
     }
 
     /**
@@ -131,10 +176,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param restaurants
+     * @param restaurants Value [0-10] of how desired the specific feature is.
      */
     public void setRestaurants(int restaurants) {
-        termVector[3] = restaurants;
+        termVector[3] = check.checkVectorValue(restaurants);
     }
 
     /**
@@ -147,10 +192,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param stadiums
+     * @param stadiums Value [0-10] of how desired the specific feature is.
      */
     public void setStadiums(int stadiums) {
-        termVector[4] = stadiums;
+        termVector[4] = check.checkVectorValue(stadiums);
     }
 
     /**
@@ -163,10 +208,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param mountains
+     * @param mountains Value [0-10] of how desired the specific feature is.
      */
     public void setMountains(int mountains) {
-        termVector[5] = mountains;
+        termVector[5] = check.checkVectorValue(mountains);
     }
 
     /**
@@ -179,10 +224,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param hotel
+     * @param hotel Value [0-10] of how desired the specific feature is.
      */
     public void setHotel(int hotel) {
-        termVector[6] = hotel;
+        termVector[6] = check.checkVectorValue(hotel);
     }
 
     /**
@@ -195,10 +240,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param metro
+     * @param metro Value [0-10] of how desired the specific feature is.
      */
     public void setMetro(int metro) {
-        termVector[7] = metro;
+        termVector[7] = check.checkVectorValue(metro);
     }
 
     /**
@@ -211,10 +256,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param bars
+     * @param bars Value [0-10] of how desired the specific feature is.
      */
     public void setBars(int bars) {
-        termVector[8] = bars;
+        termVector[8] = check.checkVectorValue(bars);
     }
 
     /**
@@ -227,10 +272,10 @@ public abstract class Traveller
 
     /**
      *
-     * @param sun
+     * @param sun Value [0-10] of how desired the specific feature is.
      */
     public void setSun(int sun) {
-        termVector[9] = sun;
+        termVector[9] = check.checkVectorValue(sun);
     }
 
     /**
@@ -245,10 +290,16 @@ public abstract class Traveller
     /**
      * Setting the user preferences table.
      *
-     * @param termVector
+     * @param termVector Setting the vector's "pointer", "point" at a new termVector
      */
     public void setTermVector(int[] termVector) {
-        this.termVector = termVector;
+
+        for( int i=0; i < 10; i++){
+            if(termVector[i] > 10)
+                this.termVector[i] = 10;
+            else
+                this.termVector[i] = termVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR termVector*/
@@ -265,7 +316,7 @@ public abstract class Traveller
 
     /**
      *
-     * @param lat
+     * @param lat Setting the vector's "pointer", "point" at a new latitude vector
      */
     public void setLat(double lat) {
         geodesicVector[0] = lat;
@@ -281,7 +332,7 @@ public abstract class Traveller
 
     /**
      *
-     * @param lon
+     * @param lon Setting the vector's "pointer", "point" at a new longitude vector
      */
     public void setLon(double lon) {
         geodesicVector[1] = lon;
@@ -299,17 +350,22 @@ public abstract class Traveller
     /**
      * Setting the vector with the users best fitted city
      *
-     * @param geodesicVector
+     * @param geodesicVector Setting the vector's "pointer", "point" at a new vector
      */
     public void setGeodesicVector(double[] geodesicVector) {
-        this.geodesicVector = geodesicVector;
+        for( int i=0; i < 10; i++){
+            if(geodesicVector[i] > 10)
+                this.geodesicVector[i] = 10;
+            else
+                this.geodesicVector[i] = geodesicVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/
 
     /**
      *
-     * @param city
+     * @param city City object on which we will do our calculations
      * @return A value from 0(min) to 1(max) which is how suitable is for the client the city based on the tremsVector(his preferences).
      */
     public abstract double similarityTermVector (City city);
@@ -317,7 +373,7 @@ public abstract class Traveller
     /**
      * Every Type of traveler is implementing the method with it's respective way.
      *
-     * @param city
+     * @param city The city we want to calculate the similarity of.
      * @return A value between 0(min) and 1(max) that shows how suitable is the city for the user by taking to account
      * both termsVector & geodesicVector
      */
@@ -326,7 +382,30 @@ public abstract class Traveller
 
     /**
      *
-     * @param city
+     * @param city The city we are giving a free ticket to.
+     * @param travellers A list with all the travellers, for comparison of matching with the provided city.
+     * @return A traveller with the highest matching value for the city we want to give a free ticket to.
+     */
+    public Traveller calculate_free_ticket(City city, ArrayList<Traveller> travellers){
+
+        //Impossible The minimum value that can be taken is 0.
+        double max = -1;
+        Traveller winner = null;
+        for(Traveller traveller:travellers){
+            double tmpsimculc = traveller.calculate_similarity(city);
+            if(max < tmpsimculc) {
+                max = tmpsimculc;
+                winner = traveller;
+            }
+        }
+
+        return winner;
+
+    }
+
+    /**
+     *
+     * @param city The city object which we will do our calculations
      * @return A value from 0(min) to 1(max) of how suitable if the city for the client based on geodesicVector(The distance to the city).
      */
     public double similarityGeodesicVector(City city)
@@ -342,45 +421,72 @@ public abstract class Traveller
     }
 
     /**
-     * Iterates through the Array list to find the most suitasble for the client city.
+     * Iterates through the Array list to find the most suitasble city for the client. We keep a list
      *
-     * @param cities
-     * @return
+     * @param cities A list with all the cities in our database
+     * @return Only the best fitted city for the client
      */
-    public City compareCities(ArrayList<City> cities)
+    public List<City> compareCities(ArrayList<City> cities)
     {
-        double maxSimilarity= calculate_similarity(cities.get(0));
-        City bestCity=cities.get(0);
-        for (City city : cities)
-        {
-            if(calculate_similarity(city)>maxSimilarity)
-            {
-                maxSimilarity= calculate_similarity(city);
-                bestCity=city;
-            }
-        }
-        return bestCity;
-    }
-
-    /**
-     * If the client does not want the first option we will give him, he can enter an intiger between [2,5] in order to
-     * give him back a list with the number of the next <int>choice</int> best fitted cities for him.
-     *
-     * @param choice
-     * @return bestCities
-     * @throws
-     */
-    public ArrayList<City> compareCities(int choice,ArrayList<City> cities){
-
         HashMap<City, Double> hashMapCities = new HashMap<>();
         for (City city : cities)
         {
             hashMapCities.put(city,calculate_similarity(city));
         }
-        List<City> bestCities = hashMapCities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(choice+1).map(Map.Entry::getKey).collect(Collectors.toList());
-        bestCities.remove(0);
-        return (ArrayList<City>) bestCities;
+        for (City city : cities) {
+            if(city.getCityName().toUpperCase().equals(cityName.toUpperCase()))
+            {
+                hashMapCities.remove(city);
+                //we remove the city that the traveller lives
+            }
+        }
+        List<City> bestCities = hashMapCities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(cities.size()).map(Map.Entry::getKey).collect(Collectors.toList());
+        /*DEV BACK-UP CODE */
+//        double maxSimilarity= calculate_similarity(cities.get(0));
+//        City bestCity=cities.get(0);
+//        for (City city : cities)
+//        {
+//            if(calculate_similarity(city)>maxSimilarity)
+//            {
+//                maxSimilarity= calculate_similarity(city);
+//                bestCity=city;
+//            }
+//        }
+
+//        return bestCity;
+
+        return bestCities;
     }
+
+
+    /**
+     * If the client does not want the first option we will give him, he can enter an intiger between [2,5] in order to
+     * give him back a list with the number of the next <int>choice</int> best fitted cities for him.
+     *
+     * @param choice Int [2,5], that indicates how many cities to return
+     * @return bestCities list from the 2nd till the selected index.
+     * @throws
+     */
+    public List<City> compareCities(int choice,List<City> sortedCities){
+
+        sortedCities.remove(0); //it removes the best choice that we dont want
+
+        //Keep removing from the end of the list till we reach the desired list length.
+        while (sortedCities.size()!=choice)
+        {
+            sortedCities.remove(sortedCities.size()-1);
+        }
+        return sortedCities;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Traveller traveller = (Traveller) o;
+        return Objects.equals(name, traveller.name);
+    }
+
 
 }
 
