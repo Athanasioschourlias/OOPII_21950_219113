@@ -1,20 +1,10 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
-
-import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
-import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchWikipediaArticleException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.*;
 
 @Component
@@ -42,8 +32,7 @@ public class TravellersService {
         //TODO: ADD MORE TRAVELLERS, USE GETTERS AND SETTERS
         String Cities = "Athens";
 
-        YoungTraveller youngTraveller = null;
-        youngTraveller = new YoungTraveller();
+        YoungTraveller youngTraveller = new YoungTraveller();
 
 
         travellers.add(youngTraveller);
