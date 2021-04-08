@@ -165,7 +165,7 @@ public class City {
      * @param cafe setting the number of times the word appeared in the wiki text
      */
     public void setCafe(int cafe) {
-        this.cafe = cafe;
+        this.cafe = check.checkVectorValue(cafe);
     }
 
     /**
@@ -181,7 +181,7 @@ public class City {
      * @param sea setting the number of times the word appeared in the wiki text
      */
     public void setSea(int sea) {
-        this.sea = sea;
+        this.sea = check.checkVectorValue(sea);
     }
 
     /**
@@ -197,7 +197,7 @@ public class City {
      * @param museums setting the number of times the word appeared in the wiki text
      */
     public void setMuseums(int museums) {
-        this.museums = museums;
+        this.museums = check.checkVectorValue(museums);
     }
 
     /**
@@ -213,7 +213,7 @@ public class City {
      * @param restaurants setting the number of times the word appeared in the wiki text
      */
     public void setRestaurants(int restaurants) {
-        this.restaurants = restaurants;
+        this.restaurants = check.checkVectorValue(restaurants);
     }
 
     /**
@@ -229,7 +229,7 @@ public class City {
      * @param stadiums setting the number of times the word appeared in the wiki text
      */
     public void setStadiums(int stadiums) {
-        this.stadiums = stadiums;
+        this.stadiums = check.checkVectorValue(stadiums);
     }
 
     /**
@@ -245,7 +245,7 @@ public class City {
      * @param mountains setting the number of times the word appeared in the wiki text
      */
     public void setMountains(int mountains) {
-        this.mountains = mountains;
+        this.mountains = check.checkVectorValue(mountains);
     }
 
     /**
@@ -261,7 +261,7 @@ public class City {
      * @param hotel setting the number of times the word appeared in the wiki text
      */
     public void setHotel(int hotel) {
-        this.hotel = hotel;
+        this.hotel = check.checkVectorValue(hotel);
     }
 
     /**
@@ -277,7 +277,7 @@ public class City {
      * @param metro setting the number of times the word appeared in the wiki text
      */
     public void setMetro(int metro) {
-        this.metro = metro;
+        this.metro = check.checkVectorValue(metro);
     }
 
     /**
@@ -293,7 +293,7 @@ public class City {
      * @param bars setting the number of times the word appeared in the wiki text
      */
     public void setBars(int bars) {
-        this.bars = bars;
+        this.bars = check.checkVectorValue(bars);
     }
 
     /**
@@ -309,7 +309,7 @@ public class City {
      * @param sun setting the number of times the word appeared in the wiki text
      */
     public void setSun(int sun) {
-        this.sun = sun;
+        this.sun = check.checkVectorValue(sun);
     }
 
     /**
@@ -336,7 +336,12 @@ public class City {
      * @param termVector a vector that has all the parametric values of a City object.
      */
     public void setTermVector(int[] termVector) {
-        this.termVector = termVector;
+        for( int i=0; i < 10; i++){
+            if(termVector[i] > 10)
+                this.termVector[i] = 10;
+            else
+                this.termVector[i] = termVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR termVector*/
@@ -391,7 +396,12 @@ public class City {
      * @param geodesicVector Setting the users city latitude and longitude(At their respective positions). Of the calculated result.
      */
     public void setGeodesicVector(double[] geodesicVector) {
-        this.geodesicVector = geodesicVector;
+        for( int i=0; i < 10; i++){
+            if(geodesicVector[i] > 10)
+                this.geodesicVector[i] = 10;
+            else
+                this.geodesicVector[i] = geodesicVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/

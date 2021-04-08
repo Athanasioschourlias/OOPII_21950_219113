@@ -25,6 +25,8 @@ public abstract class Traveller
     //geodesicVector [lat = 0 , lon = 0]
     private double[] geodesicVector = new double[2];
 
+    private Check check = new Check();
+
     /* CONSTRUCTORS START */
 
     /**
@@ -63,16 +65,16 @@ public abstract class Traveller
         this.name = name;
         this.cityName = cityName;
         this.country = country;
-        termVector[0] = cafe;
-        termVector[1] = sea;
-        termVector[2] = museums;
-        termVector[3] = restaurants;
-        termVector[4] = stadiums;
-        termVector[5] =mountains;
-        termVector[6] =hotel;
-        termVector[7] =metro;
-        termVector[8] =bars;
-        termVector[9] =sun;
+        termVector[0] = check.checkVectorValue(cafe);
+        termVector[1] = check.checkVectorValue(sea);
+        termVector[2] = check.checkVectorValue(museums);
+        termVector[3] = check.checkVectorValue(restaurants);
+        termVector[4] = check.checkVectorValue(stadiums);
+        termVector[5] = check.checkVectorValue(mountains);
+        termVector[6] = check.checkVectorValue(hotel);
+        termVector[7] = check.checkVectorValue(metro);
+        termVector[8] = check.checkVectorValue(bars);
+        termVector[9] = check.checkVectorValue(sun);
 
     }
 
@@ -128,7 +130,7 @@ public abstract class Traveller
      * @param cafe Value [0-10] of how desired the specific feature is.
      */
     public void setCafe(int cafe) {
-        termVector[0] = cafe;
+        termVector[0] = check.checkVectorValue(cafe);
     }
 
     /**
@@ -144,7 +146,7 @@ public abstract class Traveller
      * @param sea Value [0-10] of how desired the specific feature is.
      */
     public void setSea(int sea) {
-        termVector[1] = sea;
+        termVector[1] = check.checkVectorValue(sea);
     }
 
     /**
@@ -160,7 +162,7 @@ public abstract class Traveller
      * @param museums Value [0-10] of how desired the specific feature is.
      */
     public void setMuseums(int museums) {
-        termVector[2] = museums;
+        termVector[2] = check.checkVectorValue(museums);
     }
 
     /**
@@ -176,7 +178,7 @@ public abstract class Traveller
      * @param restaurants Value [0-10] of how desired the specific feature is.
      */
     public void setRestaurants(int restaurants) {
-        termVector[3] = restaurants;
+        termVector[3] = check.checkVectorValue(restaurants);
     }
 
     /**
@@ -192,7 +194,7 @@ public abstract class Traveller
      * @param stadiums Value [0-10] of how desired the specific feature is.
      */
     public void setStadiums(int stadiums) {
-        termVector[4] = stadiums;
+        termVector[4] = check.checkVectorValue(stadiums);
     }
 
     /**
@@ -208,7 +210,7 @@ public abstract class Traveller
      * @param mountains Value [0-10] of how desired the specific feature is.
      */
     public void setMountains(int mountains) {
-        termVector[5] = mountains;
+        termVector[5] = check.checkVectorValue(mountains);
     }
 
     /**
@@ -224,7 +226,7 @@ public abstract class Traveller
      * @param hotel Value [0-10] of how desired the specific feature is.
      */
     public void setHotel(int hotel) {
-        termVector[6] = hotel;
+        termVector[6] = check.checkVectorValue(hotel);
     }
 
     /**
@@ -240,7 +242,7 @@ public abstract class Traveller
      * @param metro Value [0-10] of how desired the specific feature is.
      */
     public void setMetro(int metro) {
-        termVector[7] = metro;
+        termVector[7] = check.checkVectorValue(metro);
     }
 
     /**
@@ -256,7 +258,7 @@ public abstract class Traveller
      * @param bars Value [0-10] of how desired the specific feature is.
      */
     public void setBars(int bars) {
-        termVector[8] = bars;
+        termVector[8] = check.checkVectorValue(bars);
     }
 
     /**
@@ -272,7 +274,7 @@ public abstract class Traveller
      * @param sun Value [0-10] of how desired the specific feature is.
      */
     public void setSun(int sun) {
-        termVector[9] = sun;
+        termVector[9] = check.checkVectorValue(sun);
     }
 
     /**
@@ -290,7 +292,13 @@ public abstract class Traveller
      * @param termVector Setting the vector's "pointer", "point" at a new termVector
      */
     public void setTermVector(int[] termVector) {
-        this.termVector = termVector;
+
+        for( int i=0; i < 10; i++){
+            if(termVector[i] > 10)
+                this.termVector[i] = 10;
+            else
+                this.termVector[i] = termVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR termVector*/
@@ -344,7 +352,12 @@ public abstract class Traveller
      * @param geodesicVector Setting the vector's "pointer", "point" at a new vector
      */
     public void setGeodesicVector(double[] geodesicVector) {
-        this.geodesicVector = geodesicVector;
+        for( int i=0; i < 10; i++){
+            if(geodesicVector[i] > 10)
+                this.geodesicVector[i] = 10;
+            else
+                this.geodesicVector[i] = geodesicVector[i];
+        }
     }
 
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/
