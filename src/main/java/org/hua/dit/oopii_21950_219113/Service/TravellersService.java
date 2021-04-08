@@ -1,6 +1,7 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
+import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.hua.dit.oopii_21950_219113.entitys.weather.Sys;
@@ -38,6 +39,14 @@ public class TravellersService {
 
         List<City> bestCities;
 
+//        try
+//        {
+//            cityService.addNewCity("Warsaw","pl"); //how to add new city in database
+//
+//        }catch (CityAlreadyExistsException e)
+//        {
+//            e.printStackTrace();
+//        }
 
         //TODO: ADD MORE TRAVELLERS, USE GETTERS AND SETTERS
         String FreeCity = "Amsterdam";
