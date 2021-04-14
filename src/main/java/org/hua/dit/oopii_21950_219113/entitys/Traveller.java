@@ -490,6 +490,7 @@ public abstract class Traveller
 
 //        return bestCity;
         setTimeStamp(new Date().getTime());
+        setVisit(bestCities.get(0));
         return bestCities;
     }
 
