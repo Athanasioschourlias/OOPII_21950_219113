@@ -1,6 +1,7 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
+import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,8 @@ public class TravellersService {
 
         String FreeCity = "Amsterdam";
         String FreeCountry = "nl";
+        String SearchCity= "Cairo";
+        String SearchCountry = "eg";
 
         YoungTraveller youngTraveller = new YoungTraveller(19,"Nick","Athens","gr",1,10,10,6,10,9,2,10,8,1);
         MiddleTraveller middleTraveller = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
@@ -60,6 +63,18 @@ public class TravellersService {
         travellers.add(youngTraveller);
         travellers.add(middleTraveller);
         travellers.add(elderTraveller);
+
+        if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
+        {
+            System.out.println("This city ("+SearchCity+") is already into database ");
+        }
+        else
+        {
+            System.out.println("This city wasn't into database, now it is btw :)");
+            //so we update the hashMap to be up to date :)
+            CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        }
+
         for (Traveller traveller : travellers)
         {
             bestCities= traveller.compareCities(CitiesHashMap);
@@ -79,6 +94,28 @@ public class TravellersService {
         }
 
         return null;
+    }
+
+    public boolean checkCityAvailability (String cityName, String country)
+    {
+        CityService cityService = new CityService(cityRepository);
+        HashMap<String, City> cities = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+
+        for (String s : cities.keySet())
+        {
+            if(s.equals(cityName.toUpperCase()))
+                return true;
+        }
+        try {
+            cityService.addNewCity(cityName, country);
+            System.out.println(cityName+" added to database ");
+        }catch (CityAlreadyExistsException | IOException e)
+        {
+            System.out.println("There was an error ");
+            e.printStackTrace();
+        }
+        //if it returns false this means that we have to update our hashmap because now there is a new city in our database
+        return false;
     }
 
 
