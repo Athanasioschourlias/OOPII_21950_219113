@@ -8,6 +8,8 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 /**
  * For the time being We use it as our "MAIN".
@@ -34,9 +36,9 @@ public class TravellersService {
 
         ArrayList<Traveller> travellers = new ArrayList<>();
 
-        ArrayList<City> cities = (ArrayList<City>) cityService.getCities();
-
         YoungTraveller testTraveller = new YoungTraveller();
+
+        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
 
         List<City> bestCities;
 
@@ -60,7 +62,7 @@ public class TravellersService {
         travellers.add(elderTraveller);
         for (Traveller traveller : travellers)
         {
-            bestCities= traveller.compareCities(cities);
+            bestCities= traveller.compareCities(CitiesHashMap);
             System.out.println("The best city for "+traveller.getName()+" is :"+bestCities.get(0).getCityName());
             bestCities=traveller.compareCities(3,bestCities);
             System.out.println("And the next 3 best cities for "+traveller.getName()+" are: ");
@@ -78,5 +80,6 @@ public class TravellersService {
 
         return null;
     }
+
 
 }

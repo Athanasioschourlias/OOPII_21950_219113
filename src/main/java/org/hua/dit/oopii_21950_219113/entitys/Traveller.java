@@ -423,24 +423,26 @@ public abstract class Traveller
     /**
      * Iterates through the Array list to find the most suitasble city for the client. We keep a list
      *
-     * @param cities A list with all the cities in our database
+     * @param CitiesHashMap A HashMap with all City names (as keys) and city objects (as values) in our database
      * @return Only the best fitted city for the client
      */
-    public List<City> compareCities(ArrayList<City> cities)
+    public List<City> compareCities(HashMap<String, City> CitiesHashMap)
     {
-        HashMap<City, Double> hashMapCities = new HashMap<>();
-        for (City city : cities)
+        HashMap<City, Double> CitiesAndSimilarities = new HashMap<>();
+
+        for (City city : CitiesHashMap.values())
         {
-            hashMapCities.put(city,calculate_similarity(city));
+            CitiesAndSimilarities.put(city,calculate_similarity(city));
         }
-        for (City city : cities) {
-            if(city.getCityName().toUpperCase().equals(cityName.toUpperCase()))
+        for (City city : CitiesHashMap.values()) {
+            if(city.getCityName().equals(cityName.toUpperCase()))
             {
-                hashMapCities.remove(city);
+                CitiesAndSimilarities.remove(city);
                 //we remove the city that the traveller lives
             }
         }
-        List<City> bestCities = hashMapCities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(cities.size()).map(Map.Entry::getKey).collect(Collectors.toList());
+
+        List<City> bestCities = CitiesAndSimilarities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(CitiesAndSimilarities.size()).map(Map.Entry::getKey).collect(Collectors.toList());
         /*DEV BACK-UP CODE */
 //        double maxSimilarity= calculate_similarity(cities.get(0));
 //        City bestCity=cities.get(0);
