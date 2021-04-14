@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -20,6 +21,8 @@ public abstract class Traveller
     private String name;
     private String cityName;
     private String country;
+    private long timeStamp;
+    private City visit;
 
     //termVector [cafe = 0,sea = 1,museums = 2, restaurants = 3, stadiums = 4, mountains = 5, hotel = 6, metro = 7, bars = 8, sun = 9]
     private int[] termVector = new int[10];
@@ -84,7 +87,7 @@ public abstract class Traveller
         ObjectMapper mapper = new ObjectMapper();
         OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
 
-        //Checking if the API returned us useful iformation or not.
+        //Checking if the API returned us useful information or not.
         if ( weather_obj.getCod() != 200){
             throw new NoSuchOpenWeatherCityException(cityName);
         }
@@ -101,6 +104,36 @@ public abstract class Traveller
 
     //TODO: ADD CHECKS AT EVERY SETTER FOR THE INPUT VALUE.
     /*START GETTERS AND SETTERS FOR termVector*/
+    /**
+     *
+     * @return travellers recommended city to visit
+     */
+    public City getVisit() {
+        return visit;
+    }
+    /**
+     *
+     * @param visit Value the recommended city
+     */
+    public void setVisit(City visit) {
+        this.visit = visit;
+    }
+
+    /**
+     *
+     * @return travellers timeStamp
+     */
+    public long getTimeStamp() {
+        return timeStamp;
+    }
+
+    /**
+     *
+     * @param timeStamp Value Date to set the last timeStamp
+     */
+    public void setTimeStamp(long timeStamp) {
+        this.timeStamp = timeStamp;
+    }
 
     /**
      *
@@ -456,7 +489,7 @@ public abstract class Traveller
 //        }
 
 //        return bestCity;
-
+        setTimeStamp(new Date().getTime());
         return bestCities;
     }
 
@@ -478,6 +511,7 @@ public abstract class Traveller
         {
             sortedCities.remove(sortedCities.size()-1);
         }
+        setTimeStamp(new Date().getTime());
         return sortedCities;
     }
 
