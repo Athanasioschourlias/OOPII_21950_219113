@@ -1,11 +1,14 @@
 package org.hua.dit.oopii_21950_219113.Controller;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.Service.TravellersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.io.IOException;
 
 /**
  * Here in the future we will have the main functionality of the web app, for now we hard coded most of it for the 1st
@@ -33,8 +36,15 @@ public class TravellersController {
 
     //We do throws because everything is hardcoded, so most likely we will not have any exceptions
     @GetMapping
-    public String getTraveller() throws Exception {
+    public String getTraveller() {
+        try {
+            return travellersService.getTraveller();
+        } catch (IOException | NoSuchOpenWeatherCityException e) {
 
-        return travellersService.getTraveller();
+//            System.out.println("Oupss! Something went wrong try to reload the page!");
+            //TODO: LOG the failure
+            e.printStackTrace();
+        }
+        return null;
     }
 }

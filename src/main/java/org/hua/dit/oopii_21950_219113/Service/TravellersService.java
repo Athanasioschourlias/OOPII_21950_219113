@@ -35,34 +35,47 @@ public class TravellersService {
 
         CityService cityService = new CityService(cityRepository);
 
-        ArrayList<Traveller> travellers = new ArrayList<>();
+
+
+        ArrayList<Traveller> travellers;
+
+        JsonSaver jsc = new JsonSaver();
+
+        //travellers = jsc.readJSON();
+
+        /**
+         * test travellers
+         */
+        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
 
         YoungTraveller testTraveller = new YoungTraveller();
 
-        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        travellers = jsc.readJSON();
 
         List<City> bestCities;
 
-//        try
-//        {
-//            cityService.addNewCity("Warsaw","pl"); //how to add new city in database
-//
-//        }catch (CityAlreadyExistsException e)
-//        {
-//            e.printStackTrace();
-//        }
-
+        //FREE TICKET GIVE-AWAY
         String FreeCity = "Amsterdam";
         String FreeCountry = "nl";
+
         String SearchCity= "Cairo";
         String SearchCountry = "eg";
 
-        YoungTraveller youngTraveller = new YoungTraveller(19,"Nick","Athens","gr",1,10,10,6,10,9,2,10,8,1);
-        MiddleTraveller middleTraveller = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
-        ElderTraveller elderTraveller = new ElderTraveller(70,"Babis","Barcelona","es",2,10,7,8,5,7,3,10,9,5);
-        travellers.add(youngTraveller);
-        travellers.add(middleTraveller);
-        travellers.add(elderTraveller);
+
+//        travellers.clear();
+//        travellers = jsc.readJSON();
+
+        //Shorting by time stamp
+        //Fast & compact way
+//        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
+        //Exercise way.
+        Collections.sort(travellers);
+
+
+        for(Traveller traveller : travellers){
+            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
+        }
+
 
         if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
         {
@@ -117,6 +130,7 @@ public class TravellersService {
         //if it returns false this means that we have to update our hashmap because now there is a new city in our database
         return false;
     }
+
 
 
 }

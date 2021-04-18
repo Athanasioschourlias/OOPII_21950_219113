@@ -2,18 +2,15 @@ package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
-import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
-import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
 import java.util.stream.Collectors;
 
 //TODO: See if it works in our favour to store travellers in our database.
-public abstract class Traveller
+public abstract class Traveller implements Comparable<Traveller>
 {
 
 
@@ -36,10 +33,10 @@ public abstract class Traveller
     /**
      * The basic custom constructor the children classes can use to be created
      *
-     * @param age  Value [0-10] of how desired the specific feature is.
-     * @param name Value [0-10] of how desired the specific feature is.
-     * @param cityName Value [0-10] of how desired the specific feature is.
-     * @param country Value [0-10] of how desired the specific feature is.
+     * @param age The age of the traveller
+     * @param name Name of the traveller
+     * @param cityName The Name of the city of residence
+     * @param country Country code of residence
      * @param cafe Value [0-10] of how desired the specific feature is.
      * @param sea Value [0-10] of how desired the specific feature is.
      * @param museums Value [0-10] of how desired the specific feature is.
@@ -82,14 +79,14 @@ public abstract class Traveller
 
     }
 
-    public Traveller(String cityName, String country) throws NoSuchOpenWeatherCityException, IOException {
+    public Traveller(String TcityName, String Tcountry) throws NoSuchOpenWeatherCityException, IOException {
         //This is our first action, so if an error occurs we do not proceed wih unnecessary variable initializations.
         ObjectMapper mapper = new ObjectMapper();
-        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + cityName + "," + country + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + TcityName + "," + Tcountry + "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
 
         //Checking if the API returned us useful information or not.
         if ( weather_obj.getCod() != 200){
-            throw new NoSuchOpenWeatherCityException(cityName);
+            throw new NoSuchOpenWeatherCityException(TcityName);
         }
         geodesicVector[0] = weather_obj.getCoord().getLat();
         geodesicVector[1] = weather_obj.getCoord().getLon();
@@ -102,8 +99,40 @@ public abstract class Traveller
 
     /* CONSTRUCTORS END */
 
-    //TODO: ADD CHECKS AT EVERY SETTER FOR THE INPUT VALUE.
     /*START GETTERS AND SETTERS FOR termVector*/
+
+    /**
+     *
+     * @return City name of residence
+     */
+    public String getCityName() {
+        return cityName;
+    }
+
+    /**
+     *
+     * @param cityName To set the city name of residence
+     */
+    public void setCityName(String cityName) {
+        this.cityName = cityName;
+    }
+
+    /**
+     *
+     * @return The country code of ressidence
+     */
+    public String getCountry() {
+        return country;
+    }
+
+    /**
+     *
+     * @param country Setting the country code of residence
+     */
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
     /**
      *
      * @return travellers recommended city to visit
@@ -521,9 +550,28 @@ public abstract class Traveller
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Traveller traveller = (Traveller) o;
-        return Objects.equals(name, traveller.name);
+        return Objects.equals(name, traveller.name)
+                && this.termVector[0] == ((Traveller) o).getCafe()
+                && this.termVector[1] == ((Traveller) o).getSea()
+                && this.termVector[2] == ((Traveller) o).getMuseums()
+                && this.termVector[3] == ((Traveller) o).getRestaurants()
+                && this.termVector[4] == ((Traveller) o).getStadiums()
+                && this.termVector[5] == ((Traveller) o).getMountains()
+                && this.termVector[6] == ((Traveller) o).getHotel()
+                && this.termVector[7] == ((Traveller) o).getMetro()
+                && this.termVector[8] == ((Traveller) o).getBars()
+                && this.termVector[9] == ((Traveller) o).getSun();
     }
 
+    @Override
+    public int compareTo(Traveller o) {
+        if(this.getTimeStamp() >= o.getTimeStamp())
+            return -1;
+        else if(this.timeStamp == o.getTimeStamp())
+            return 0;
+        else
+            return 1;
+    }
 
 }
 
