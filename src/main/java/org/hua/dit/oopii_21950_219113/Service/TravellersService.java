@@ -1,13 +1,21 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import java.io.FileNotFoundException;
+import java.io.FileReader;
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -37,20 +45,20 @@ public class TravellersService {
 
 
 
-        ArrayList<Traveller> travellers;
+        ArrayList<Traveller> travellers = new ArrayList<>();
 
         JsonSaver jsc = new JsonSaver();
 
-        //travellers = jsc.readJSON();
+        travellers = jsc.readJSON();
+
 
         /**
          * test travellers
          */
         HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
 
-        YoungTraveller testTraveller = new YoungTraveller();
 
-        travellers = jsc.readJSON();
+        YoungTraveller testTraveller = new YoungTraveller();
 
         List<City> bestCities;
 
@@ -69,42 +77,43 @@ public class TravellersService {
         //Fast & compact way
 //        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
         //Exercise way.
-        Collections.sort(travellers);
 
-
-        for(Traveller traveller : travellers){
-            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
-        }
-
-
-        if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
-        {
-            System.out.println("This city ("+SearchCity+") is already into database ");
-        }
-        else
-        {
-            System.out.println("This city wasn't into database, now it is btw :)");
-            //so we update the hashMap to be up to date :)
-            CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-        }
-
-        for (Traveller traveller : travellers)
-        {
-            bestCities= traveller.compareCities(CitiesHashMap);
-            System.out.println("The best city for "+traveller.getName()+" is :"+bestCities.get(0).getCityName());
-            bestCities=traveller.compareCities(3,bestCities);
-            System.out.println("And the next 3 best cities for "+traveller.getName()+" are: ");
-            for (City bestCity : bestCities)
-            {
-                System.out.println(bestCity.getCityName());
-            }
-        }
-
-        try {
-            return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//        Collections.sort(travellers);
+//
+//
+//        for(Traveller traveller : travellers){
+//            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
+//        }
+//
+//
+//        if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
+//        {
+//            System.out.println("This city ("+SearchCity+") is already into database ");
+//        }
+//        else
+//        {
+//            System.out.println("This city wasn't into database, now it is btw :)");
+//            //so we update the hashMap to be up to date :)
+//            CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+//        }
+//
+//        for (Traveller traveller : travellers)
+//        {
+//            bestCities= traveller.compareCities(CitiesHashMap);
+//            System.out.println("The best city for "+traveller.getName()+" is :"+bestCities.get(0).getCityName());
+//            bestCities=traveller.compareCities(3,bestCities);
+//            System.out.println("And the next 3 best cities for "+traveller.getName()+" are: ");
+//            for (City bestCity : bestCities)
+//            {
+//                System.out.println(bestCity.getCityName());
+//            }
+//        }
+//
+//        try {
+//            return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         return null;
     }
@@ -130,7 +139,6 @@ public class TravellersService {
         //if it returns false this means that we have to update our hashmap because now there is a new city in our database
         return false;
     }
-
 
 
 }

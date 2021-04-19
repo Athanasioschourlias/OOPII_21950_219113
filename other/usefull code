@@ -1,28 +1,30 @@
 /* Simulating a usage scenario for a number of users */
         ElderTraveller Babis = new ElderTraveller(70,"Babis","Barcelona","es",2,10,7,8,5,7,3,10,9,5);
-        Babis.compareCities(CitiesHashMap);
+                Babis.compareCities(CitiesHashMap);
 
 
-        YoungTraveller Nick = new YoungTraveller(19,"Nick","Athens","gr",1,10,10,6,10,9,2,10,8,1);
-        Nick.compareCities(CitiesHashMap);
+                YoungTraveller Nick = new YoungTraveller(19,"Nick","Athens","gr",1,10,10,6,10,9,2,10,8,1);
+                Nick.compareCities(CitiesHashMap);
 
-        YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
-        Nick2.compareCities(CitiesHashMap);
+                YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
+                Nick2.compareCities(CitiesHashMap);
 
-        YoungTraveller Nick3 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
-        Nick3.compareCities(CitiesHashMap);
+                YoungTraveller Nick3 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
+                Nick3.compareCities(CitiesHashMap);
 
-        MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
-        George.compareCities(CitiesHashMap);
+                MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
+                George.compareCities(CitiesHashMap);
 
 
-        /* STANDARD ENTRIES */
-        travellers.add(George);
+                /* STANDARD ENTRIES */
+                travellers.add(George);
 
-        travellers.add(Nick);
+                travellers.add(Nick);
 
-        travellers.add(Babis);
-        /* END */
+                travellers.add(Babis);
+                /* END */
+
+                jsc.writeJSON(travellers);
 
         //Twra to kanoume gia enan enan sthn synexeia tha to kanei kathe fora pou exoume neo xrhsth
         //dld me kathe nea eisodo, tr apla kanoume ena simulate.
