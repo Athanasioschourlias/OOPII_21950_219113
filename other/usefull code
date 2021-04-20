@@ -9,8 +9,8 @@
                 YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
                 Nick2.compareCities(CitiesHashMap);
 
-                YoungTraveller Nick3 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
-                Nick3.compareCities(CitiesHashMap);
+                YoungTraveller Paul = new YoungTraveller(19,"Paul","Sofia","bg",2,10,10,6,10,9,2,10,8,1);
+                Paul.compareCities(CitiesHashMap);
 
                 MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
                 George.compareCities(CitiesHashMap);

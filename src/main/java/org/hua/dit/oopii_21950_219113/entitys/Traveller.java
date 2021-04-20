@@ -430,12 +430,7 @@ public abstract class Traveller implements Comparable<Traveller>
      * @param geodesicVector Setting the vector's "pointer", "point" at a new vector
      */
     public void setGeodesicVector(double[] geodesicVector) {
-        for( int i=0; i < 10; i++){
-            if(geodesicVector[i] > 10)
-                this.geodesicVector[i] = 10;
-            else
-                this.geodesicVector[i] = geodesicVector[i];
-        }
+        this.geodesicVector=geodesicVector;
     }
 
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/

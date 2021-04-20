@@ -1,21 +1,13 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
-import java.nio.file.Paths;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -39,23 +31,50 @@ public class TravellersService {
         this.cityRepository = cityRepository;
     }
 
-    public String getTraveller() throws IOException, NoSuchOpenWeatherCityException {
+    public ArrayList<Traveller> getTraveller() throws IOException, NoSuchOpenWeatherCityException {
 
         CityService cityService = new CityService(cityRepository);
-
-
-
+        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
         ArrayList<Traveller> travellers = new ArrayList<>();
-
         JsonSaver jsc = new JsonSaver();
-
-        travellers = jsc.readJSON();
-
-
         /**
          * test travellers
          */
-        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+//        ElderTraveller Babis = new ElderTraveller(70,"Babis","Barcelona","es",2,10,7,8,5,7,3,10,9,5);
+//        Babis.compareCities(CitiesHashMap);
+//
+//        YoungTraveller Nick = new YoungTraveller(19,"Nick","Athens","gr",1,10,10,6,10,9,2,10,8,1);
+//        Nick.compareCities(CitiesHashMap);
+//
+//        YoungTraveller Paul = new YoungTraveller(19,"Paul","Sofia","bg",2,10,10,6,10,9,2,10,8,1);
+//        Paul.compareCities(CitiesHashMap);
+//
+//        MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
+//        George.compareCities(CitiesHashMap);
+//
+//
+//
+//        /* STANDARD ENTRIES */
+//        travellers.add(George);
+//
+//        travellers.add(Nick);
+//
+//        travellers.add(Babis);
+//
+//        travellers.add(Paul);
+//        /* END */
+
+
+
+        //jsc.writeJSON(travellers); // write to json
+
+//        travellers.clear(); //clear arraylist
+//
+        travellers = jsc.readJSON(); //fill it out reading from json file
+
+        for (Traveller traveller : travellers) {
+            System.out.println(traveller.getName());
+        }
 
 
         YoungTraveller testTraveller = new YoungTraveller();
@@ -115,7 +134,7 @@ public class TravellersService {
 //            e.printStackTrace();
 //        }
 
-        return null;
+        return travellers;
     }
 
     public boolean checkCityAvailability (String cityName, String country)
