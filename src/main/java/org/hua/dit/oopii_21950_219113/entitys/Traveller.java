@@ -100,6 +100,21 @@ public abstract class Traveller implements Comparable<Traveller>
     /* CONSTRUCTORS END */
 
     /*START GETTERS AND SETTERS FOR termVector*/
+    /**
+     *
+     * @param age To set the age of residence
+     */
+    public void setAge(int age) {
+        this.age = age;
+    }
+
+    /**
+     *
+     * @param name To set the name of residence
+     */
+    public void setName(String name) {
+        this.name = name;
+    }
 
     /**
      *
