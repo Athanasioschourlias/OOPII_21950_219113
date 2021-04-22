@@ -38,7 +38,7 @@ public class TravellersController {
 
     //We do throws because everything is hardcoded, so most likely we will not have any exceptions
     @GetMapping
-    public ArrayList<Traveller> getTraveller() {
+    public String getTraveller() {
         try {
             return travellersService.getTraveller();
         } catch (IOException | NoSuchOpenWeatherCityException e) {
@@ -49,4 +49,12 @@ public class TravellersController {
         }
         return null;
     }
+    @GetMapping(path = "/travellers")
+    public ArrayList<Traveller> getAllTravellers()
+    {
+        return travellersService.getAllTravellers();
+    }
+
+
 }
+
