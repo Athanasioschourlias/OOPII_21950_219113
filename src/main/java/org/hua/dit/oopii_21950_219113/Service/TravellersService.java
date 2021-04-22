@@ -78,13 +78,13 @@ public class TravellersService {
 //
         travellers = jsc.readJSON(); //fill it out reading from json file
 
-        for (Traveller traveller : travellers) {
-            System.out.println(traveller.getName());
+        for(Traveller traveller : travellers){
+            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
         }
         System.out.println("After Sorting ");
-        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
-        for (Traveller traveller : travellers) {
-            System.out.println(traveller.getName());
+        travellers=removeDuplicateTravellers(travellers);
+        for(Traveller traveller : travellers){
+            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
         }
 
         YoungTraveller testTraveller = new YoungTraveller();
@@ -107,42 +107,40 @@ public class TravellersService {
 
         //Exercise way.
 
-        Collections.sort(travellers);
 
 
-        for(Traveller traveller : travellers){
-            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
-        }
 
 
-        if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
-        {
-            System.out.println("This city ("+SearchCity+") is already into database ");
-        }
-        else
-        {
-            System.out.println("This city wasn't into database, now it is btw :)");
-            //so we update the hashMap to be up to date :)
-            CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-        }
-
-        for (Traveller traveller : travellers)
-        {
-            bestCities= traveller.compareCities(CitiesHashMap);
-            System.out.println("The best city for "+traveller.getName()+" is :"+bestCities.get(0).getCityName());
-            bestCities=traveller.compareCities(3,bestCities);
-            System.out.println("And the next 3 best cities for "+traveller.getName()+" are: ");
-            for (City bestCity : bestCities)
-            {
-                System.out.println(bestCity.getCityName());
-            }
-        }
-
-        try {
-            return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+//
+//
+//        if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
+//        {
+//            System.out.println("This city ("+SearchCity+") is already into database ");
+//        }
+//        else
+//        {
+//            System.out.println("This city wasn't into database, now it is btw :)");
+//            //so we update the hashMap to be up to date :)
+//            CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+//        }
+//
+//        for (Traveller traveller : travellers)
+//        {
+//            bestCities= traveller.compareCities(CitiesHashMap);
+//            System.out.println("The best city for "+traveller.getName()+" is :"+bestCities.get(0).getCityName());
+//            bestCities=traveller.compareCities(3,bestCities);
+//            System.out.println("And the next 3 best cities for "+traveller.getName()+" are: ");
+//            for (City bestCity : bestCities)
+//            {
+//                System.out.println(bestCity.getCityName());
+//            }
+//        }
+//
+//        try {
+//            return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
 
         //return travellers;
         return null;
@@ -173,6 +171,36 @@ public class TravellersService {
         }
         //if it returns false this means that we have to update our hashmap because now there is a new city in our database
         return false;
+    }
+
+    public ArrayList<Traveller> removeDuplicateTravellers(ArrayList<Traveller> travellers)
+    {
+        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
+        ArrayList<Traveller> finalTravellers = new ArrayList<>();
+        finalTravellers.add(travellers.get(0));
+        int indexToRemove=-1;
+        for (Traveller traveller : travellers)
+        {
+            for (Traveller finalTraveller : finalTravellers)
+            {
+                if(finalTraveller.getName().equals(traveller.getName()))
+                {
+//                    finalTravellers.remove(finalTravellers.indexOf(traveller));
+                    indexToRemove=finalTravellers.indexOf(traveller);
+                }
+            }
+            if(indexToRemove!=-1)
+            {
+
+                finalTravellers.remove(indexToRemove);
+                finalTravellers.add(traveller);
+                indexToRemove=-1;
+            }else
+            {
+                finalTravellers.add(traveller);
+            }
+        }
+        return finalTravellers;
     }
 
 
