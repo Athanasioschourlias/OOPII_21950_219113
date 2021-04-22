@@ -7,6 +7,7 @@ import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import javax.swing.text.Style;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
@@ -52,6 +53,8 @@ public class TravellersService {
 //        MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
 //        George.compareCities(CitiesHashMap);
 //
+//        YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
+//        Nick2.compareCities(CitiesHashMap);
 //
 //
 //        /* STANDARD ENTRIES */
@@ -62,6 +65,8 @@ public class TravellersService {
 //        travellers.add(Babis);
 //
 //        travellers.add(Paul);
+//
+//        travellers.add(Nick2);
 //        /* END */
 
 
@@ -75,7 +80,11 @@ public class TravellersService {
         for (Traveller traveller : travellers) {
             System.out.println(traveller.getName());
         }
-
+        System.out.println("After Sorting ");
+        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
+        for (Traveller traveller : travellers) {
+            System.out.println(traveller.getName());
+        }
 
         YoungTraveller testTraveller = new YoungTraveller();
 
@@ -94,7 +103,7 @@ public class TravellersService {
 
         //Shorting by time stamp
         //Fast & compact way
-//        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
+
         //Exercise way.
 
 //        Collections.sort(travellers);
