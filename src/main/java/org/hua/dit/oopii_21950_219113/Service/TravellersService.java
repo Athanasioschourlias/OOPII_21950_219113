@@ -14,6 +14,11 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
+import static java.util.Comparator.comparing;
+import static java.util.Comparator.comparingLong;
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+
 /**
  * For the time being We use it as our "MAIN".
  */
@@ -78,14 +83,14 @@ public class TravellersService {
 //
         travellers = jsc.readJSON(); //fill it out reading from json file
 
-        for(Traveller traveller : travellers){
-            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
-        }
-        System.out.println("After Sorting ");
-        travellers=removeDuplicateTravellers(travellers);
-        for(Traveller traveller : travellers){
-            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
-        }
+//        for(Traveller traveller : travellers){
+//            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
+//        }
+//        System.out.println("After Sorting ");
+//
+//        for(Traveller traveller : travellers){
+//            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
+//        }
 
         YoungTraveller testTraveller = new YoungTraveller();
 
@@ -143,6 +148,8 @@ public class TravellersService {
 //        }
 
         //return travellers;
+        travellers=removeDuplicateTravellers(travellers);
+        jsc.writeJSON(travellers);
         return null;
     }
 
@@ -175,32 +182,39 @@ public class TravellersService {
 
     public ArrayList<Traveller> removeDuplicateTravellers(ArrayList<Traveller> travellers)
     {
-        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
-        ArrayList<Traveller> finalTravellers = new ArrayList<>();
-        finalTravellers.add(travellers.get(0));
-        int indexToRemove=-1;
-        for (Traveller traveller : travellers)
-        {
-            for (Traveller finalTraveller : finalTravellers)
-            {
-                if(finalTraveller.getName().equals(traveller.getName()))
-                {
-//                    finalTravellers.remove(finalTravellers.indexOf(traveller));
-                    indexToRemove=finalTravellers.indexOf(traveller);
-                }
-            }
-            if(indexToRemove!=-1)
-            {
-
-                finalTravellers.remove(indexToRemove);
-                finalTravellers.add(traveller);
-                indexToRemove=-1;
-            }else
-            {
-                finalTravellers.add(traveller);
-            }
-        }
-        return finalTravellers;
+//        travellers.sort(comparing(Traveller::getTimeStamp));
+//        ArrayList<Traveller> finalTravellers = new ArrayList<>();
+//        finalTravellers.add(travellers.get(0));
+//        int indexToRemove=-1;
+//        for (Traveller traveller : travellers)
+//        {
+//            for (Traveller finalTraveller : finalTravellers)
+//            {
+//                if(finalTraveller.getName().equals(traveller.getName()))
+//                {
+////                    finalTravellers.remove(finalTravellers.indexOf(traveller));
+//                    indexToRemove=finalTravellers.indexOf(traveller);
+//                }
+//            }
+//            if(indexToRemove!=-1)
+//            {
+//
+//                finalTravellers.remove(indexToRemove);
+//                finalTravellers.add(traveller);
+//                indexToRemove=-1;
+//            }else
+//            {
+//                finalTravellers.add(traveller);
+//            }
+//        }
+//        //this way doesn't work for some reason
+//        return finalTravellers;
+        Collections.sort(travellers);
+        travellers.stream().map(s -> s.getName()+" ");
+        List<Traveller> unique = travellers.stream()
+                .collect(collectingAndThen(toCollection(() -> new TreeSet<>(comparing(Traveller::getName))),
+                        ArrayList::new));
+        return (ArrayList<Traveller>) unique;
     }
 
 
