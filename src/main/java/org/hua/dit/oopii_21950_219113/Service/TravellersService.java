@@ -74,7 +74,7 @@ public class TravellersService {
 
         System.out.println("AFTER SORT");
         for(Traveller traveller : travellers){
-            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
+            System.out.println(traveller.getName() + " " + traveller.getTimeStamp() + " " + traveller.getCafe());
         }
 
 
@@ -155,10 +155,8 @@ public class TravellersService {
             if(!travellers.contains(traveller))
                 travellers.add(traveller);
             else{
-                if(!traveller.equals(travellers.get(travellers.indexOf(traveller)))) {
-                    travellers.remove(travellers.get(travellers.indexOf(traveller)));
-                    travellers.add(traveller);
-                }
+                travellers.remove(travellers.get(travellers.indexOf(traveller)));
+                travellers.add(traveller);
             }
 
         }
