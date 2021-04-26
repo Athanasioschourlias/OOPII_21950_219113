@@ -7,8 +7,6 @@ import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.swing.text.Style;
-import javax.swing.text.TextAction;
 import java.io.IOException;
 import java.util.*;
 import java.util.function.Function;
@@ -19,9 +17,13 @@ import java.util.stream.Collectors;
  */
 @Component
 public class TravellersService {
-    private ArrayList<Traveller> travellers;
+
     @Autowired // Dependency injection
     private final CityRepository cityRepository;
+
+
+    private ArrayList<Traveller> travellers; //Here we store the travellers we already have saved in the json file and the
+                                            //new-ones once we do the necessary checks and save them.
 
     /**
      * Since we have injected the CityRepository dependency in our class we want now to create a constructor that we
@@ -35,57 +37,46 @@ public class TravellersService {
 
     public String  getTraveller() throws IOException, NoSuchOpenWeatherCityException {
 
+        ArrayList<Traveller> Buffer = new ArrayList<>(); //Here we temporary store the travellers who used the app the
+                                                        //last time we run it and at the end do check if we need to make
+                                                        //any canges to our "main" list and json file.
+
         CityService cityService = new CityService(cityRepository);
+
         HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
 
         JsonSaver jsc = new JsonSaver();
         /**
          * test travellers
          */
-//        ElderTraveller Babis = new ElderTraveller(70,"Babis","Barcelona","es",2,10,7,8,5,7,3,10,9,5);
-//        Babis.compareCities(CitiesHashMap);
-//
-//        YoungTraveller Nick = new YoungTraveller(19,"Nick","Athens","gr",1,10,10,6,10,9,2,10,8,1);
-//        Nick.compareCities(CitiesHashMap);
-//
-//        YoungTraveller Paul = new YoungTraveller(19,"Paul","Sofia","bg",2,10,10,6,10,9,2,10,8,1);
-//        Paul.compareCities(CitiesHashMap);
-//
-//        MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
-//        George.compareCities(CitiesHashMap);
-//
-//        YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
-//        Nick2.compareCities(CitiesHashMap);
-//
-//
-//        /* STANDARD ENTRIES */
-//        travellers.add(George);
-//
-//        travellers.add(Nick);
-//
-//        travellers.add(Babis);
-//
-//        travellers.add(Paul);
-//
-//        travellers.add(Nick2);
-//        /* END */
 
-
-
-        //jsc.writeJSON(travellers); // write to json
-
-//        travellers.clear(); //clear arraylist
-//
-        travellers = jsc.readJSON(); //fill it out reading from json file
+        travellers = jsc.readJSON(); //Reading the saved travellers.
 
         for(Traveller traveller : travellers){
             System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
         }
-        System.out.println("After Sorting ");
-        travellers=removeDuplicateTravellers(travellers);
+
+        //Here users will be added by with the UI in the future now we add a new one we dont have and one almost tha same
+        //for testing and demonstrating purposes
+
+        YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
+        Nick2.compareCities(CitiesHashMap);
+        Buffer.add(Nick2);
+
+        YoungTraveller thanos = new YoungTraveller(19,"Thanos","Larisa","gr",1,10,0,89,5,9,9,1,8,10);
+        thanos.compareCities(CitiesHashMap);
+        Buffer.add(thanos);
+
+        //Updating the list with our travellers and adding the new-ones(if-any)
+        if(Buffer.size() > 0)
+            travellers = removeDuplicateTravellers(Buffer, travellers);
+
+
+        System.out.println("AFTER SORT");
         for(Traveller traveller : travellers){
             System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
         }
+
 
         YoungTraveller testTraveller = new YoungTraveller();
 
@@ -99,50 +90,35 @@ public class TravellersService {
         String SearchCountry = "eg";
 
 
-//        travellers.clear();
-//        travellers = jsc.readJSON();
+        if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
+        {
+            System.out.println("This city ("+SearchCity+") is already into database ");
+        }
+        else
+        {
+            System.out.println("This city wasn't into database, now it is btw :)");
+            //so we update the hashMap to be up to date :)
+            CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        }
 
-        //Shorting by time stamp
-        //Fast & compact way
+        for (Traveller traveller : travellers)
+        {
+            bestCities= traveller.compareCities(CitiesHashMap);
+            System.out.println("The best city for "+traveller.getName()+" is :"+bestCities.get(0).getCityName());
+            bestCities=traveller.compareCities(3,bestCities);
+            System.out.println("And the next 3 best cities for "+traveller.getName()+" are: ");
+            for (City bestCity : bestCities)
+            {
+                System.out.println(bestCity.getCityName());
+            }
+        }
 
-        //Exercise way.
+        try {
+            return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
-
-
-
-
-//
-//
-//        if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
-//        {
-//            System.out.println("This city ("+SearchCity+") is already into database ");
-//        }
-//        else
-//        {
-//            System.out.println("This city wasn't into database, now it is btw :)");
-//            //so we update the hashMap to be up to date :)
-//            CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-//        }
-//
-//        for (Traveller traveller : travellers)
-//        {
-//            bestCities= traveller.compareCities(CitiesHashMap);
-//            System.out.println("The best city for "+traveller.getName()+" is :"+bestCities.get(0).getCityName());
-//            bestCities=traveller.compareCities(3,bestCities);
-//            System.out.println("And the next 3 best cities for "+traveller.getName()+" are: ");
-//            for (City bestCity : bestCities)
-//            {
-//                System.out.println(bestCity.getCityName());
-//            }
-//        }
-//
-//        try {
-//            return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-
-        //return travellers;
         return null;
     }
 
@@ -173,35 +149,24 @@ public class TravellersService {
         return false;
     }
 
-    public ArrayList<Traveller> removeDuplicateTravellers(ArrayList<Traveller> travellers)
+    public ArrayList<Traveller> removeDuplicateTravellers(ArrayList<Traveller> Buffer,ArrayList<Traveller> travellers)
     {
-        travellers.sort(Comparator.comparing(Traveller::getTimeStamp));
-        ArrayList<Traveller> finalTravellers = new ArrayList<>();
-        finalTravellers.add(travellers.get(0));
-        int indexToRemove=-1;
-        for (Traveller traveller : travellers)
-        {
-            for (Traveller finalTraveller : finalTravellers)
-            {
-                if(finalTraveller.getName().equals(traveller.getName()))
-                {
-//                    finalTravellers.remove(finalTravellers.indexOf(traveller));
-                    indexToRemove=finalTravellers.indexOf(traveller);
+        for(Traveller traveller : Buffer){
+            if(!travellers.contains(traveller))
+                travellers.add(traveller);
+            else{
+                if(!traveller.equals(travellers.get(travellers.indexOf(traveller)))) {
+                    travellers.remove(travellers.get(travellers.indexOf(traveller)));
+                    travellers.add(traveller);
                 }
             }
-            if(indexToRemove!=-1)
-            {
 
-                finalTravellers.remove(indexToRemove);
-                finalTravellers.add(traveller);
-                indexToRemove=-1;
-            }else
-            {
-                finalTravellers.add(traveller);
-            }
         }
-        return finalTravellers;
+
+        Collections.sort(travellers);
+        return travellers;//TODO: check if we do not need to return it.
     }
+
 
 
 }
