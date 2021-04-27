@@ -72,7 +72,12 @@ public class TravellersService {
 
         //Updating the list with our travellers and adding the new-ones(if-any)
         if(buffer.size() > 0)
-            removeDuplicateTravellers(buffer);
+            removeDuplicateTravellers(buffer,travellers);
+
+        System.out.println("AFTER SORT");
+        for(Traveller traveller : travellers){
+            System.out.println(traveller.getName() + " " + traveller.getTimeStamp() + " " + traveller.getCafe());
+        }
 
         YoungTraveller testTraveller = new YoungTraveller();
 
@@ -147,7 +152,7 @@ public class TravellersService {
         return false;
     }
 
-    public ArrayList<Traveller> removeDuplicateTravellers(ArrayList<Traveller> Buffer,ArrayList<Traveller> travellers)
+    public void removeDuplicateTravellers(ArrayList<Traveller> Buffer,ArrayList<Traveller> travellers)
     {
         for(Traveller traveller : Buffer){
             if(!travellers.contains(traveller))
@@ -159,7 +164,6 @@ public class TravellersService {
 
         }
         Collections.sort(travellers);
-        return travellers;//TODO: check if we do not need to return it.
     }
     public void removeDuplicateTravellers(ArrayList<Traveller> Buffer)
     {
