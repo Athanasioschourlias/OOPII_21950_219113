@@ -557,20 +557,10 @@ public abstract class Traveller implements Comparable<Traveller>
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
+//        if (this == o) return true;
+//        if (o == null || getClass() != o.getClass()) return false;
         Traveller traveller = (Traveller) o;
-        return Objects.equals(name, traveller.name)
-                && this.termVector[0] == ((Traveller) o).getCafe()
-                && this.termVector[1] == ((Traveller) o).getSea()
-                && this.termVector[2] == ((Traveller) o).getMuseums()
-                && this.termVector[3] == ((Traveller) o).getRestaurants()
-                && this.termVector[4] == ((Traveller) o).getStadiums()
-                && this.termVector[5] == ((Traveller) o).getMountains()
-                && this.termVector[6] == ((Traveller) o).getHotel()
-                && this.termVector[7] == ((Traveller) o).getMetro()
-                && this.termVector[8] == ((Traveller) o).getBars()
-                && this.termVector[9] == ((Traveller) o).getSun();
+        return Objects.equals(this.name, traveller.getName());
     }
 
     @Override

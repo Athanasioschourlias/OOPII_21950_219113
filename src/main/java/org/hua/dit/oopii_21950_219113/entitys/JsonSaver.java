@@ -1,9 +1,6 @@
 package org.hua.dit.oopii_21950_219113.entitys;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,15 +11,11 @@ import java.util.*;
 
 public class JsonSaver {
 
-    private Object ArrayList;
-
     /**
      *
      * @param travellerlist The list with all of the Traveller(it's children) objects
      */
     public void writeJSON(ArrayList<Traveller> travellerlist){
-       // Gson gson = new Gson();
-
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File("JsonTravellers/travellers.json"), travellerlist);
@@ -32,7 +25,6 @@ public class JsonSaver {
             //TODO: LOG THE EXIT
 //            e.printStackTrace();
         }
-
     }
 
     /**
@@ -42,12 +34,8 @@ public class JsonSaver {
     public ArrayList<Traveller> readJSON(){
         ArrayList<Traveller>  out_arraylist = new ArrayList<>();
 
-                try {
-            //ObjectMapper mapper = new ObjectMapper();
+            try {
 
-
-//            List tr = mapper.readValue(new File("./JsonTravellers/travellers.json"), List.class);
-            // parsing file "JSONExample.json"
             ArrayList obj = (ArrayList) new JSONParser().parse(new FileReader("JsonTravellers/travellers.json"));
 
             //Constracting the objects
