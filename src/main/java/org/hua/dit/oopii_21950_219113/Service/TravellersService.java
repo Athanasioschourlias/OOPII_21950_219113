@@ -120,6 +120,8 @@ public class TravellersService {
 
     public ArrayList<Traveller> getAllTravellers()
     {
+        JsonSaver jsc = new JsonSaver();
+        travellers=jsc.readJSON();
         return travellers;
     }
 
