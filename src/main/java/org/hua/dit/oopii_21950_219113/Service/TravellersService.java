@@ -158,9 +158,21 @@ public class TravellersService {
             }
 
         }
-
         Collections.sort(travellers);
         return travellers;//TODO: check if we do not need to return it.
+    }
+    public void removeDuplicateTravellers(ArrayList<Traveller> Buffer)
+    {
+        for(Traveller traveller : Buffer){
+            if(!travellers.contains(traveller))
+                travellers.add(traveller);
+            else{
+                travellers.remove(travellers.get(travellers.indexOf(traveller)));
+                travellers.add(traveller);
+            }
+
+        }
+        Collections.sort(travellers);
     }
 
 }
