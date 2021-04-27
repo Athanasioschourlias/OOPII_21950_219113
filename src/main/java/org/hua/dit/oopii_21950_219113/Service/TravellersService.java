@@ -21,7 +21,6 @@ public class TravellersService {
     @Autowired // Dependency injection
     private final CityRepository cityRepository;
 
-
     private ArrayList<Traveller> travellers; //Here we store the travellers we already have saved in the json file and the
                                             //new-ones once we do the necessary checks and save them.
 
@@ -37,79 +36,49 @@ public class TravellersService {
 
     public String  getTraveller() throws IOException, NoSuchOpenWeatherCityException {
 
-        ArrayList<Traveller> Buffer = new ArrayList<>(); //Here we temporary store the travellers who used the app the
+         //Here we temporary store the travellers who used the app the
                                                         //last time we run it and at the end do check if we need to make
-                                                        //any canges to our "main" list and json file.
+                                                        //any changes to our "main" list and json file.
 
         CityService cityService = new CityService(cityRepository);
 
         HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-
+        List<City> bestCities;
         JsonSaver jsc = new JsonSaver();
-        /**
-         * test travellers
-         */
-
+        ArrayList<Traveller> buffer = new ArrayList<>();
         travellers = jsc.readJSON(); //Reading the saved travellers.
 
-        for(Traveller traveller : travellers){
-            System.out.println(traveller.getName() + " " + traveller.getTimeStamp());
-        }
 
         //Here users will be added by with the UI in the future now we add a new one we dont have and one almost tha same
         //for testing and demonstrating purposes
 
-        ElderTraveller Babis = new ElderTraveller(70,"Babis","Barcelona","es",8,10,7,8,5,7,3,10,9,5);
-        Babis.compareCities(CitiesHashMap);
+        /**
+         * test travellers
+         */
 
+        /* STANDARD ENTRIES */
+        ElderTraveller thanos = new ElderTraveller(70,"Thanos","Larissa","gr",7,10,7,8,5,7,3,10,9,5);
+        thanos.compareCities(CitiesHashMap);
 
         YoungTraveller Nick = new YoungTraveller(19,"Nick","Athens","gr",8,10,10,6,10,9,2,10,8,1);
         Nick.compareCities(CitiesHashMap);
 
+        buffer.add(Nick);
 
-        YoungTraveller Paul = new YoungTraveller(19,"Paul","Sofia","bg",8,10,10,6,10,9,2,10,8,1);
-        Paul.compareCities(CitiesHashMap);
+        buffer.add(thanos);
 
-        MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",8,10,10,10,0,0,10,10,10,3);
-        George.compareCities(CitiesHashMap);
-
-
-        /* STANDARD ENTRIES */
-        Buffer.add(George);
-
-        Buffer.add(Nick);
-
-        Buffer.add(Babis);
-
-        Buffer.add(Paul);
         /* END */
 
-        YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",8,10,10,6,10,9,2,10,8,1);
-        Nick2.compareCities(CitiesHashMap);
-        Buffer.add(Nick2);
-
-        YoungTraveller thanos = new YoungTraveller(19,"Thanos","Larisa","gr",8,10,0,89,5,9,9,1,8,10);
-        thanos.compareCities(CitiesHashMap);
-        Buffer.add(thanos);
 
         //Updating the list with our travellers and adding the new-ones(if-any)
-        if(Buffer.size() > 0)
-            travellers = removeDuplicateTravellers(Buffer, travellers);
-
-
-        System.out.println("AFTER SORT");
-        for(Traveller traveller : travellers){
-            System.out.println(traveller.getName() + " " + traveller.getTimeStamp() + " " + traveller.getCafe());
-        }
-
+        if(buffer.size() > 0)
+            travellers = removeDuplicateTravellers(buffer, travellers);
 
         YoungTraveller testTraveller = new YoungTraveller();
 
-        List<City> bestCities;
-
         //FREE TICKET GIVE-AWAY
-        String FreeCity = "Amsterdam";
-        String FreeCountry = "nl";
+        String FreeCity = "Athens";
+        String FreeCountry = "gr";
 
         String SearchCity= "Cairo";
         String SearchCountry = "eg";
@@ -191,7 +160,5 @@ public class TravellersService {
         Collections.sort(travellers);
         return travellers;//TODO: check if we do not need to return it.
     }
-
-
 
 }
