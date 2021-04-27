@@ -72,7 +72,7 @@ public class TravellersService {
 
         //Updating the list with our travellers and adding the new-ones(if-any)
         if(buffer.size() > 0)
-            travellers = removeDuplicateTravellers(buffer, travellers);
+            removeDuplicateTravellers(buffer);
 
         YoungTraveller testTraveller = new YoungTraveller();
 
