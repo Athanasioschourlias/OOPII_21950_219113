@@ -59,11 +59,36 @@ public class TravellersService {
         //Here users will be added by with the UI in the future now we add a new one we dont have and one almost tha same
         //for testing and demonstrating purposes
 
-        YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",2,10,10,6,10,9,2,10,8,1);
+        ElderTraveller Babis = new ElderTraveller(70,"Babis","Barcelona","es",8,10,7,8,5,7,3,10,9,5);
+        Babis.compareCities(CitiesHashMap);
+
+
+        YoungTraveller Nick = new YoungTraveller(19,"Nick","Athens","gr",8,10,10,6,10,9,2,10,8,1);
+        Nick.compareCities(CitiesHashMap);
+
+
+        YoungTraveller Paul = new YoungTraveller(19,"Paul","Sofia","bg",8,10,10,6,10,9,2,10,8,1);
+        Paul.compareCities(CitiesHashMap);
+
+        MiddleTraveller George = new MiddleTraveller(30,"George" ,"Paris","fr",8,10,10,10,0,0,10,10,10,3);
+        George.compareCities(CitiesHashMap);
+
+
+        /* STANDARD ENTRIES */
+        Buffer.add(George);
+
+        Buffer.add(Nick);
+
+        Buffer.add(Babis);
+
+        Buffer.add(Paul);
+        /* END */
+
+        YoungTraveller Nick2 = new YoungTraveller(19,"Nick","Athens","gr",8,10,10,6,10,9,2,10,8,1);
         Nick2.compareCities(CitiesHashMap);
         Buffer.add(Nick2);
 
-        YoungTraveller thanos = new YoungTraveller(19,"Thanos","Larisa","gr",1,10,0,89,5,9,9,1,8,10);
+        YoungTraveller thanos = new YoungTraveller(19,"Thanos","Larisa","gr",8,10,0,89,5,9,9,1,8,10);
         thanos.compareCities(CitiesHashMap);
         Buffer.add(thanos);
 
@@ -112,6 +137,8 @@ public class TravellersService {
                 System.out.println(bestCity.getCityName());
             }
         }
+
+        jsc.writeJSON(travellers);
 
         try {
             return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
