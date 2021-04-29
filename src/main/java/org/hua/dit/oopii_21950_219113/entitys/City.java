@@ -396,12 +396,7 @@ public class City {
      * @param geodesicVector Setting the users city latitude and longitude(At their respective positions). Of the calculated result.
      */
     public void setGeodesicVector(double[] geodesicVector) {
-        for( int i=0; i < 10; i++){
-            if(geodesicVector[i] > 10)
-                this.geodesicVector[i] = 10;
-            else
-                this.geodesicVector[i] = geodesicVector[i];
-        }
+       this.geodesicVector=geodesicVector;
     }
 
     /*END GETTERS AND SETTERS FOR geodesicVectorr*/

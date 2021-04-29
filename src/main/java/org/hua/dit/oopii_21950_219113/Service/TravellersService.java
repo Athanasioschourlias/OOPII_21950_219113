@@ -21,6 +21,9 @@ public class TravellersService {
     @Autowired // Dependency injection
     private final CityRepository cityRepository;
 
+    private ArrayList<Traveller> travellers; //Here we store the travellers we already have saved in the json file and the
+                                            //new-ones once we do the necessary checks and save them.
+
     /**
      * Since we have injected the CityRepository dependency in our class we want now to create a constructor that we
      * can pass a CityRepository Repository(not exactly an interface). Needed for testing.
@@ -31,38 +34,60 @@ public class TravellersService {
         this.cityRepository = cityRepository;
     }
 
-    public String getTraveller() throws IOException, NoSuchOpenWeatherCityException {
+    public String  getTraveller() throws IOException, NoSuchOpenWeatherCityException {
+
+         //Here we temporary store the travellers who used the app the
+                                                        //last time we run it and at the end do check if we need to make
+                                                        //any changes to our "main" list and json file.
 
         CityService cityService = new CityService(cityRepository);
 
-        ArrayList<Traveller> travellers = new ArrayList<>();
+        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        List<City> bestCities;
+        JsonSaver jsc = new JsonSaver();
+        ArrayList<Traveller> buffer = new ArrayList<>();
+        travellers = jsc.readJSON(); //Reading the saved travellers.
+
+
+        //Here users will be added by with the UI in the future now we add a new one we dont have and one almost tha same
+        //for testing and demonstrating purposes
+
+        /**
+         * test travellers
+         */
+
+        /* STANDARD ENTRIES */
+        ElderTraveller thanos = new ElderTraveller(70,"Thanos","Larissa","gr",7,10,7,8,5,7,3,10,9,5);
+        thanos.compareCities(CitiesHashMap);
+
+        YoungTraveller Nick = new YoungTraveller(19,"Nick","Athens","gr",8,10,10,6,10,9,2,10,8,1);
+        Nick.compareCities(CitiesHashMap);
+
+        buffer.add(Nick);
+
+        buffer.add(thanos);
+
+        /* END */
+
+
+        //Updating the list with our travellers and adding the new-ones(if-any)
+        if(buffer.size() > 0)
+            removeDuplicateTravellers(buffer,travellers);
+
+        System.out.println("AFTER SORT");
+        for(Traveller traveller : travellers){
+            System.out.println(traveller.getName() + " " + traveller.getTimeStamp() + " " + traveller.getCafe());
+        }
 
         YoungTraveller testTraveller = new YoungTraveller();
 
-        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        //FREE TICKET GIVE-AWAY
+        String FreeCity = "Athens";
+        String FreeCountry = "gr";
 
-        List<City> bestCities;
-
-//        try
-//        {
-//            cityService.addNewCity("Warsaw","pl"); //how to add new city in database
-//
-//        }catch (CityAlreadyExistsException e)
-//        {
-//            e.printStackTrace();
-//        }
-
-        String FreeCity = "Amsterdam";
-        String FreeCountry = "nl";
         String SearchCity= "Cairo";
         String SearchCountry = "eg";
 
-        YoungTraveller youngTraveller = new YoungTraveller(19,"Nick","Athens","gr",1,10,10,6,10,9,2,10,8,1);
-        MiddleTraveller middleTraveller = new MiddleTraveller(30,"George" ,"Paris","fr",0,10,10,10,0,0,10,10,10,3);
-        ElderTraveller elderTraveller = new ElderTraveller(70,"Babis","Barcelona","es",2,10,7,8,5,7,3,10,9,5);
-        travellers.add(youngTraveller);
-        travellers.add(middleTraveller);
-        travellers.add(elderTraveller);
 
         if(checkCityAvailability(SearchCity,SearchCountry)) //traveller searches for a city and in case that this city isn't into database the system adds it into database
         {
@@ -87,6 +112,8 @@ public class TravellersService {
             }
         }
 
+        jsc.writeJSON(travellers);
+
         try {
             return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
         } catch (Exception e) {
@@ -94,6 +121,13 @@ public class TravellersService {
         }
 
         return null;
+    }
+
+    public ArrayList<Traveller> getAllTravellers()
+    {
+        JsonSaver jsc = new JsonSaver();
+        travellers=jsc.readJSON();
+        return travellers;
     }
 
     public boolean checkCityAvailability (String cityName, String country)
@@ -118,5 +152,31 @@ public class TravellersService {
         return false;
     }
 
+    public void removeDuplicateTravellers(ArrayList<Traveller> Buffer,ArrayList<Traveller> travellers)
+    {
+        for(Traveller traveller : Buffer){
+            if(!travellers.contains(traveller))
+                travellers.add(traveller);
+            else{
+                travellers.remove(travellers.get(travellers.indexOf(traveller)));
+                travellers.add(traveller);
+            }
+
+        }
+        Collections.sort(travellers);
+    }
+    public void removeDuplicateTravellers(ArrayList<Traveller> Buffer)
+    {
+        for(Traveller traveller : Buffer){
+            if(!travellers.contains(traveller))
+                travellers.add(traveller);
+            else{
+                travellers.remove(travellers.get(travellers.indexOf(traveller)));
+                travellers.add(traveller);
+            }
+
+        }
+        Collections.sort(travellers);
+    }
 
 }

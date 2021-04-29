@@ -13,10 +13,10 @@ public class MiddleTraveller extends Traveller
     /**
      * The basic custom constructor the children classes can use to be created
      *
-     * @param age  Value [0-10] of how desired the specific feature is.
-     * @param name Value [0-10] of how desired the specific feature is.
-     * @param cityName Value [0-10] of how desired the specific feature is.
-     * @param country Value [0-10] of how desired the specific feature is.
+     * @param age The age of the traveller
+     * @param name Name of the traveller
+     * @param cityName The Name of the city of residence
+     * @param country Country code of residence
      * @param cafe Value [0-10] of how desired the specific feature is.
      * @param sea Value [0-10] of how desired the specific feature is.
      * @param museums Value [0-10] of how desired the specific feature is.
