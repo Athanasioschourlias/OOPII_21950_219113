@@ -52,6 +52,11 @@ public class CityService {
      */
     public void addNewCity(String CITY_NAME, String country) throws IOException, CityAlreadyExistsException {
 
+        /*
+            Here we try to fetch the city from the database, if now is already in our database we are throwing an exception
+            and dont go any further because we dont want and we cant have duplicates in our database.
+         */
+
         if( cityRepository.findCityById(CITY_NAME.toUpperCase(),country).isPresent() ){
             throw new CityAlreadyExistsException(CITY_NAME.toUpperCase());
         }
@@ -61,7 +66,7 @@ public class CityService {
             c = new City(CITY_NAME,country);
         } catch (NoSuchOpenWeatherCityException | NoSuchWikipediaArticleException e) {
             //TODO:LOG THE STACKTRACE
-            //            e.printStackTrace();
+            //     e.printStackTrace();
             System.out.println(e.getMessage());
         }
 

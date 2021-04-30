@@ -32,5 +32,4 @@ public interface CityRepository extends JpaRepository<City, String> {
     @Query("SELECT c FROM City c WHERE c.cityName=?1 AND c.country=?2")
     Optional<City> findCityById(String cityName, String country);
 
-    //Here you add querys for extra methods the repo does not implimnets already, for example findCityByName().
 }
