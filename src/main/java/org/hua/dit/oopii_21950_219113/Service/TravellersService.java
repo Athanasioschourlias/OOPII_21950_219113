@@ -6,6 +6,7 @@ import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.io.IOException;
 import java.util.*;
@@ -177,6 +178,22 @@ public class TravellersService {
 
         }
         Collections.sort(travellers);
+    }
+
+    public List<City> findBestCityForTheUser(String name)
+    {
+        CityService cityService = new CityService(cityRepository);
+        List<City> bestCities = null;
+        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        JsonSaver jsc = new JsonSaver();
+        ArrayList<Traveller> travellers= jsc.readJSON();
+        for (Traveller traveller : travellers) {
+            if(traveller.getName().equals(name))
+            {
+                bestCities=traveller.compareCities(CitiesHashMap);
+            }
+        }
+        return bestCities;
     }
 
 }

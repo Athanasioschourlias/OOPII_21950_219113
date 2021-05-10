@@ -9,6 +9,10 @@ class TravellerService
         return axios.get(Travellers_url);
     }
 
+    findBestCitiesForTheUser()
+    {//serch box name => 
+        return axios.get("http://localhost:8080/Nick/bestCity")
+    }
 }
 
 export default new TravellerService()

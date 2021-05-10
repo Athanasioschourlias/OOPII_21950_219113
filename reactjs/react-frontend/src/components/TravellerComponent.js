@@ -31,6 +31,7 @@ class TravellerComponent extends React.Component
                             <td>Traveller's name </td>
                             <td>Traveller's city </td>
                             <td>Traveller's region</td>
+                            <td>Traveller's timestamp</td>
                             <td>Traveller's Visit City </td>
                         </tr>
                     </thead>
@@ -38,10 +39,11 @@ class TravellerComponent extends React.Component
                         {
                             this.state.travellers.map(
                                 traveller =>
-                                <tr key= {traveller.Name}>
+                                <tr key= {traveller.name}>
                                     <td> {traveller.name}</td>
                                     <td> {traveller.cityName}</td>
                                     <td>{traveller.country}</td>
+                                    <td>{traveller.timeStamp}</td>
                                     <td> {traveller.visit.cityName}</td>
                                 </tr>
                             )
@@ -53,3 +55,4 @@ class TravellerComponent extends React.Component
     }
 }
 export default TravellerComponent
+
