@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            OOPII web App
+        </title>
+    </head>
+    <body>
+        <input type="button" id="Home" value="Go Home" onclick="window.location.href='home.html'"> <br>
+        <div id="TravellersList"></div>
+    </body>
+    <script>
+        window.addEventListener('load',(event)=>
+        {            
+                const xhr = new XMLHttpRequest;
+                xhr.open('GET',"http://localhost:8080/travellers",true);
+                xhr.send();
+                xhr.onreadystatechange=function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            //alert("These are all the travellers registered")
+                            const result = JSON.parse(xhr.responseText);
+                            document.getElementById('TravellersList').innerHTML=
+                            '<h1 className= "text-center">Travellers List</h1><h3> Traveller\'s name| Traveller\'s city | Traveller\'s region| Traveller\'s timeStamp | Traveller\'s Visit city </h3>';
+                            let divElem = document.getElementById('TravellersList');
+                            result.forEach(element => 
+                            {
+                                divElem.innerHTML+=`${element.name} |${element.cityName} | ${element.country} | ${element.timeStamp} | ${element.visit.cityName}<br>`;    
+                            });
+                        }
+                    }
+                }
+        });
+    </script>
+</html>

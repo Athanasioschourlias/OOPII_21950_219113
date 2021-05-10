@@ -180,7 +180,7 @@ public class TravellersService {
         Collections.sort(travellers);
     }
 
-    public List<City> findBestCityForTheUser(String name)
+    public City findBestCityForTheUser(String name)
     {
         CityService cityService = new CityService(cityRepository);
         List<City> bestCities = null;
@@ -193,7 +193,7 @@ public class TravellersService {
                 bestCities=traveller.compareCities(CitiesHashMap);
             }
         }
-        return bestCities;
+        return bestCities.get(0);
     }
 
 }

@@ -19,7 +19,8 @@ import java.util.List;
  * Here in the future we will have the main functionality of the web app, for now we hard coded most of it for the 1st
  * deliverable's sake.
  */
-@CrossOrigin(origins= "http://localhost:3000")
+//@CrossOrigin(origins= "http://localhost:3000")
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/") //Because we are hard coding data every time we will be showing stats for the same traveller.
 public class TravellersController {
@@ -62,7 +63,7 @@ public class TravellersController {
 
     //@PostMapping //https://www.youtube.com/watch?v=i-hoSg8iRG0 upload image section
     @GetMapping( path = "{name}/bestCity")
-    public List<City> findBestCityForTheUser(@PathVariable("name")String name)
+    public City findBestCityForTheUser(@PathVariable("name")String name)
     {
         return  travellersService.findBestCityForTheUser(name);
     }

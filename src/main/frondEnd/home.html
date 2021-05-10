@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            OOPII web App 
+        </title>
+    </head>
+    <body>
+        <input type="button" id="Travellers" value="See all the travellers" onclick="window.location.href='Travellers.html'"> <br>
+        <br>
+        Provide a Traveller's name <br>
+        <input type="text" id="travellerName">
+        <input type="button" id="findBestCity" value="find">
+        <br>
+        <br>
+        <div id="BestCity"></div> 
+    </body>
+    <script>
+        window.addEventListener('load',(event)=>
+        {
+            // document.getElementById('Travellers').addEventListener('click',(event)=>
+            // {
+            //     window.location.href='Travellers.html';
+            //     const xhr = new XMLHttpRequest;
+            //     xhr.open('GET',"http://localhost:8080/travellers",true);
+            //     xhr.send();
+            //     xhr.onreadystatechange=function()
+            //     {
+            //         if(xhr.readyState==4)
+            //         {
+            //             if(xhr.status==200)
+            //             {
+            //                 alert("These are all the travellers registered")
+            //                 const result = JSON.parse(xhr.responseText);
+            //                 document.getElementById('TravellersList').innerHTML='<h1>Travellers List</h1> Traveller\'s name | Traveller\'s city | Traveller\'s region | Traveller\'s timeStamp | Traveller\'s Visit city |<br>';
+            //                 let divElem = document.getElementById('TravellersList');
+            //                 result.forEach(element => 
+            //                 {
+            //                     divElem.innerHTML+=`${element.name} | ${element.cityName} | ${element.country} | ${element.timeStamp} | ${element.visit.cityName} <br>`;    
+            //                 });
+            //                // document.getElementById('TravellersList').innerHTML='</tr></tbody>';
+            //             }
+            //         }
+            //     }
+            // });
+
+            document.getElementById('findBestCity').addEventListener('click',(event)=>
+            {
+                let name= document.getElementById('travellerName').value;
+                const xhr = new XMLHttpRequest;
+                url="http://localhost:8080/"+name+"/bestCity"
+                xhr.open('GET',url,true);
+                xhr.send();
+                xhr.onreadystatechange = function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            document.getElementById('BestCity').innerHTML='The Best City for '+name+' is: ';
+                            let divElem = document.getElementById('BestCity');
+                            const result = JSON.parse(xhr.responseText);
+                            divElem.innerHTML+=`${result.cityName} in ${result.country}<br>`;
+                        }
+                    }
+                }
+            });
+
+        });
+    </script>    
+</html>
