@@ -5,10 +5,10 @@ import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.Service.TravellersService;
 import org.hua.dit.oopii_21950_219113.entitys.Traveller;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -16,6 +16,7 @@ import java.util.ArrayList;
  * Here in the future we will have the main functionality of the web app, for now we hard coded most of it for the 1st
  * deliverable's sake.
  */
+@CrossOrigin(origins= "http://localhost:3000")
 @RestController
 @RequestMapping(path = "/") //Because we are hard coding data every time we will be showing stats for the same traveller.
 public class TravellersController {
