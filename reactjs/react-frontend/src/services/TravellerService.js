@@ -10,7 +10,8 @@ class TravellerService
     }
 
     findBestCitiesForTheUser()
-    {//serch box name => 
+    {
+        //serch box name =>
         return axios.get("http://localhost:8080/Nick/bestCity")
     }
 }

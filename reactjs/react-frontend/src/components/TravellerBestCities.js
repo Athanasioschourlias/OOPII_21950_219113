@@ -22,7 +22,7 @@ class TravellerBestCities extends React.Component {
     render() {
         return (
             <div>
-                this is the list of cities sorted for Nick
+                <p>this is the list of cities sorted for Nick</p>
                 {
 
                     this.state.BestCities.map(
