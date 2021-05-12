@@ -33,6 +33,12 @@
                         if(xhr.status==200)
                         {
                             // alert(xhr.responseText);
+                            if(!xhr.responseText)
+                            {
+                                document.getElementById('cityName').innerHTML='';
+                                document.getElementById('country').innerHTML='';
+                                alert("There is no city with this name or this domain !");
+                            }
                             const result = JSON.parse(xhr.responseText);
                             document.getElementById('City').innerHTML="Info for this City <br>";
                             document.getElementById('City').innerHTML+=`City name: <b>${result.cityName}</b> Country: <b>${result.country}</b> <br> Cafe: <b>${result.cafe}</b> Sea: <b>${result.sea}</b> Museum: <b>${result.museums}</b> Restaurant: <b>${result.restaurants}</b> Stadium: <b>${result.stadiums}</b> Mountain: <b>${result.mountains}</b> Hotel: <b>${result.hotel}</b> Metro: <b>${result.metro}</b> Bar: <b>${result.bars}</b> Sun: <b>${result.sun}</b> `;

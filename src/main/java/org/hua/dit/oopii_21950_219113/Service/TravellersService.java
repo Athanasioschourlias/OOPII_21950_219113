@@ -222,8 +222,7 @@ public class TravellersService {
         return "Traveller Added";
     }
 
-    public City searchCity(String cityName, String country) throws Exception
-    {
+    public City searchCity(String cityName, String country) throws Exception {
         CityService cityService = new CityService(cityRepository);
         checkCityAvailability(cityName, country);
         return cityService.getCityByName(cityName.toUpperCase(),country);

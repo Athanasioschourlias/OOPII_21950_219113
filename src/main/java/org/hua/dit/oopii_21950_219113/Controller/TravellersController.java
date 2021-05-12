@@ -67,8 +67,15 @@ public class TravellersController {
     }
 
     @GetMapping(path = "{cityName}/{country}/search")
-    public City checkCity(@PathVariable("cityName")String cityName,@PathVariable("country")String country) throws Exception {
-        return travellersService.searchCity(cityName,country);
+    public City checkCity(@PathVariable("cityName")String cityName,@PathVariable("country")String country){
+        try {
+            return travellersService.searchCity(cityName,country);
+        }catch (Exception e)
+        {
+            System.out.println("There is no city with this name!");
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @PostMapping( path = "/addYoungTraveller")
