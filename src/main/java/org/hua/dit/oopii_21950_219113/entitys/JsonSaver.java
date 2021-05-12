@@ -45,16 +45,30 @@ public class JsonSaver {
                 JsonSaver jsonSaver = new JsonSaver();
                 long age = (long) jo.get("age");
                 Map visit = ((Map)jo.get("visit"));
-                Long cafe= (Long) visit.get("cafe");
-                Long sea= (Long) visit.get("sea");
-                Long museums= (Long) visit.get("museums");
-                Long restaurants= (Long) visit.get("restaurants");
-                Long stadiums= (Long) visit.get("stadiums");
-                Long mountaints= (Long) visit.get("mountains");
-                Long hotel= (Long) visit.get("hotel");
-                Long metro= (Long) visit.get("metro");
-                Long bars= (Long) visit.get("bars");
-                Long sun= (Long) visit.get("sun");
+                Long cafe = null;
+                Long sea=null;
+                Long museums=null;
+                Long restaurants=null;
+                Long stadiums=null;
+                Long mountaints=null;
+                Long hotel=null;
+                Long metro=null;
+                Long bars=null;
+                Long sun=null;
+                if(visit!=null)
+                {
+                    cafe= (Long) visit.get("cafe");
+                    sea= (Long) visit.get("sea");
+                    museums= (Long) visit.get("museums");
+                    restaurants= (Long) visit.get("restaurants");
+                    stadiums= (Long) visit.get("stadiums");
+                    mountaints= (Long) visit.get("mountains");
+                    hotel= (Long) visit.get("hotel");
+                    metro= (Long) visit.get("metro");
+                    bars= (Long) visit.get("bars");
+                    sun= (Long) visit.get("sun");
+                }
+
                 if (age >= 16 && age <= 25)
                 {
                     YoungTraveller youngTraveller = new YoungTraveller();
@@ -64,15 +78,18 @@ public class JsonSaver {
                     youngTraveller.setCityName((String) jo.get("cityName"));
                     youngTraveller.setCountry((String) jo.get("country"));
                     youngTraveller.setTimeStamp((long) jo.get("timeStamp"));
-                    String visitCityName=((String) visit.get("cityName"));
-                    String visitCityCountry=((String) visit.get("country"));
-                    City visitCity = new City(visitCityName,visitCityCountry,cafe.intValue(),sea.intValue(),museums.intValue(),restaurants.intValue(),stadiums.intValue(),mountaints.intValue(),hotel.intValue(),metro.intValue(),bars.intValue(),sun.intValue());
-                    JSONArray Vector = (JSONArray) visit.get("termVector");
-                    visitCity.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
-                    Vector = (JSONArray) visit.get("geodesicVector");
-                    visitCity.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
-                    youngTraveller.setVisit(visitCity);
-                    Vector = (JSONArray) jo.get("termVector");
+                    if(visit!=null)
+                    {
+                        String visitCityName=((String) visit.get("cityName"));
+                        String visitCityCountry=((String) visit.get("country"));
+                        City visitCity = new City(visitCityName,visitCityCountry,cafe.intValue(),sea.intValue(),museums.intValue(),restaurants.intValue(),stadiums.intValue(),mountaints.intValue(),hotel.intValue(),metro.intValue(),bars.intValue(),sun.intValue());
+                        JSONArray Vector = (JSONArray) visit.get("termVector");
+                        visitCity.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
+                        Vector = (JSONArray) visit.get("geodesicVector");
+                        visitCity.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
+                        youngTraveller.setVisit(visitCity);
+                    }
+                    JSONArray Vector = (JSONArray) jo.get("termVector");
                     youngTraveller.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
                     Vector = (JSONArray) jo.get("geodesicVector");
                     youngTraveller.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
@@ -86,15 +103,18 @@ public class JsonSaver {
                     middleTraveller.setCityName((String) jo.get("cityName"));
                     middleTraveller.setCountry((String) jo.get("country"));
                     middleTraveller.setTimeStamp((long) jo.get("timeStamp"));
-                    String visitCityName=((String) visit.get("cityName"));
-                    String visitCityCountry=((String) visit.get("country"));
-                    City visitCity = new City(visitCityName,visitCityCountry,cafe.intValue(),sea.intValue(),museums.intValue(),restaurants.intValue(),stadiums.intValue(),mountaints.intValue(),hotel.intValue(),metro.intValue(),bars.intValue(),sun.intValue());
-                    JSONArray Vector = (JSONArray) visit.get("termVector");
-                    visitCity.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
-                    Vector = (JSONArray) visit.get("geodesicVector");
-                    visitCity.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
-                    middleTraveller.setVisit(visitCity);
-                    Vector = (JSONArray) jo.get("termVector");
+                    if(visit!=null)
+                    {
+                        String visitCityName=((String) visit.get("cityName"));
+                        String visitCityCountry=((String) visit.get("country"));
+                        City visitCity = new City(visitCityName,visitCityCountry,cafe.intValue(),sea.intValue(),museums.intValue(),restaurants.intValue(),stadiums.intValue(),mountaints.intValue(),hotel.intValue(),metro.intValue(),bars.intValue(),sun.intValue());
+                        JSONArray Vector = (JSONArray) visit.get("termVector");
+                        visitCity.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
+                        Vector = (JSONArray) visit.get("geodesicVector");
+                        visitCity.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
+                        middleTraveller.setVisit(visitCity);
+                    }
+                    JSONArray Vector = (JSONArray) jo.get("termVector");
                     middleTraveller.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
                     Vector = (JSONArray) jo.get("geodesicVector");
                     middleTraveller.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
@@ -108,15 +128,18 @@ public class JsonSaver {
                     elderTraveller.setCityName((String) jo.get("cityName"));
                     elderTraveller.setCountry((String) jo.get("country"));
                     elderTraveller.setTimeStamp((long) jo.get("timeStamp"));
-                    String visitCityName=((String) visit.get("cityName"));
-                    String visitCityCountry=((String) visit.get("country"));
-                    City visitCity = new City(visitCityName,visitCityCountry,cafe.intValue(),sea.intValue(),museums.intValue(),restaurants.intValue(),stadiums.intValue(),mountaints.intValue(),hotel.intValue(),metro.intValue(),bars.intValue(),sun.intValue());
-                    JSONArray Vector = (JSONArray) visit.get("termVector");
-                    visitCity.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
-                    Vector = (JSONArray) visit.get("geodesicVector");
-                    visitCity.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
-                    elderTraveller.setVisit(visitCity);
-                    Vector = (JSONArray) jo.get("termVector");
+                    if(visit!=null)
+                    {
+                        String visitCityName=((String) visit.get("cityName"));
+                        String visitCityCountry=((String) visit.get("country"));
+                        City visitCity = new City(visitCityName,visitCityCountry,cafe.intValue(),sea.intValue(),museums.intValue(),restaurants.intValue(),stadiums.intValue(),mountaints.intValue(),hotel.intValue(),metro.intValue(),bars.intValue(),sun.intValue());
+                        JSONArray Vector = (JSONArray) visit.get("termVector");
+                        visitCity.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
+                        Vector = (JSONArray) visit.get("geodesicVector");
+                        visitCity.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
+                        elderTraveller.setVisit(visitCity);
+                    }
+                    JSONArray Vector = (JSONArray) jo.get("termVector");
                     elderTraveller.setTermVector(jsonSaver.convertJSONArrayToInt(Vector));
                     Vector = (JSONArray) jo.get("geodesicVector");
                     elderTraveller.setGeodesicVector(jsonSaver.convertJSONArrayToDouble(Vector));
