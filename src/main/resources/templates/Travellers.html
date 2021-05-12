@@ -9,7 +9,7 @@
         <input type="button" id="Home" value="Go Home" onclick="window.location.href='home.html'"> <br>
         <div id="TravellersList"></div>
     </body>
-    <script>
+    <script type="text/Javascript"> 
         window.addEventListener('load',(event)=>
         {            
                 const xhr = new XMLHttpRequest;
@@ -28,8 +28,13 @@
                             let divElem = document.getElementById('TravellersList');
                             result.forEach(element => 
                             {
-                                divElem.innerHTML+=`${element.name} |${element.cityName} | ${element.country} | ${element.timeStamp} | ${element.visit.cityName}<br>`;    
+                                // divElem.innerHTML+=`<b>${element.name}</b> |${element.cityName} | ${element.country} | ${element.timeStamp} | ${element.visit.cityName}<br>`;  
+                                divElem.innerHTML+=`<b>${element.name}</b> |${element.cityName} | ${element.country} <br>`;  
                             });
+                        }
+                        else
+                        {
+                            alert("Error 404");
                         }
                     }
                 }

@@ -4,9 +4,7 @@ import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.Service.TravellersService;
-import org.hua.dit.oopii_21950_219113.entitys.City;
-import org.hua.dit.oopii_21950_219113.entitys.JsonSaver;
-import org.hua.dit.oopii_21950_219113.entitys.Traveller;
+import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
@@ -67,6 +65,30 @@ public class TravellersController {
     {
         return  travellersService.findBestCityForTheUser(name);
     }
+
+    @GetMapping(path = "{cityName}/{country}/search")
+    public City checkCity(@PathVariable("cityName")String cityName,@PathVariable("country")String country) throws Exception {
+        return travellersService.searchCity(cityName,country);
+    }
+
+    @PostMapping( path = "/addYoungTraveller")
+    public String  addNewTraveller(@RequestBody YoungTraveller traveller) throws IOException {
+        return travellersService.addNewTraveller(traveller);
+    }
+
+    @PostMapping( path = "/addMiddleTraveller")
+    public String  addNewTraveller(@RequestBody MiddleTraveller traveller) throws IOException {
+        return travellersService.addNewTraveller(traveller);
+    }
+
+    @PostMapping( path = "/addElderTraveller")
+    public String  addNewTraveller(@RequestBody ElderTraveller traveller) throws IOException {
+        return travellersService.addNewTraveller(traveller);
+    }
+
+    //TODO: για το free ticket θα βαλουμε ενα switch case για του 12 μηνες του χρονου και καθε μηνα θα εχουμε διαφορερικη πολη για free ticket (αυτο θα γινετε στο frontend)
+
+
 
 }
 

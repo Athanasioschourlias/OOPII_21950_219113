@@ -1,13 +1,18 @@
 package org.hua.dit.oopii_21950_219113.Service;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
+import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
+import org.json.simple.JSONArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
@@ -192,7 +197,36 @@ public class TravellersService {
                 bestCities=traveller.compareCities(CitiesHashMap);
             }
         }
+        if(bestCities==null)
+        {
+            return null;
+        }
+        jsc.writeJSON(travellers);
         return bestCities.get(0);
+    }
+
+    public String addNewTraveller(Traveller traveller) throws IOException
+    {
+        ObjectMapper mapper = new ObjectMapper();
+        OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + traveller.getCityName()+ "," + traveller.getCountry()+ "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
+        double[] geodesicVector = new double[2];
+        geodesicVector[0] = weather_obj.getCoord().getLat();
+        geodesicVector[1] = weather_obj.getCoord().getLon();
+        traveller.setGeodesicVector(geodesicVector);
+        ArrayList<Traveller> buffer = new ArrayList<>();
+        buffer.add(traveller);
+        JsonSaver jsc = new JsonSaver();
+        travellers=jsc.readJSON();
+        removeDuplicateTravellers(buffer,travellers);
+        jsc.writeJSON(travellers);
+        return "Traveller Added";
+    }
+
+    public City searchCity(String cityName, String country) throws Exception
+    {
+        CityService cityService = new CityService(cityRepository);
+        checkCityAvailability(cityName, country);
+        return cityService.getCityByName(cityName.toUpperCase(),country);
     }
 
 }
