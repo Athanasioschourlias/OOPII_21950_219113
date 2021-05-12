@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            OOPII web App
+        </title>
+    </head>
+    <body>
+        <input type="button" id="Home" value="Go Home" onclick="window.location.href='home.html'"> <br>
+        <br>
+        Provide Your Credentials and your preferences <br>
+        Name => <input type="text" id="Name" > 
+        City => <input type="text" id="City" >
+        Country => <input type="text" id="Country" >
+        Age => <input type="number" id="Age" min="0" max="100">
+        <br>
+        Cafe =>
+        <select id="Cafe" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select> 
+        Sea =>
+        <select id="Sea" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        Museum =>
+        <select id="Museum" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        Restaurants =>
+        <select id="Restaurant" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        Stadium =>
+        <select id="Stadium" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        Mountain =>
+        <select id="Mountain" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select> 
+        Hotel =>
+        <select id="Hotel" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        Metro =>
+        <select id="Metro" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        Bar =>
+        <select id="Bar" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        Sun =>
+        <select id="Sun" >
+            <option value="0">0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+        </select>
+        <input type="button" id="addTraveller" value="Add Traveller" >
+    </body>
+    <script>
+        window.addEventListener('load',(event)=>
+        {
+            document.getElementById('addTraveller').addEventListener('click',(event)=>
+            {
+                const traveller=
+                {
+                    'name':document.getElementById('Name').value,
+                    'cityName':document.getElementById('City').value,
+                    'country':document.getElementById('Country').value,
+                    'age':document.getElementById('Age').value,
+                    'cafe':+document.getElementById('Cafe').value,
+                    'sea':+document.getElementById('Sea').value,
+                    'museums':+document.getElementById('Museum').value,
+                    'stadiums':+document.getElementById('Stadium').value,
+                    'restaurants':+document.getElementById('Restaurant').value,
+                    'mountains':+document.getElementById('Mountain').value,
+                    'hotel':+document.getElementById('Hotel').value,
+                    'metro':+document.getElementById('Metro').value,
+                    'bars':+document.getElementById('Bar').value,
+                    'sun':+document.getElementById('Sun').value,
+                }
+                const xhr = new XMLHttpRequest;
+                const age = +traveller.age;
+                switch (true) {
+                    case (age<=25 && age>=16):
+                        xhr.open('POST','http://localhost:8080/addYoungTraveller',true);
+                        xhr.setRequestHeader('Content-Type','application/json')
+                        xhr.send(JSON.stringify(traveller));
+                        break;
+                    case (age>=26 && age<=60):
+                        xhr.open('POST','http://localhost:8080/addMiddleTraveller',true);
+                        xhr.setRequestHeader('Content-Type','application/json')
+                        xhr.send(JSON.stringify(traveller));
+                        break;
+                    case (age>=61 && age<=115):
+                        xhr.open('POST','http://localhost:8080/addElderTraveller',true);
+                        xhr.setRequestHeader('Content-Type','application/json')
+                        xhr.send(JSON.stringify(traveller));
+                        break;  
+                }
+                
+                xhr.onreadystatechange = function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            alert(xhr.responseText);
+                        }
+                        else
+                        {
+                            alert("Error 404");
+                        }
+                    }
+                };
+            });
+        });
+    </script>
+</html>
