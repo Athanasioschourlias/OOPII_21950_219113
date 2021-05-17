@@ -26,7 +26,6 @@ public class TravellersService {
 
     @Autowired // Dependency injection
     private final CityRepository cityRepository;
-
     private ArrayList<Traveller> travellers; //Here we store the travellers we already have saved in the json file and the
                                             //new-ones once we do the necessary checks and save them.
 
@@ -140,7 +139,6 @@ public class TravellersService {
     {
         CityService cityService = new CityService(cityRepository);
         HashMap<String, City> cities = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-
         for (String s : cities.keySet())
         {
             if(s.equals(cityName.toUpperCase()))
@@ -239,6 +237,27 @@ public class TravellersService {
         if(FreeCity==null)
             return null;
         return testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers);
+    }
+
+    public ArrayList<City> findXBestCities(String name,int number)
+    {
+        CityService cityService = new CityService(cityRepository);
+        List<City> bestCities = null;
+        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        JsonSaver jsc = new JsonSaver();
+        ArrayList<Traveller> travellers= jsc.readJSON();
+        for (Traveller traveller : travellers) {
+            if(traveller.getName().equals(name))
+            {
+                bestCities=traveller.compareCities(CitiesHashMap);
+                bestCities=traveller.compareCities(number,bestCities);
+            }
+        }
+        if(bestCities==null)
+        {
+            return null;
+        }
+        return (ArrayList<City>) bestCities;
     }
 
 }

@@ -101,5 +101,11 @@ public class TravellersController {
         return travellersService.findFreeTicket(FreeCityName,FreeCountry);
     }
 
+    @GetMapping(path = "{name}/{number}/bestCity" )
+    public ArrayList<City> findXBestCities(@PathVariable String name, @PathVariable Integer number)
+    {
+        return travellersService.findXBestCities(name,number);
+    }
+
 }
 
