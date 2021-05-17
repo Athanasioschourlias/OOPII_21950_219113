@@ -24,12 +24,12 @@
                             //alert("These are all the travellers registered")
                             const result = JSON.parse(xhr.responseText);
                             document.getElementById('TravellersList').innerHTML=
-                            '<h1 className= "text-center">Travellers List</h1><h3> Traveller\'s name| Traveller\'s city | Traveller\'s region| Traveller\'s timeStamp | Traveller\'s Visit city </h3>';
+                            '<h1 className= "text-center">Travellers List</h1><h3> Traveller\'s name| Traveller\'s city | Traveller\'s region| Traveller\'s age </h3>';
                             let divElem = document.getElementById('TravellersList');
                             result.forEach(element => 
                             {
                                 // divElem.innerHTML+=`<b>${element.name}</b> |${element.cityName} | ${element.country} | ${element.timeStamp} | ${element.visit.cityName}<br>`;  
-                                divElem.innerHTML+=`<b>${element.name}</b> |${element.cityName} | ${element.country} <br>`;  
+                                divElem.innerHTML+=`<b>${element.name}</b> |${element.cityName} | ${element.country} | ${element.age} <br>`;  
                             });
                         }
                         else

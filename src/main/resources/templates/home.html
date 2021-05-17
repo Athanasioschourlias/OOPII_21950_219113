@@ -19,39 +19,19 @@
         <input type="button" id="findBestCity" value="find">
         <br>
         <br>
+        <input type="button" id="freeTicket" value="FreeTicket">
+        <br>
+        <br>
         <div id="BestCity"></div> 
+        <div id="Ticket"></div>
     </body>
     <script type="text/Javascript">
         window.addEventListener('load',(event)=>
         {
-            // document.getElementById('Travellers').addEventListener('click',(event)=>
-            // {
-            //     window.location.href='Travellers.html';
-            //     const xhr = new XMLHttpRequest;
-            //     xhr.open('GET',"http://localhost:8080/travellers",true);
-            //     xhr.send();
-            //     xhr.onreadystatechange=function()
-            //     {
-            //         if(xhr.readyState==4)
-            //         {
-            //             if(xhr.status==200)
-            //             {
-            //                 alert("These are all the travellers registered")
-            //                 const result = JSON.parse(xhr.responseText);
-            //                 document.getElementById('TravellersList').innerHTML='<h1>Travellers List</h1> Traveller\'s name | Traveller\'s city | Traveller\'s region | Traveller\'s timeStamp | Traveller\'s Visit city |<br>';
-            //                 let divElem = document.getElementById('TravellersList');
-            //                 result.forEach(element => 
-            //                 {
-            //                     divElem.innerHTML+=`${element.name} | ${element.cityName} | ${element.country} | ${element.timeStamp} | ${element.visit.cityName} <br>`;    
-            //                 });
-            //                // document.getElementById('TravellersList').innerHTML='</tr></tbody>';
-            //             }
-            //         }
-            //     }
-            // });
-
             document.getElementById('findBestCity').addEventListener('click',(event)=>
             {
+                document.getElementById('Ticket').innerHTML='';
+                document.getElementById('BestCity').innerHTML='';
                 let name= document.getElementById('travellerName').value;
                 const xhr = new XMLHttpRequest;
                 url="http://localhost:8080/"+name+"/bestCity"
@@ -80,7 +60,94 @@
                     }
                 }
             });
-
+            
+            document.getElementById('freeTicket').addEventListener('click',(event)=>
+            {
+                document.getElementById('Ticket').innerHTML='';
+                document.getElementById('BestCity').innerHTML='';
+                var date = new Date();
+                let FreeCity;
+                let FreeCountry;
+                switch (date.getMonth()) 
+                {
+                    case 0:
+                        FreeCity = "Athens";
+                        FreeCountry = "gr";
+                        break;
+                    case 1:
+                        FreeCity = "Sofia";
+                        FreeCountry = "bg";
+                        break;
+                    case 2:
+                        FreeCity = "Berlin";
+                        FreeCountry = "de";
+                        break;
+                    case 3:
+                        FreeCity = "Istanbul";
+                        FreeCountry = "tr";
+                        break;
+                    case 4:
+                        FreeCity = "Moscow";
+                        FreeCountry = "ru";
+                        break;
+                    case 5:
+                        FreeCity = "Cairo";
+                        FreeCountry = "eg";
+                        break;
+                    case 6:
+                        FreeCity = "Paris";
+                        FreeCountry = "fr";
+                        break;
+                    case 7:
+                        FreeCity = "Stockholm";
+                        FreeCountry = "se";
+                        break;
+                    case 8:
+                        FreeCity = "Oslo";
+                        FreeCountry = "no";
+                        break;
+                    case 9:
+                        FreeCity = "Rome";
+                        FreeCountry = "it";
+                        break;
+                    case 10:
+                        FreeCity = "Milan";
+                        FreeCountry = "it";
+                        break;
+                    case 11:
+                        FreeCity = "Rotterdam";
+                        FreeCountry = "nl";
+                        break;
+                }
+                const xhr = new XMLHttpRequest;
+                let url="http://localhost:8080/"+FreeCity+"/"+FreeCountry+"/freeTicket"
+                xhr.open('GET',url,true);
+                xhr.send();
+                xhr.onreadystatechange = function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            if(!xhr.responseText)
+                            {
+                                document.getElementById('Ticket').innerHTML='';
+                                alert("There is no Free ticket !")
+                            }
+                            const result = JSON.parse(xhr.responseText);
+                            document.getElementById('Ticket').innerHTML='For this month we give free ticket for the city of: '+FreeCity;
+                            let divElem = document.getElementById('Ticket');
+                            divElem.innerHTML+=` and this ticket goes to ${result.name} <br>`;                         
+                        }
+                        else
+                        {
+                            alert("Error 404");
+                        }
+                    }
+                }
+            });
         });
+
+        
     </script>    
 </html>

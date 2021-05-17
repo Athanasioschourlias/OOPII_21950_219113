@@ -2,6 +2,7 @@ package org.hua.dit.oopii_21950_219113.Service;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchCityException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchWikipediaArticleException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
@@ -86,7 +87,7 @@ public class CityService {
      * @return the requested city object.
      * @throws Exception In case something internally goes wrong or an I/O error occurs.
      */
-    public City getCityByName(String cityName, String country) throws Exception{
+    public City getCityByName(String cityName, String country) throws NoSuchCityException {
 
         return cityRepository.findByName(cityName, country);
 

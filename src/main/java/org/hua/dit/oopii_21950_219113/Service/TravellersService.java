@@ -3,6 +3,7 @@ package org.hua.dit.oopii_21950_219113.Service;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchCityException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.entitys.*;
 import org.hua.dit.oopii_21950_219113.entitys.weather.OpenWeatherMap;
@@ -87,8 +88,8 @@ public class TravellersService {
         YoungTraveller testTraveller = new YoungTraveller();
 
         //FREE TICKET GIVE-AWAY
-        String FreeCity = "Athens";
-        String FreeCountry = "gr";
+        String FreeCity = "Moscow";
+        String FreeCountry = "ru";
 
         String SearchCity= "Cairo";
         String SearchCountry = "eg";
@@ -121,7 +122,7 @@ public class TravellersService {
 
         try {
             return ("And after all we have a free ticket for: "+FreeCity+" and the traveller that he gets it is: "+testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers).getName());
-        } catch (Exception e) {
+        } catch ( NoSuchCityException e) {
             e.printStackTrace();
         }
 
@@ -222,10 +223,22 @@ public class TravellersService {
         return "Traveller Added";
     }
 
-    public City searchCity(String cityName, String country) throws Exception {
+    public City searchCity(String cityName, String country) throws  NoSuchCityException
+    {
         CityService cityService = new CityService(cityRepository);
         checkCityAvailability(cityName, country);
         return cityService.getCityByName(cityName.toUpperCase(),country);
+    }
+
+    public Traveller findFreeTicket(String FreeCity,String FreeCountry) throws NoSuchCityException
+    {
+        JsonSaver jsc = new JsonSaver();
+        travellers=jsc.readJSON();
+        CityService cityService = new CityService(cityRepository);
+        Traveller testTraveller = new YoungTraveller();
+        if(FreeCity==null)
+            return null;
+        return testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers);
     }
 
 }

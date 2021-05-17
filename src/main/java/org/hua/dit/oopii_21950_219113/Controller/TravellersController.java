@@ -1,6 +1,7 @@
 package org.hua.dit.oopii_21950_219113.Controller;
 
 import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchCityException;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
 import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.Service.TravellersService;
@@ -70,7 +71,7 @@ public class TravellersController {
     public City checkCity(@PathVariable("cityName")String cityName,@PathVariable("country")String country){
         try {
             return travellersService.searchCity(cityName,country);
-        }catch (Exception e)
+        }catch ( NoSuchCityException e)
         {
             System.out.println("There is no city with this name!");
             e.printStackTrace();
@@ -95,7 +96,10 @@ public class TravellersController {
 
     //TODO: για το free ticket θα βαλουμε ενα switch case για του 12 μηνες του χρονου και καθε μηνα θα εχουμε διαφορερικη πολη για free ticket (αυτο θα γινετε στο frontend)
 
-
+    @GetMapping( path = "{cityName}/{country}/freeTicket")
+    public Traveller findFreeTicket(@PathVariable("cityName") String FreeCityName , @PathVariable("country") String FreeCountry) throws NoSuchCityException {
+        return travellersService.findFreeTicket(FreeCityName,FreeCountry);
+    }
 
 }
 

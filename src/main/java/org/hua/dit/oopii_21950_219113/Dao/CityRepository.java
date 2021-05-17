@@ -1,5 +1,6 @@
 package org.hua.dit.oopii_21950_219113.Dao;
 
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchCityException;
 import org.hua.dit.oopii_21950_219113.entitys.City;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -19,7 +20,7 @@ public interface CityRepository extends JpaRepository<City, String> {
      * @throws Exception In case something internally goes wrong or an I/O error occurs.
      */
     @Query("SELECT c FROM City c WHERE c.cityName=?1 AND c.country=?2")
-    City findByName(String cityName, String country) throws Exception;
+    City findByName(String cityName, String country) throws NoSuchCityException;
 
     /**
      *

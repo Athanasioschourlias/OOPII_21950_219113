@@ -1,6 +1,7 @@
 package org.hua.dit.oopii_21950_219113.Controller;
 
 import org.hua.dit.oopii_21950_219113.Exceptions.CityAlreadyExistsException;
+import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchCityException;
 import org.hua.dit.oopii_21950_219113.Service.CityService;
 import org.hua.dit.oopii_21950_219113.entitys.City;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,7 +61,7 @@ public class CityController {
         //FIXME: production ready?
         try {
             return cityService.getCityByName(cityName, country);
-        } catch (Exception e) {
+        } catch (NoSuchCityException e) {
             System.out.println("Something went wrong, please check your input and try again");
             System.out.println(e.toString());
             //TODO: LOG THE FAILURES, dont print it to the client/user.
