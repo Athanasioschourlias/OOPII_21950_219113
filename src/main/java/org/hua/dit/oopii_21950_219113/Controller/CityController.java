@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.util.List;
 
 //FIXME: ADD EXCEPTION BLOCKS WHERE IS NEEDED
+@CrossOrigin("*")
 @RestController
 @RequestMapping(path = "/Cities")
 public class CityController {
