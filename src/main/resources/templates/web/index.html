@@ -115,7 +115,7 @@
                     <div class="text-container">
                         <div class="section-title">CITIES</div>
                         <h2>These are some of the already available Cities</h2>
-                        <div id=cities></div>
+                        <div id=presentCities></div>
                         <br>
                         <p class="testimonial-text">"Go search city section below to find info about any city you want"</p>
                     </div> <!-- end of text-container -->
@@ -628,7 +628,7 @@
                 {
                     //alert("These are all the travellers registered")
                     const result = JSON.parse(xhr.responseText);
-                    let divElem = document.getElementById('cities');
+                    let divElem = document.getElementById('presentCities');
                     var index;
                     var newhtml = divElem.innerHTML;
                     newhtml += `<table style="width:100%">`;
@@ -909,17 +909,17 @@
         });    
         // document.getElementById('fetchTravellers').addEventListener('click',(event)=>
         // {
-        // const xhr = new XMLHttpRequest;
-            xhr.open('GET',"http://localhost:8080/travellers",true);
-            xhr.send();
-            xhr.onreadystatechange=function()
+        const xhr2 = new XMLHttpRequest;
+            xhr2.open('GET',"http://localhost:8080/travellers",true);
+            xhr2.send();
+            xhr2.onreadystatechange=function()
             {
-                if(xhr.readyState==4)
+                if(xhr2.readyState==4)
                 {
-                    if(xhr.status==200)
+                    if(xhr2.status==200)
                     {
                         //alert("These are all the travellers registered")
-                        const result = JSON.parse(xhr.responseText);
+                        const result = JSON.parse(xhr2.responseText);
                         let divElem = document.getElementById('presentTravellers');
                         var newhtml = divElem.innerHTML;
                         newhtml += `<table style="width:100%">`;

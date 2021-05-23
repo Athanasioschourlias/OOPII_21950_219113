@@ -3,7 +3,7 @@
   "name" : "Nick",
   "cityName" : "Athens",
   "country" : "gr",
-  "timeStamp" : 1621438714523,
+  "timeStamp" : 1621786177565,
   "visit" : {
     "cityName" : "THESSALONIKI",
     "country" : "gr",
@@ -17,10 +17,10 @@
     "metro" : 10,
     "bars" : 8,
     "sun" : 0,
-    "lat" : 40.6403,
-    "lon" : 22.9439,
+    "lat" : 40.64030075073242,
+    "lon" : 22.943899154663086,
     "termVector" : [ 1, 10, 10, 1, 10, 2, 5, 10, 8, 0 ],
-    "geodesicVector" : [ 40.6403, 22.9439 ]
+    "geodesicVector" : [ 40.64030075073242, 22.943899154663086 ]
   },
   "termVector" : [ 8, 10, 10, 6, 10, 9, 2, 10, 8, 1 ],
   "geodesicVector" : [ 37.9795, 23.7162 ],
@@ -28,14 +28,14 @@
   "lat" : 37.9795,
   "lon" : 23.7162,
   "sea" : 10,
+  "museums" : 10,
+  "mountains" : 9,
   "sun" : 1,
+  "restaurants" : 6,
+  "bars" : 8,
   "stadiums" : 10,
   "hotel" : 2,
-  "metro" : 10,
-  "restaurants" : 6,
-  "mountains" : 9,
-  "museums" : 10,
-  "bars" : 8
+  "metro" : 10
 }, {
   "age" : 30,
   "name" : "John",
@@ -66,14 +66,14 @@
   "lat" : 37.9795,
   "lon" : 23.7162,
   "sea" : 10,
+  "museums" : 10,
+  "mountains" : 10,
   "sun" : 10,
+  "restaurants" : 10,
+  "bars" : 9,
   "stadiums" : 10,
   "hotel" : 10,
-  "metro" : 10,
-  "restaurants" : 10,
-  "mountains" : 10,
-  "museums" : 10,
-  "bars" : 9
+  "metro" : 10
 }, {
   "age" : 30,
   "name" : "George",
@@ -104,14 +104,14 @@
   "lat" : 48.8534,
   "lon" : 2.3488,
   "sea" : 10,
+  "museums" : 10,
+  "mountains" : 0,
   "sun" : 3,
+  "restaurants" : 10,
+  "bars" : 10,
   "stadiums" : 0,
   "hotel" : 10,
-  "metro" : 10,
-  "restaurants" : 10,
-  "mountains" : 0,
-  "museums" : 10,
-  "bars" : 10
+  "metro" : 10
 }, {
   "age" : 19,
   "name" : "Paul",
@@ -142,14 +142,14 @@
   "lat" : 42.6975,
   "lon" : 23.3242,
   "sea" : 10,
+  "museums" : 10,
+  "mountains" : 9,
   "sun" : 1,
+  "restaurants" : 6,
+  "bars" : 8,
   "stadiums" : 10,
   "hotel" : 2,
-  "metro" : 10,
-  "restaurants" : 6,
-  "mountains" : 9,
-  "museums" : 10,
-  "bars" : 8
+  "metro" : 10
 }, {
   "age" : 20,
   "name" : "Elli",
@@ -180,14 +180,14 @@
   "lat" : 51.5085,
   "lon" : -0.1257,
   "sea" : 2,
+  "museums" : 3,
+  "mountains" : 6,
   "sun" : 10,
+  "restaurants" : 4,
+  "bars" : 9,
   "stadiums" : 5,
   "hotel" : 7,
-  "metro" : 8,
-  "restaurants" : 4,
-  "mountains" : 6,
-  "museums" : 3,
-  "bars" : 9
+  "metro" : 8
 }, {
   "age" : 70,
   "name" : "Babis",
@@ -218,14 +218,14 @@
   "lat" : 41.3888,
   "lon" : 2.159,
   "sea" : 10,
+  "museums" : 7,
+  "mountains" : 7,
   "sun" : 5,
+  "restaurants" : 8,
+  "bars" : 9,
   "stadiums" : 5,
   "hotel" : 3,
-  "metro" : 10,
-  "restaurants" : 8,
-  "mountains" : 7,
-  "museums" : 7,
-  "bars" : 9
+  "metro" : 10
 }, {
   "age" : 70,
   "name" : "Thanos",
@@ -256,14 +256,14 @@
   "lat" : 39.6372,
   "lon" : 22.4203,
   "sea" : 10,
+  "museums" : 7,
+  "mountains" : 7,
   "sun" : 5,
+  "restaurants" : 8,
+  "bars" : 9,
   "stadiums" : 5,
   "hotel" : 3,
-  "metro" : 10,
-  "restaurants" : 8,
-  "mountains" : 7,
-  "museums" : 7,
-  "bars" : 9
+  "metro" : 10
 }, {
   "age" : 46,
   "name" : "Apostle",
@@ -277,12 +277,12 @@
   "lat" : 37.9795,
   "lon" : 23.7162,
   "sea" : 5,
+  "museums" : 5,
+  "mountains" : 5,
   "sun" : 5,
+  "restaurants" : 5,
+  "bars" : 5,
   "stadiums" : 6,
   "hotel" : 5,
-  "metro" : 5,
-  "restaurants" : 5,
-  "mountains" : 5,
-  "museums" : 5,
-  "bars" : 5
+  "metro" : 5
 } ]
