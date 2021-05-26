@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            OOPII web App
+        </title>
+    </head>
+    <body>
+        <input type="button" id="Home" value="Go Home" onclick="window.location.href='home.html'"> <br>
+        <br>
+        <h1>
+            These are all the already available Cities
+        </h1>
+        <div id=cities></div>
+    </body>
+    <script type="text/Javascript"> 
+        window.addEventListener('load',(event)=>
+        {            
+                const xhr = new XMLHttpRequest;
+                xhr.open('GET',"http://localhost:8080/Cities",true);
+                xhr.send();
+                xhr.onreadystatechange=function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            //alert("These are all the travellers registered")
+                            const result = JSON.parse(xhr.responseText);
+                            let divElem = document.getElementById('cities');
+                            result.forEach(element => 
+                            {
+                                // divElem.innerHTML+=`<b>${element.name}</b> |${element.cityName} | ${element.country} | ${element.timeStamp} | ${element.visit.cityName}<br>`;  
+                                divElem.innerHTML+=`<b>${element.cityName}</b> |${element.country} | ${element.termVector} <br>`;  
+                            });
+                        }
+                        else
+                        {
+                            alert("Error 404");
+                        }
+                    }
+                }
+        });
+    </script>
+</html>

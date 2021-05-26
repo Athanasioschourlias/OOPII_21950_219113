@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            OOPII web App 
+        </title>
+    </head>
+    <body>
+        <input type="button" id="Travellers" value="See all the travellers" onclick="window.location.href='Travellers.html'"> <br>
+        <br>
+        <br>
+        <input type="button" id="addTraveller" value="Create new Traveller" onclick="window.location.href='addTraveller.html'"> <br>
+        <br>
+        <br>
+        <input type="button" id="searchCity" value="Search a City" onclick="window.location.href='searchCity.html'"> <br>
+        <br>
+        <br>
+        <input type="button" id="allCities" value="See all the Cities" onclick="window.location.href='Cities.html'"> <br>
+        <br>
+        Provide a Traveller's name to find the best City for him/her<br>
+        <input type="text" id="travellerName">
+        <!-- <input type="button" id="findBestCity" value="find"> -->
+        <input type="image" id="findBestCity" src="search_icon.png" alt="Submit" width="25" height="25" >
+        <br>
+        <br>
+        Provide a Traveller's name and a number between 2 and 5 to find the next 2-5 best Cities for him/her<br>
+        <input type="text" id="travellerName2">
+        <select id="number" >
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+        </select>
+        <!-- <input type="button" id="findBestCity" value="find"> -->
+        <input type="image" id="findXBestCities" src="search_icon.png" alt="Submit" width="25" height="25" >
+        <br>
+        <br>
+        <input type="button" id="freeTicket" value="FreeTicket">
+        <br>
+        <br>
+        <div id="BestCity"></div> 
+        <div id="Ticket"></div>
+    </body>
+    <script type="text/Javascript">
+        window.addEventListener('load',(event)=>
+        {
+            document.getElementById('findBestCity').addEventListener('click',(event)=>
+            {
+                document.getElementById('Ticket').innerHTML='';
+                document.getElementById('BestCity').innerHTML='';
+                document.getElementById('travellerName').innerHTML='';
+                let name= document.getElementById('travellerName').value;
+                const xhr = new XMLHttpRequest;
+                url="http://localhost:8080/"+name+"/bestCity"
+                xhr.open('GET',url,true);
+                xhr.send();
+                xhr.onreadystatechange = function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            if(!xhr.responseText)
+                            {
+                                document.getElementById('BestCity').innerHTML='';
+                                alert("There is no traveller with this name !")
+                            }
+                            const result = JSON.parse(xhr.responseText);
+                            document.getElementById('BestCity').innerHTML='The Best City for '+name+' is: ';
+                            let divElem = document.getElementById('BestCity');
+                            divElem.innerHTML+=`${result.cityName} in ${result.country}<br>`;                         
+                        }
+                        else
+                        {
+                            alert("Error 404");
+                        }
+                    }
+                }
+            });
+
+            document.getElementById('findXBestCities').addEventListener('click',(event)=>
+            {
+                document.getElementById('Ticket').innerHTML='';
+                document.getElementById('BestCity').innerHTML='';
+                document.getElementById('travellerName').innerHTML='';
+                let name= document.getElementById('travellerName2').value;
+                let number= document.getElementById('number').value;
+                const xhr = new XMLHttpRequest;
+                url="http://localhost:8080/"+name+"/"+number+"/bestCity"
+                xhr.open('GET',url,true);
+                xhr.send();
+                xhr.onreadystatechange = function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            if(!xhr.responseText)
+                            {
+                                document.getElementById('BestCity').innerHTML='';
+                                alert("There is no traveller with this name !")
+                            }
+                            const result = JSON.parse(xhr.responseText);
+                            document.getElementById('BestCity').innerHTML='The next '+number+' best Cities for '+name+' are: <br>';
+                            let divElem = document.getElementById('BestCity');
+                            result.forEach(element => 
+                            {
+                                divElem.innerHTML+=`${element.cityName} in ${element.country}<br>`;                         
+                            });
+                        }
+                        else
+                        {
+                            alert("Error 404");
+                        }
+                    }
+                }
+            });
+            
+            document.getElementById('freeTicket').addEventListener('click',(event)=>
+            {
+                document.getElementById('Ticket').innerHTML='';
+                document.getElementById('BestCity').innerHTML='';
+                var date = new Date();
+                let FreeCity;
+                let FreeCountry;
+                switch (date.getMonth()) 
+                {
+                    case 0:
+                        FreeCity = "Athens";
+                        FreeCountry = "gr";
+                        break;
+                    case 1:
+                        FreeCity = "Sofia";
+                        FreeCountry = "bg";
+                        break;
+                    case 2:
+                        FreeCity = "Berlin";
+                        FreeCountry = "de";
+                        break;
+                    case 3:
+                        FreeCity = "Istanbul";
+                        FreeCountry = "tr";
+                        break;
+                    case 4:
+                        FreeCity = "Moscow";
+                        FreeCountry = "ru";
+                        break;
+                    case 5:
+                        FreeCity = "Cairo";
+                        FreeCountry = "eg";
+                        break;
+                    case 6:
+                        FreeCity = "Paris";
+                        FreeCountry = "fr";
+                        break;
+                    case 7:
+                        FreeCity = "Stockholm";
+                        FreeCountry = "se";
+                        break;
+                    case 8:
+                        FreeCity = "Oslo";
+                        FreeCountry = "no";
+                        break;
+                    case 9:
+                        FreeCity = "Rome";
+                        FreeCountry = "it";
+                        break;
+                    case 10:
+                        FreeCity = "Milan";
+                        FreeCountry = "it";
+                        break;
+                    case 11:
+                        FreeCity = "Rotterdam";
+                        FreeCountry = "nl";
+                        break;
+                }
+                const xhr = new XMLHttpRequest;
+                let url="http://localhost:8080/"+FreeCity+"/"+FreeCountry+"/freeTicket"
+                xhr.open('GET',url,true);
+                xhr.send();
+                xhr.onreadystatechange = function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            if(!xhr.responseText)
+                            {
+                                document.getElementById('Ticket').innerHTML='';
+                                alert("There is no Free ticket !")
+                            }
+                            const result = JSON.parse(xhr.responseText);
+                            document.getElementById('Ticket').innerHTML='For this month we give free ticket for the city of: '+FreeCity;
+                            let divElem = document.getElementById('Ticket');
+                            divElem.innerHTML+=` and this ticket goes to ${result.name} <br>`;                         
+                        }
+                        else
+                        {
+                            alert("Error 404");
+                        }
+                    }
+                }
+            });
+        });
+
+        
+    </script>    
+</html>

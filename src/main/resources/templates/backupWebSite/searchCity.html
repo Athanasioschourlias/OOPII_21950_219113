@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>
+            OOPII web App
+        </title>
+    </head>
+    <body>
+        <input type="button" id="Home" value="Go Home" onclick="window.location.href='home.html'"> <br>
+        <br>
+        Provide City's name and country <br>
+        CityName: <input type="text" id="cityName">
+        Country: <input type="text" id="country">
+        <input type="button" id="searchCity" value="search">
+        <br><br>
+        <div id="City"></div>
+    </body>
+    <script type="text/Javascript"> 
+        window.addEventListener('load',(event)=>
+        {   
+            document.getElementById('searchCity').addEventListener('click',(event)=>
+            {
+                let cityName= document.getElementById('cityName').value;
+                let country= document.getElementById('country').value;
+                const xhr = new XMLHttpRequest;
+                url="http://localhost:8080/"+cityName+"/"+country+"/search"
+                xhr.open('GET',url,true);
+                xhr.send();
+                xhr.onreadystatechange = function()
+                {
+                    if(xhr.readyState==4)
+                    {
+                        if(xhr.status==200)
+                        {
+                            // alert(xhr.responseText);
+                            if(!xhr.responseText)
+                            {
+                                document.getElementById('cityName').innerHTML='';
+                                document.getElementById('country').innerHTML='';
+                                alert("There is no city with this name or this domain !");
+                            }
+                            const result = JSON.parse(xhr.responseText);
+                            document.getElementById('City').innerHTML="Info for this City <br>";
+                            document.getElementById('City').innerHTML+=`City name: <b>${result.cityName}</b> Country: <b>${result.country}</b> <br> Cafe: <b>${result.cafe}</b> Sea: <b>${result.sea}</b> Museum: <b>${result.museums}</b> Restaurant: <b>${result.restaurants}</b> Stadium: <b>${result.stadiums}</b> Mountain: <b>${result.mountains}</b> Hotel: <b>${result.hotel}</b> Metro: <b>${result.metro}</b> Bar: <b>${result.bars}</b> Sun: <b>${result.sun}</b> `;
+                        }
+                        else
+                        {
+                            alert("Error 404");
+                        }
+                    }
+                };
+            });         
+        });
+    </script>
+</html>
