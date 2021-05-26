@@ -515,19 +515,6 @@ public abstract class Traveller implements Comparable<Traveller>
         }
 
         List<City> bestCities = CitiesAndSimilarities.entrySet().stream().sorted(Map.Entry.<City, Double>comparingByValue().reversed()).limit(CitiesAndSimilarities.size()).map(Map.Entry::getKey).collect(Collectors.toList());
-        /*DEV BACK-UP CODE */
-//        double maxSimilarity= calculate_similarity(cities.get(0));
-//        City bestCity=cities.get(0);
-//        for (City city : cities)
-//        {
-//            if(calculate_similarity(city)>maxSimilarity)
-//            {
-//                maxSimilarity= calculate_similarity(city);
-//                bestCity=city;
-//            }
-//        }
-
-//        return bestCity;
         setTimeStamp(new Date().getTime());
         setVisit(bestCities.get(0));
         return bestCities;
@@ -557,10 +544,22 @@ public abstract class Traveller implements Comparable<Traveller>
 
     @Override
     public boolean equals(Object o) {
-//        if (this == o) return true;
-//        if (o == null || getClass() != o.getClass()) return false;
+        if (this == o) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (getClass() != o.getClass()) {
+            return false;
+        }
         Traveller traveller = (Traveller) o;
-        return Objects.equals(this.name, traveller.getName());
+        return Objects.equals(name, traveller.getName());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 
     @Override

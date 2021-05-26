@@ -41,19 +41,6 @@ public class TravellersController {
         this.cityRepository=cityRepository;
     }
 
-    //We do throws because everything is hardcoded, so most likely we will not have any exceptions
-    @GetMapping
-    public String getTraveller() {
-        try {
-            return travellersService.getTraveller();
-        } catch (IOException | NoSuchOpenWeatherCityException e) {
-
-//            System.out.println("Oupss! Something went wrong try to reload the page!");
-            //TODO: LOG the failure
-            e.printStackTrace();
-        }
-        return null;
-    }
     @GetMapping(path = "/travellers")
     public ArrayList<Traveller> getAllTravellers()
     {
