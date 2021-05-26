@@ -3,6 +3,7 @@
   "name" : "Nick",
   "cityName" : "Athens",
   "country" : "gr",
+
   "timeStamp" : 1621839831429,
   "visit" : {
     "cityName" : "THESSALONIKI",
@@ -70,6 +71,8 @@
   "hotel" : 2,
   "restaurants" : 6,
   "metro" : 10,
+  "sea" : 10,
+  "sun" : 1,
   "bars" : 8,
   "sun" : 1,
   "stadiums" : 10,
@@ -108,6 +111,8 @@
   "hotel" : 10,
   "restaurants" : 10,
   "metro" : 10,
+  "sea" : 10,
+  "sun" : 5,
   "bars" : 9,
   "sun" : 10,
   "stadiums" : 10,
@@ -155,6 +160,7 @@
   "name" : "George",
   "cityName" : "Paris",
   "country" : "fr",
+
   "timeStamp" : 1621346787490,
   "visit" : {
     "cityName" : "DUBAI",
@@ -184,6 +190,8 @@
   "hotel" : 10,
   "restaurants" : 10,
   "metro" : 10,
+  "sea" : 10,
+  "sun" : 3,
   "bars" : 10,
   "sun" : 3,
   "stadiums" : 0,
@@ -195,16 +203,17 @@
   "country" : "bg",
   "timeStamp" : 1621346787489,
   "visit" : {
-    "cityName" : "ATHENS",
-    "country" : "gr",
-    "cafe" : 1,
+    "cityName" : "DUBAI",
+    "country" : "ae",
+    "cafe" : 0,
     "sea" : 10,
-    "museums" : 10,
-    "restaurants" : 6,
-    "stadiums" : 10,
-    "mountains" : 9,
-    "hotel" : 2,
+    "museums" : 1,
+    "restaurants" : 2,
+    "stadiums" : 0,
+    "mountains" : 4,
+    "hotel" : 10,
     "metro" : 10,
+
     "bars" : 8,
     "sun" : 1,
     "lat" : 37.9795,
@@ -361,4 +370,5 @@
   "sun" : 5,
   "stadiums" : 6,
   "mountains" : 5
+
 } ]
