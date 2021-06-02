@@ -118,7 +118,7 @@ public class TravellersService {
         //FIXME: Not very efficient!!!!!!
         travellers.addAll(buffer);
 
-        jsc.writeJSON(buffer);
+        jsc.writeJSON(travellers);
         return "Traveller Added";
     }
 
