@@ -23,9 +23,9 @@ public class TravellersService {
 
     @Autowired // Dependency injection
     private final CityRepository cityRepository;
-    private ArrayList<Traveller> travellers; //Here we store the travellers we already have saved in the json file and the
+    public static ArrayList<Traveller> travellers; //Here we store the travellers we already have saved in the json file and the
                                             //new-ones once we do the necessary checks and save them.
-
+    public static HashMap<String, City> CitiesHashMap;
     /**
      * Since we have injected the CityRepository dependency in our class we want now to create a constructor that we
      * can pass a CityRepository Repository(not exactly an interface). Needed for testing.
@@ -36,21 +36,21 @@ public class TravellersService {
         this.cityRepository = cityRepository;
     }
 
-    public ArrayList<Traveller> getAllTravellers()
-    {
+    public ArrayList<Traveller> getAllTravellers() throws InterruptedException {
         JsonSaver jsc = new JsonSaver();
-        travellers=jsc.readJSON();
-
+        new Thread(jsc).start();
+        Thread.sleep(2000);
         ArrayList<Traveller> buffer = removeDuplicateTravellers(travellers);
-
         return buffer;
     }
 
     public boolean checkCityAvailability (String cityName, String country)
     {
         CityService cityService = new CityService(cityRepository);
-        HashMap<String, City> cities = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-        for (String s : cities.keySet())
+//        CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        FetchCities fetchCities = new FetchCities(cityRepository);
+        new Thread(fetchCities).start();
+        for (String s : CitiesHashMap.keySet())
         {
             if(s.equals(cityName.toUpperCase()))
                 return true;
@@ -78,13 +78,16 @@ public class TravellersService {
         return (ArrayList<Traveller>) copy;
     }
 
-    public City findBestCityForTheUser(String name)
-    {
-        CityService cityService = new CityService(cityRepository);
+    public City findBestCityForTheUser(String name) throws InterruptedException {
+//        CityService cityService = new CityService(cityRepository);
         List<City> bestCities = null;
-        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+//        CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        FetchCities fetchCities = new FetchCities(cityRepository);
         JsonSaver jsc = new JsonSaver();
-        ArrayList<Traveller> travellers= jsc.readJSON();
+        new Thread(fetchCities).start();
+        new Thread(jsc).start();
+        Thread.sleep(1000);
+        //        ArrayList<Traveller> travellers= jsc.readJSON();
         for (Traveller traveller : travellers) {
             if(traveller.getName().equals(name))
             {
@@ -111,14 +114,14 @@ public class TravellersService {
         ArrayList<Traveller> buffer = new ArrayList<>();
         buffer.add(traveller);
         JsonSaver jsc = new JsonSaver();
-
-        travellers=jsc.readJSON();
+        new Thread(jsc).start();
+//        travellers=jsc.readJSON();
 
         //Adding the new travellers even if the they exist.
         //FIXME: Not very efficient!!!!!!
         travellers.addAll(buffer);
 
-        jsc.writeJSON(buffer);
+        jsc.writeJSON(travellers);
         return "Traveller Added";
     }
 
@@ -132,7 +135,8 @@ public class TravellersService {
     public Traveller findFreeTicket(String FreeCity,String FreeCountry) throws NoSuchCityException
     {
         JsonSaver jsc = new JsonSaver();
-        travellers=jsc.readJSON();
+        new Thread(jsc).start();
+//        travellers=jsc.readJSON();
         CityService cityService = new CityService(cityRepository);
         Traveller testTraveller = new YoungTraveller();
         if(FreeCity==null)
@@ -140,13 +144,16 @@ public class TravellersService {
         return testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers);
     }
 
-    public ArrayList<City> findXBestCities(String name,int number)
-    {
-        CityService cityService = new CityService(cityRepository);
+    public ArrayList<City> findXBestCities(String name,int number) throws InterruptedException {
+//        CityService cityService = new CityService(cityRepository);
         List<City> bestCities = null;
-        HashMap<String, City> CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+//        CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
+        FetchCities fetchCities = new FetchCities(cityRepository);
         JsonSaver jsc = new JsonSaver();
-        ArrayList<Traveller> travellers= jsc.readJSON();
+        new Thread(fetchCities).start();
+        new Thread(jsc).start();
+        Thread.sleep(1000);
+//        ArrayList<Traveller> travellers= jsc.readJSON();
         for (Traveller traveller : travellers) {
             if(traveller.getName().equals(name))
             {

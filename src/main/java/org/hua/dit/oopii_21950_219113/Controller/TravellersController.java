@@ -42,15 +42,13 @@ public class TravellersController {
     }
 
     @GetMapping(path = "/travellers")
-    public ArrayList<Traveller> getAllTravellers()
-    {
+    public ArrayList<Traveller> getAllTravellers() throws InterruptedException {
         return travellersService.getAllTravellers();
     }
 
     //@PostMapping //https://www.youtube.com/watch?v=i-hoSg8iRG0 upload image section
     @GetMapping( path = "{name}/bestCity")
-    public City findBestCityForTheUser(@PathVariable("name")String name)
-    {
+    public City findBestCityForTheUser(@PathVariable("name")String name) throws InterruptedException {
         return  travellersService.findBestCityForTheUser(name);
     }
 
@@ -89,8 +87,7 @@ public class TravellersController {
     }
 
     @GetMapping(path = "{name}/{number}/bestCity" )
-    public ArrayList<City> findXBestCities(@PathVariable String name, @PathVariable Integer number)
-    {
+    public ArrayList<City> findXBestCities(@PathVariable String name, @PathVariable Integer number) throws InterruptedException {
         return travellersService.findXBestCities(name,number);
     }
 
