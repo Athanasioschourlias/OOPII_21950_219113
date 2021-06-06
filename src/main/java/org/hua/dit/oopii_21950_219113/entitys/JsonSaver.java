@@ -11,7 +11,7 @@ import org.json.simple.parser.*;
 import java.io.*;
 import java.util.*;
 
-public class JsonSaver implements Runnable {
+public class JsonSaver extends Thread {
     ArrayList<Traveller>  out_arraylist = new ArrayList<>();
     CityRepository cityRepository;
     TravellersService travellersService= new TravellersService(cityRepository);

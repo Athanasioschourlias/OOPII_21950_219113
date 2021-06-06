@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 
-public class FetchCities implements Runnable
+public class FetchCities extends Thread
 {
     CityRepository cityRepository;
     TravellersService travellersService= new TravellersService(cityRepository);

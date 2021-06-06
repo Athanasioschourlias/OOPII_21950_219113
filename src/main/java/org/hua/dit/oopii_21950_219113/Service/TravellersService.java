@@ -36,10 +36,11 @@ public class TravellersService {
         this.cityRepository = cityRepository;
     }
 
-    public ArrayList<Traveller> getAllTravellers() throws InterruptedException {
-        JsonSaver jsc = new JsonSaver();
-        new Thread(jsc).start();
-        Thread.sleep(2000);
+    public ArrayList<Traveller> getAllTravellers() throws InterruptedException
+    {
+        Thread t = new JsonSaver();
+        t.start();
+        t.join();
         ArrayList<Traveller> buffer = removeDuplicateTravellers(travellers);
         return buffer;
     }
@@ -79,15 +80,15 @@ public class TravellersService {
     }
 
     public City findBestCityForTheUser(String name) throws InterruptedException {
-//        CityService cityService = new CityService(cityRepository);
         List<City> bestCities = null;
-//        CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-        FetchCities fetchCities = new FetchCities(cityRepository);
         JsonSaver jsc = new JsonSaver();
-        new Thread(fetchCities).start();
-        new Thread(jsc).start();
-        Thread.sleep(1000);
-        //        ArrayList<Traveller> travellers= jsc.readJSON();
+        Thread t = new JsonSaver();
+        Thread t2 = new FetchCities(cityRepository);
+        t.start();
+        t2.start();
+        t.join();
+        t2.join();
+        removeDuplicateTravellers(travellers);
         for (Traveller traveller : travellers) {
             if(traveller.getName().equals(name))
             {
@@ -102,21 +103,28 @@ public class TravellersService {
         return bestCities.get(0);
     }
 
-    public String addNewTraveller(Traveller traveller) throws IOException
-    {
+    public String addNewTraveller(Traveller traveller) throws IOException, InterruptedException {
         ObjectMapper mapper = new ObjectMapper();
         OpenWeatherMap weather_obj = mapper.readValue(new URL("http://api.openweathermap.org/data/2.5/weather?q=" + traveller.getCityName()+ "," + traveller.getCountry()+ "&APPID=4abb3288d8abfd8b3b72670196c0175f"+""), OpenWeatherMap.class);
         double[] geodesicVector = new double[2];
         geodesicVector[0] = weather_obj.getCoord().getLat();
         geodesicVector[1] = weather_obj.getCoord().getLon();
         traveller.setGeodesicVector(geodesicVector);
-
+        JsonSaver jsc = new JsonSaver();
         ArrayList<Traveller> buffer = new ArrayList<>();
         buffer.add(traveller);
-        JsonSaver jsc = new JsonSaver();
-        new Thread(jsc).start();
-//        travellers=jsc.readJSON();
-
+        Thread t = new JsonSaver();
+        Thread t2 = new FetchCities(cityRepository);
+        t.start();
+        t2.start();
+        t.join();
+        t2.join();
+        while(CitiesHashMap.isEmpty() || travellers.isEmpty())
+        {
+            CitiesHashMap.wait();
+            travellers.wait();
+        }
+        traveller.compareCities(CitiesHashMap);
         //Adding the new travellers even if the they exist.
         //FIXME: Not very efficient!!!!!!
         travellers.addAll(buffer);
@@ -132,11 +140,12 @@ public class TravellersService {
         return cityService.getCityByName(cityName.toUpperCase(),country);
     }
 
-    public Traveller findFreeTicket(String FreeCity,String FreeCountry) throws NoSuchCityException
-    {
+    public Traveller findFreeTicket(String FreeCity,String FreeCountry) throws NoSuchCityException, InterruptedException {
         JsonSaver jsc = new JsonSaver();
         new Thread(jsc).start();
-//        travellers=jsc.readJSON();
+        Thread t = new JsonSaver();
+        t.start();
+        t.join();
         CityService cityService = new CityService(cityRepository);
         Traveller testTraveller = new YoungTraveller();
         if(FreeCity==null)
@@ -144,16 +153,15 @@ public class TravellersService {
         return testTraveller.calculate_free_ticket(cityService.getCityByName(FreeCity.toUpperCase(),FreeCountry),travellers);
     }
 
-    public ArrayList<City> findXBestCities(String name,int number) throws InterruptedException {
-//        CityService cityService = new CityService(cityRepository);
+    public ArrayList<City> findXBestCities(String name,int number) throws InterruptedException
+    {
         List<City> bestCities = null;
-//        CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-        FetchCities fetchCities = new FetchCities(cityRepository);
-        JsonSaver jsc = new JsonSaver();
-        new Thread(fetchCities).start();
-        new Thread(jsc).start();
-        Thread.sleep(1000);
-//        ArrayList<Traveller> travellers= jsc.readJSON();
+        Thread t = new JsonSaver();
+        Thread t2 = new FetchCities(cityRepository);
+        t.start();
+        t2.start();
+        t.join();
+        t2.join();
         for (Traveller traveller : travellers) {
             if(traveller.getName().equals(name))
             {
@@ -166,6 +174,24 @@ public class TravellersService {
             return null;
         }
         return (ArrayList<City>) bestCities;
+    }
+
+    public City findBestCityCollaborating(String name) throws InterruptedException {
+        CollaborativeFiltering collaborativeFiltering = new CollaborativeFiltering();
+        Thread t = new JsonSaver();
+        Thread t2 = new FetchCities(cityRepository);
+        t.start();
+        t2.start();
+        t.join();
+        t2.join();
+        removeDuplicateTravellers(travellers);
+        for (Traveller traveller : travellers) {
+            if(traveller.getName().equals(name))
+            {
+                return collaborativeFiltering.bestCity(traveller,travellers);
+            }
+        }
+        return null;
     }
 
 }
