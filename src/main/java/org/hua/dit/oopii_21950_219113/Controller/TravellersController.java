@@ -42,16 +42,18 @@ public class TravellersController {
     }
 
     @GetMapping(path = "/travellers")
-    public ArrayList<Traveller> getAllTravellers()
-    {
+    public ArrayList<Traveller> getAllTravellers() throws InterruptedException {
         return travellersService.getAllTravellers();
     }
 
-    //@PostMapping //https://www.youtube.com/watch?v=i-hoSg8iRG0 upload image section
     @GetMapping( path = "{name}/bestCity")
-    public City findBestCityForTheUser(@PathVariable("name")String name)
-    {
+    public City findBestCityForTheUser(@PathVariable("name")String name) throws InterruptedException {
         return  travellersService.findBestCityForTheUser(name);
+    }
+
+    @GetMapping( path = "{name}/bestCity/collaborate")
+    public City findBestCityCollaborating(@PathVariable("name")String name) throws InterruptedException {
+        return  travellersService.findBestCityCollaborating(name);
     }
 
     @GetMapping(path = "{cityName}/{country}/search")
@@ -67,30 +69,29 @@ public class TravellersController {
     }
 
     @PostMapping( path = "/addYoungTraveller")
-    public String  addNewTraveller(@RequestBody YoungTraveller traveller) throws IOException {
+    public String  addNewTraveller(@RequestBody YoungTraveller traveller) throws IOException, InterruptedException {
         return travellersService.addNewTraveller(traveller);
     }
 
     @PostMapping( path = "/addMiddleTraveller")
-    public String  addNewTraveller(@RequestBody MiddleTraveller traveller) throws IOException {
+    public String  addNewTraveller(@RequestBody MiddleTraveller traveller) throws IOException, InterruptedException {
         return travellersService.addNewTraveller(traveller);
     }
 
     @PostMapping( path = "/addElderTraveller")
-    public String  addNewTraveller(@RequestBody ElderTraveller traveller) throws IOException {
+    public String  addNewTraveller(@RequestBody ElderTraveller traveller) throws IOException, InterruptedException {
         return travellersService.addNewTraveller(traveller);
     }
 
     //TODO: για το free ticket θα βαλουμε ενα switch case για του 12 μηνες του χρονου και καθε μηνα θα εχουμε διαφορερικη πολη για free ticket (αυτο θα γινετε στο frontend)
 
     @GetMapping( path = "{cityName}/{country}/freeTicket")
-    public Traveller findFreeTicket(@PathVariable("cityName") String FreeCityName , @PathVariable("country") String FreeCountry) throws NoSuchCityException {
+    public Traveller findFreeTicket(@PathVariable("cityName") String FreeCityName , @PathVariable("country") String FreeCountry) throws NoSuchCityException, InterruptedException {
         return travellersService.findFreeTicket(FreeCityName,FreeCountry);
     }
 
     @GetMapping(path = "{name}/{number}/bestCity" )
-    public ArrayList<City> findXBestCities(@PathVariable String name, @PathVariable Integer number)
-    {
+    public ArrayList<City> findXBestCities(@PathVariable String name, @PathVariable Integer number) throws InterruptedException {
         return travellersService.findXBestCities(name,number);
     }
 

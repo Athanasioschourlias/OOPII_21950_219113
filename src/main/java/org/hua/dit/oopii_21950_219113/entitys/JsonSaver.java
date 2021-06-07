@@ -1,7 +1,9 @@
 package org.hua.dit.oopii_21950_219113.entitys;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.hua.dit.oopii_21950_219113.Dao.CityRepository;
 import org.hua.dit.oopii_21950_219113.Exceptions.NoSuchOpenWeatherCityException;
+import org.hua.dit.oopii_21950_219113.Service.TravellersService;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.*;
@@ -9,13 +11,24 @@ import org.json.simple.parser.*;
 import java.io.*;
 import java.util.*;
 
-public class JsonSaver {
+public class JsonSaver extends Thread {
+    ArrayList<Traveller>  out_arraylist = new ArrayList<>();
+    CityRepository cityRepository;
+    TravellersService travellersService= new TravellersService(cityRepository);
 
+    public JsonSaver() {}
+
+    @Override
+    public void run()
+    {
+        travellersService.travellers=readJSON();
+    }
     /**
      *
      * @param travellerlist The list with all of the Traveller(it's children) objects
      */
-    public void writeJSON(ArrayList<Traveller> travellerlist){
+    public void writeJSON(ArrayList<Traveller> travellerlist)
+    {
         try {
             ObjectMapper mapper = new ObjectMapper();
             mapper.writerWithDefaultPrettyPrinter().writeValue(new File("JsonTravellers/travellers.json"), travellerlist);
@@ -31,10 +44,11 @@ public class JsonSaver {
      *
      * @return An array list of the objects we read from the json file.
      */
-    public ArrayList<Traveller> readJSON(){
-        ArrayList<Traveller>  out_arraylist = new ArrayList<>();
+    public ArrayList<Traveller> readJSON()
+    {
 
-            try {
+            try
+            {
 
             ArrayList obj = (ArrayList) new JSONParser().parse(new FileReader("JsonTravellers/travellers.json"));
 
@@ -150,7 +164,6 @@ public class JsonSaver {
                 }
 
             }
-
             return out_arraylist;
         } catch (IOException e) {
             System.out.println("There was a problem, try to reload the page.");

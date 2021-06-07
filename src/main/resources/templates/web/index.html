@@ -183,6 +183,7 @@
                 <h2>To find the best city for you provide your name</h2>
                 <input type="text" id="travellerName">
                 <input type="image" id="findBestCity" src="images/search_icon.png" alt="Submit" width="25" height="25" >
+                <input type="button" id="findBestCityCollaborative" value="Find best City collaborative" style="background-color: #14bf98;">
                 <br><br>
                 <div id="BestCity"></div> 
             </div> <!-- end of accordion-container -->
@@ -511,7 +512,7 @@
                     <!-- Team Member -->
                     <div class="team-member">
                         <div class="image-wrapper">
-                            <img class="img-fluid" src="images/team-3.png" alt="alternative">
+                            <img class="img-fluid" src="images/team_2.jpg" alt="alternative">
                         </div> <!-- end of image wrapper -->
                         <p class="p-large">Thanos Chourlias</p>
                         <p class="job-title">Student Developer</p>
@@ -694,6 +695,38 @@
             document.getElementById('travellerName').innerHTML='';
             const xhr = new XMLHttpRequest;
             url="http://localhost:8080/"+name+"/bestCity"
+            xhr.open('GET',url,true);
+            xhr.send();
+            xhr.onreadystatechange = function()
+            {
+                if(xhr.readyState==4)
+                {
+                    if(xhr.status==200)
+                    {
+                        if(!xhr.responseText)
+                        {
+                            document.getElementById('BestCity').innerHTML='';
+                            alert("There is no traveller with this name !")
+                        }
+                        const result = JSON.parse(xhr.responseText);
+                        document.getElementById('BestCity').innerHTML='The Best City for <b>'+name+'</b> is: ';
+                        let divElem = document.getElementById('BestCity');
+                        divElem.innerHTML+=`<b>${result.cityName}</b> in ${result.country}<br>`;                         
+                    }
+                    else
+                    {
+                        alert("Error 404");
+                    }
+                }
+            }
+        });
+
+        document.getElementById('findBestCityCollaborative').addEventListener('click',(event)=>
+        {
+            let name= document.getElementById('travellerName').value;
+            document.getElementById('travellerName').innerHTML='';
+            const xhr = new XMLHttpRequest;
+            url="http://localhost:8080/"+name+"/bestCity/collaborate"
             xhr.open('GET',url,true);
             xhr.send();
             xhr.onreadystatechange = function()
