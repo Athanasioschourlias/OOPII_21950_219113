@@ -602,7 +602,7 @@
     </div> <!-- end of copyright --> 
     <!-- end of copyright -->
     
-    	
+    
     <!-- Scripts -->
     <script src="js/jquery.min.js"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
     <script src="js/popper.min.js"></script> <!-- Popper tooltip library for Bootstrap -->
@@ -618,6 +618,8 @@
 <script type="text/Javascript"> 
     window.addEventListener('load',(event)=>
     {            
+        fetchTravellers();//fetch travellers function
+
         const xhr = new XMLHttpRequest;
         xhr.open('GET',"http://localhost:8080/Cities",true);
         xhr.send();
@@ -931,6 +933,7 @@
                 {
                     if(xhr.status==200)
                     {
+                        fetchTravellers();
                         alert(xhr.responseText);
                     }
                     else
@@ -942,7 +945,9 @@
         });    
         // document.getElementById('fetchTravellers').addEventListener('click',(event)=>
         // {
-        const xhr2 = new XMLHttpRequest;
+        function fetchTravellers() 
+        {    
+            const xhr2 = new XMLHttpRequest;
             xhr2.open('GET',"http://localhost:8080/travellers",true);
             xhr2.send();
             xhr2.onreadystatechange=function()
@@ -954,6 +959,7 @@
                         //alert("These are all the travellers registered")
                         const result = JSON.parse(xhr2.responseText);
                         let divElem = document.getElementById('presentTravellers');
+                        divElem.innerHTML='';
                         var newhtml = divElem.innerHTML;
                         newhtml += `<table style="width:100%">`;
                         newhtml +="<tr> <th>Traveller's Name</th><th>Traveller's City</th><th>Traveller's Region</th><th>Traveller's Age</th></tr>";
@@ -978,6 +984,7 @@
                     }
                 }
             }
+        }
         // });
     });
 </script>
