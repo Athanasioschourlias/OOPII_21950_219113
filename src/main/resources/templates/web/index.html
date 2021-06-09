@@ -907,6 +907,16 @@
                 'bars':+document.getElementById('Bar').value,
                 'sun':+document.getElementById('Sun').value,
             }
+            if(traveller.age<15)
+            {
+                alert("The traveller must be at least 16");
+                return;
+            }
+            if(traveller.age>115)
+            {
+                alert("We are sorry nut the traveller can't be so old");
+                return;
+            }
             const xhr = new XMLHttpRequest;
             const age = +traveller.age;
             switch (true) {
