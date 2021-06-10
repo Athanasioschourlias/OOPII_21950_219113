@@ -60,7 +60,7 @@ public class TravellersController {
     public City checkCity(@PathVariable("cityName")String cityName,@PathVariable("country")String country){
         try {
             return travellersService.searchCity(cityName,country);
-        }catch ( NoSuchCityException e)
+        }catch (NoSuchCityException | InterruptedException e)
         {
             System.out.println("There is no city with this name!");
             e.printStackTrace();

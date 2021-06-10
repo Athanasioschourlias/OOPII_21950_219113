@@ -45,12 +45,13 @@ public class TravellersService {
         return buffer;
     }
 
-    public boolean checkCityAvailability (String cityName, String country)
-    {
+    public boolean checkCityAvailability (String cityName, String country) throws InterruptedException {
         CityService cityService = new CityService(cityRepository);
 //        CitiesHashMap = (HashMap<String, City>) cityService.getCities().stream().collect(Collectors.toMap(City::getCityName, Function.identity()));
-        FetchCities fetchCities = new FetchCities(cityRepository);
-        new Thread(fetchCities).start();
+//        FetchCities fetchCities = new FetchCities(cityRepository);
+        Thread t2 = new FetchCities(cityRepository);
+        t2.start();
+        t2.join();
         for (String s : CitiesHashMap.keySet())
         {
             if(s.equals(cityName.toUpperCase()))
@@ -133,8 +134,7 @@ public class TravellersService {
         return "Traveller Added";
     }
 
-    public City searchCity(String cityName, String country) throws  NoSuchCityException
-    {
+    public City searchCity(String cityName, String country) throws NoSuchCityException, InterruptedException {
         CityService cityService = new CityService(cityRepository);
         checkCityAvailability(cityName, country);
         return cityService.getCityByName(cityName.toUpperCase(),country);
