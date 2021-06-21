@@ -19,7 +19,7 @@ import java.util.List;
  * deliverable's sake.
  */
 //@CrossOrigin(origins= "http://localhost:3000")
-@CrossOrigin("*")
+@CrossOrigin("*")//!!!Not an ideal solution to the cross origin problem!!!
 @RestController
 @RequestMapping(path = "/") //Because we are hard coding data every time we will be showing stats for the same traveller.
 public class TravellersController {
@@ -34,7 +34,8 @@ public class TravellersController {
     /**
      *
      * @param travellersService initialize the class object with a given TravellerService
-     * @param cityRepository
+     * @param cityRepository This is the repository that gives us the ability to create custom
+     *                       queries and talk with our database.
      */
     public TravellersController(TravellersService travellersService, CityRepository cityRepository) {
         this.travellersService = travellersService;

@@ -8,11 +8,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.io.IOException;
+import java.lang.annotation.Documented;
 import java.util.List;
 
 //FIXME: ADD EXCEPTION BLOCKS WHERE IS NEEDED
-@CrossOrigin("*")
-@RestController
+@CrossOrigin("*") //!!!Not an ideal solution to the cross origin problem!!!
+@RestController //
 @RequestMapping(path = "/Cities")
 public class CityController {
 
@@ -64,7 +65,6 @@ public class CityController {
             return cityService.getCityByName(cityName, country);
         } catch (NoSuchCityException e) {
             System.out.println("Something went wrong, please check your input and try again");
-            System.out.println(e.toString());
             //TODO: LOG THE FAILURES, dont print it to the client/user.
 //            e.printStackTrace();
         }
